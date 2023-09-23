@@ -1,0 +1,3528 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)https://tryhackme.com/room/win64assembly -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Windows x64 Assembly</title>
+<meta name="description" content="Introduction to x64 Assembly on Windows.">
+<meta name="og:description" content="Introduction to x64 Assembly on Windows.">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Windows x64 Assembly">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/8fa2786edbf3c7c3f625fc2f6a253d4b.png">
+<meta property="og:url" content="https://tryhackme.com/room/win64assembly">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Introduction to x64 Assembly on Windows.">
+
+<script type="text/javascript" async="" src="./TryHackMe _ Windows x64 Assembly_files/pgpbhph6"></script><script src="./TryHackMe _ Windows x64 Assembly_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Windows x64 Assembly_files/boostrap431.min.css">
+<script src="./TryHackMe _ Windows x64 Assembly_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Windows x64 Assembly_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Windows x64 Assembly_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Windows x64 Assembly_files/general-style.css">
+<script src="./TryHackMe _ Windows x64 Assembly_files/script.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Windows x64 Assembly_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Windows x64 Assembly_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Windows x64 Assembly_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Windows x64 Assembly_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><script async="" src="./TryHackMe _ Windows x64 Assembly_files/modules.85ce248fb47f3a28349a.js" charset="utf-8"></script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style><style></style></head>
+
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-classic cc-bottom cc-right cc-color-override-382972913 cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We use cookies to ensure you get the best user experience. For more information contact us. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://tryhackme.com/legal/terms-of-use" target="_blank">Read more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<link href="./TryHackMe _ Windows x64 Assembly_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows x64 Assembly_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows x64 Assembly_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows x64 Assembly_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows x64 Assembly_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Windows x64 Assembly_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Windows x64 Assembly_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Windows x64 Assembly_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Windows x64 Assembly_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/win64assembly#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/win64assembly#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-unconnected">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white"></span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 18:47:44 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/win64assembly#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/win64assembly#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Windows x64 Assembly_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Windows x64 Assembly_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Windows x64 Assembly_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Windows x64 Assembly_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Windows x64 Assembly_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/win64assembly#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Windows x64 Assembly_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Windows x64 Assembly_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/notifications.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Windows x64 Assembly_files/default_tryhackme.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">467</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Windows x64 Assembly_files/8fa2786edbf3c7c3f625fc2f6a253d4b.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Windows x64 Assembly</h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: none;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/win64assembly#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/win64assembly#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/win64assembly" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Windows x64 Assembly_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Introduction to x64 Assembly on Windows.</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/win64assembly#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/win64assembly#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/win64assembly#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/win64assembly#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/win64assembly#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-medium">Medium</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Read or post on the dedicated forum <a href="https://tryhackme.com/forum/thread/612e7c30b5d42d6b946a5b49">post</a></div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data"> <a target="_blank" rel="noopener nofollow" href="https://nehrunayak.medium.com/tryhackme-windows-x64-assembly-a7a4d1631bce">tryhackme</a>
+                by <img class="user-avatar-writeup" src="./TryHackMe _ Windows x64 Assembly_files/9554659e2e8cfb11b6e4f4b98e065e24.jpeg"> 
+              <a class="nocss" href="https://tryhackme.com/p/NehruG">NehruG</a><br></div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+</div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 6184 users are in here and this room is 685 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Windows x64 Assembly_files/edb328f009285787ab7cec73f4fe59b5.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/Z0F">Z0F</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-secondary" role="progressbar" style="width: 5%; aria-valuemin=" 0"="" aria-valuemax="100"> 0%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse1" aria-expanded="true">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 1                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Introduction
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>This room is part of a series of rooms that will introduce you to reverse engineering software on Windows. This room will talk about the basics of reverse engineering. In future rooms, we will start doing some reverse engineering and work our way up in difficulty and complexity. This series will focus on analyzing executables, however, keep in mind that reversing is a large field not just covering binary analysis, and not just covering software.</p>
+<h2>What Is Reverse Engineering?<br></h2>
+<p>Reverse engineering is essentially being given a result and figuring out how it got there. That knowledge can be used to find vulnerabilities in the logic and methods used to achieve the result. It starts with finding what you want to attack, then figuring out how it works, then finally doing what you want with it. For security researchers, the goal of reverse engineering is to find where the developers made a mistake or got lazy. For example, developers often think encrypting network traffic is enough, but reverse engineers can get around that encryption. This is why developers shouldn't encrypt the data their software sends to their servers, and then be lazy about sanitizing the data when it hits the server.</p>
+<h3>It's a Long Road...</h3>
+<p>Becoming a skilled reverse engineer is quite a long process. Rest assured, once you do develop your skills it's quite fun. No one can teach you everything you need to know about reverse engineering. You're going to constantly see something new and it's going to confuse you. That's the life of a reverse engineer. It's really frustrating for some people, but as a reverse engineer, you're often left to figure it out yourself. You'll constantly be looking up how something works, then tinkering around with it yourself. Keep your head up though, eventually, you can start to use your skills to find vulnerabilities, develop exploits, manipulate processes, and do loads of awesome stuff.</p>
+<h3>Why is it so hard?</h3>
+<p>Computers aren't supposed to be human-friendly, they're built to be fast. Think of assembly as a unionization between computer and human languages; Something the computer could understand and perform quickly, while also giving us humans something to understand (opcodes). Over time, however, that's changed. We now almost exclusively write in high-level languages and compilers translate that into computer language. There's a massive difference between compiler-generated assembly and human-written assembly. Compilers use all kinds of crazy techniques that sometimes don't even make sense, but it's for efficiency. Yes, the high-level code was originally written by a human, but the compiler has done away with the human inefficiencies. This is why it can be so hard to reverse engineer software sometimes. On the bright side, eventually, you'll start to think more like the compiler and it won't be as bad. You may even develop the ability to finally write good code!</p>
+<h2>Tools</h2>
+<p>This course won't be dependent on any single tool so use what you want. x64dbg, Ghidra, and SysInternals will be provided on the VMs used in future rooms of this series.</p>
+<h2>Prerequisites (Knowledge and Notes):</h2>
+<ul>
+<li>Computer Science Concepts<ul>
+<li>You don't need a degree, and some concepts will be covered here. Ultimately it's your understanding of how computers and software work that will lead you to your success or failure.</li>
+</ul>
+</li>
+<li>C/C++ <em>Experience</em><ul>
+<li>For reverse engineering, experience matters more than knowing advanced C/C++ techniques. Advanced techniques are almost always just abstractions of multiple simpler concepts anyways.</li>
+</ul>
+</li>
+<li>Assembly (Recommended)<ul>
+<li>I will cover the basics. You don't need to know a ton of assembly, but being knowledgeable and comfortable with it will make you significantly better and faster. I will use the Intel syntax because I think it's the easiest to read and it's the default for Windows tools. Note that when working with Linux, AT&amp;T is more commonly used.<br></li></ul></li></ul>
+
+<h2>Mindset - Feel free to skip this part.</h2>
+<p>Something to understand is that computers are extremely stupid. They operate with pure logic and they don't make any assumptions.</p>
+<p>I will attempt to demonstrate this with a basic "riddle" (admittedly not a hard one).</p>
+<p>Let's say you tell the computer to write the numbers 1-10 and make all of the even numbers red.<br>This is what you might expect:</p><p><img src="./TryHackMe _ Windows x64 Assembly_files/NumsCorrect.png" style="width:50%"><br></p>
+<p></p><p>
+  
+</p>
+That looks correct, all even numbers are red just as expected.<p></p>
+<p>The computer may also generate the following:</p>
+<p></p><p><img src="./TryHackMe _ Windows x64 Assembly_files/NumsRed.png" style="width:50%"><br></p>
+Once again, the list is valid and follows the rules. All even numbers are red.<p></p>
+<p>If you're confused, don't worry, that means you passed the CAPTCHA. Some people's brains will flip the rule and tell them that all red numbers are even, which is not true according to what we told the computer. Computers won't flip the rules or apply any sort of assumptions like a human might.</p>
+<p>In fact, the rules don't dictate anything about the odd numbers, so they can be any color we want!</p>
+<p></p><p><img src="./TryHackMe _ Windows x64 Assembly_files/NumsRainbow.png" style="width:50%"><br></p>
+"Where did the 9 go?", the programmer thought. "The computer must have made an error and forgot to write the 9. Maybe I'm off by one, classic error!" And on the little programmer goes on to waste hours of his life, eventually slamming his head on the desk once he figures out it was colored white.<p></p>
+<h3>What is a Protocol?</h3><p>TCP, UDP, HTTP(s), FTP, and SMTP are all protocols. Protocols are simply templates that are used to specify what data is where. Let's use an example.</p>
+<blockquote>
+<p>01011990JohnDoe/0/123MainSt</p>
+</blockquote>
+<p>Without some sort of guide or template, that just seems like a mess of data. Our brains can pick out some information such as a name and a street. But computers can't do that, and even we can't pick out all of the data. It's confusing because it's all packed together in an attempt to make it as small as possible. Here, let me give you the secret formula:</p>
+<blockquote>
+<p>BIRTHDAY(MMDDYYYY)NAME/NumOfChildren/HomeAddress</p>
+</blockquote>
+<p>Now it makes sense. The collection of numbers at the start is a birthday. Following the birthday is a name. There is then a forward slash and the number of children they have. Then another forward slash and a home address. Here is another example:</p>
+<blockquote>
+<p>03141879AlbertEinstein/3/112MercerSt</p>
+</blockquote>
+<p>That's what a protocol is. It's simply a template that computers can use to pick apart a series of data that would otherwise seem pointless. </p>
+<p>I also want to point out the delimiters (the forward slashes) used for the number of children and the street they live on. Because some data has a variable length, it's a good idea to distinguish between them in some way besides a specific number of characters. Remember, a computer can't make assumptions. We need to be very literal or it won't know what we mean. The rules for the protocol are as follows: Assuming the template is filled out correctly, the first 8 characters represent the birth date. The characters following the date up to the forward-slash are the person's name. Then the next character(s) following that forward slash and up to the next forward slash is the number of children that person had. Finally, the rest of the data after the final forward slash is the person's home address.</p>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Now that you have been introduced to the way computers think, let's move on to how they work.</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header collapsed" data-toggle="collapse" href="#collapse2" aria-expanded="false">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 2                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Number Systems
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <h2>Number Systems</h2>
+<h4>Base 10:</h4>
+<p>We mortal humans use the <strong>decimal (base 10)</strong> system.<br>Base 10 includes 0, 1, 2, 3, 4, 5, 6, 7, 8, 9.<br>Here is 243 in base 10:<br>243 = (10<sup>2</sup> * 2) + (10<sup>1</sup> * 4) + (10<sup>0</sup> * 3) = 200 + 40 + 3.</p>
+<p>If decimal is denoted, it will usually be with the suffix of "d" such as 12d.</p>
+<h4>Base 7:</h4>
+<p>We can apply this to any base. For example, 243 in base 7:<br>243(in base 7) = (7<sup>2</sup> * 2) + (7<sup>1</sup> * 4) + (7<sup>0</sup> * 3) = 98 + 28 + 3 = 129(in decimal).</p>
+<p>Base 7 includes 0, 1, 2, 3, 4, 5, 6.<br>9 isn't in base 7, so how do we represent it in base 7?<br>9(in decimal) = (7<sup>1</sup> * <strong><u>1</u></strong>) + (7<sup>0</sup> * <strong><u>2</u></strong>) = 7 + 2. Our answer is going to be 12(base7) = 9(base10).</p>
+<h2>Base2/Binary:</h2>
+<p>What about base 2? Base 2 includes 0 and 1. It works the same as the others. Here are some good values to know:<br>2<sup>10</sup> = 1024, 2<sup>9</sup> = 512, 2<sup>8</sup> = 256, 2<sup>7</sup> = 128, etc.</p>
+<p align="center">
+  <img src="./TryHackMe _ Windows x64 Assembly_files/Base2.png">
+</p>
+
+<p>If you want to learn binary conversion and how to evaluate different bases, go here:</p>
+<p><a href="https://www.khanacademy.org/math/algebra-home/alg-intro-to-algebra/algebra-alternate-number-bases/v/number-systems-introduction">https://www.khanacademy.org/math/algebra-home/alg-intro-to-algebra/algebra-alternate-number-bases/v/number-systems-introduction</a></p>
+<p>Trying to explain this stuff through text can be a little difficult, but that video describes it very well.</p>
+<p>Binary is usually denoted with the prefix "0b" such as 0b0110 and sometimes denoted with the suffix "b" such as 110b.</p>
+<h2>Hexadecimal:</h2>
+<p>Hexa = 6, Dec = 10. <strong>Hexadecimal is base 16</strong>.  
+Hexadecimal is very similar but can be a little confusing for some people. You see, we only have ten different individual numbers (0, 1, 2, 3, 4, 5, 6, 7, 8, 9). Hexadecimal needs 16 different numbers. You could use 0, 1... 11, 12, 13... but that would be extremely confusing. For example, what is 1432? Is that 1,4,3,2 or 14,3,2? When we need to represent anything above 9 we can instead use letters such as A, B, C, D, E, and F in the case of hexadecimal.</p>
+<p>A = 10, B = 11, ..., F = 15</p>
+<p>Hexadecimal numbers are usually given a "0x" prefix or the suffix "h" such as 0xFF or FFh.</p>
+<p>0x4A = (16<sup>1</sup> * 4d) + (16<sup>0</sup> * 10d) = 64d + 10d = 74d.</p>
+<p>Learn more hexadecimal here:</p>
+<p><a href="https://www.khanacademy.org/math/algebra-home/alg-intro-to-algebra/algebra-alternate-number-bases/v/hexadecimal-number-system">https://www.khanacademy.org/math/algebra-home/alg-intro-to-algebra/algebra-alternate-number-bases/v/hexadecimal-number-system</a></p>
+<h2>Prefixes and Suffixes:</h2>
+<p>To distinguish between different number systems, we use prefixes or suffixes. There are many things used to distinguish between the number systems, I will only show the most common.  </p>
+<ul>
+<li>Decimal is represented with the <strong>suffix "d"</strong> or with nothing. Examples: 12d or 12. </li>
+<li>Hexadecimal is represented with the&nbsp;<strong>prefix "0x"</strong> or <strong>suffix "h"</strong>. Examples: 0x12 or 12h. Another way hexadecimal is represented is with the prefix of "\x". However, this is typically used per byte. Two hexadecimal digits make one byte. Examples: \x12 or \x12\x45\x21. If bits and bytes seem a little weird we'll get into them soon so don't worry.</li>
+<li>Binary is represented with a <strong>suffix "b"</strong> or with&nbsp;<strong>padding of zeros at the start</strong>. Examples: 100101b or 00100101. The padding at the start is often used because a decimal number can't start with a zero.</li></ul></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is 0xA in decimal?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is decimal 25 in hexadecimal? Include the prefix for hexadecimal.</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse3">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 3                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Bits and Bytes
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <h2>Bits and Bytes</h2>
+<p>Data type sizes vary based on architecture. These are the most common sizes and are what you will come across when working with desktop Windows and Linux.</p>
+<ul>
+<li><strong>Bit is one binary digit</strong>. Can be 0 or 1. </li>
+<li><span style="font-weight:bolder">Nibble is 4 bits</span>.</li><li><strong>Byte is 8 bits</strong>.</li>
+<li><strong>Word is 2 bytes</strong>.</li>
+<li><strong>Double Word (DWORD) is 4 bytes</strong>. Twice the size of a word.</li>
+<li><strong>Quad Word (QWORD) is 8 bytes</strong>. Four times the size of a word.</li>
+</ul>
+<p>Before we get into other data types, let's talk about signed vs unsigned. Signed numbers can be positive or negative. Unsigned numbers can only be positive. The names come from how they work. Signed numbers need a sign bit to distinguish whether or not they're negative, similar to how we use the + and - signs.</p>
+<h3>Data Type Sizes</h3>
+<ul>
+<li><strong>Char</strong> - 1 byte (8 bits).</li>
+<li><strong>Int</strong> - There are 16-bit, 32-bit, and 64-bit integers. When talking about integers, it's usually 32-bit. For signed integers, one bit is used to specify whether the integer is positive or negative.<ul>
+<li><strong><em>Signed</em> Int</strong><ul>
+<li>16 bit is -32,768 to 32,767. </li>
+<li>32 bit is -2,147,483,648 to 2,147,483,647. </li>
+<li>64-bit is -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807.</li>
+</ul>
+</li>
+<li><strong><em>Unsigned</em> Int</strong> - Minimum is zero, maximum is twice that of a signed int (of the same size). For example: unsigned 32-bit int goes from 0 to 4,294,967,295. That is twice the signed int maximum of 2,147,483,647, however, its minimum value is 0. This is due to signed integers using the sign bit, making it unavailable to represent a value.</li>
+</ul>
+</li>
+<li><strong>Bool</strong> - 1 byte. Interestingly, a bool only <em>needs</em> 1 bit because it's either 1 or 0 but it still takes up a full byte. This is because computers don't tend to work with individual bits due to alignment (talked about later). So instead, they work in chunks such as 1 byte, 2 bytes, 4 bytes, 8 bytes, and so on.</li>
+</ul>
+<p>For more data types go here: <a href="https://www.tutorialspoint.com/cprogramming/c_data_types.htm" target="_blank">https://www.tutorialspoint.com/cprogramming/c_data_types.htm</a><a href="https://www.tutorialspoint.com/cprogramming/c_data_types.htm"><br></a></p>
+
+<h3>Offsets</h3>
+Data positions are referenced by how far away they are from the address of the first byte of data, known as the base address (or just the address), of the variable. The distance a piece of data is from its base address is considered the offset. For example, let's say we have some data, 12345678. Just to push the point, let's also say each number is 2 bytes. With this information, 1 is at offset 0x0, 2 is at offset 0x2, 3 is at offset 0x4, 4 is at offset 0x6, and so on. You could reference these values with the format BaseAddress+0x##. BaseAddress+0x0 or just BaseAddress would contain the 1, BaseAddress+0x2 would be the 2, and so on.</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                How many bytes is a WORD?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>How many bits is a WORD?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Binary Operations
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>This is going to be a quick introduction to how binary is manipulated and how basic mathematical operations are performed in binary. Let's start with learning what true and false mean for a computer, then we'll talk about the four fundamental operations: <b>NOT</b>, <b>AND</b>, <b>OR</b>, and <b>XOR</b>.</p><p><b><span style="font-size:18px">True / False<br></span></b></p><p><span style="font-size:16px"><span style="font-size:16px">In computing, false is represented with the value 0, and true is represented as anything </span><i>other than</i><span style="font-size:16px"> 0</span><span style="font-size:16px">. This is why in binary true is 1 and false is 0. When programming true could be, 1, 100, a memory address, or a character. Again, true is anything other than 0.</span></span><b><span style="font-size:18px"></span></b><b><span style="font-size:18px"><br></span></b></p><p><b><span style="font-size:18px">NOT (Shown as "!")</span></b><br>The NOT operation will simply flip the bit.</p><ul><li>NOT 1 = 0</li><li>NOT 0 = 1</li></ul><p><img style="width:50%" src="./TryHackMe _ Windows x64 Assembly_files/BONot.png"></p><p><b style="font-size:1rem"><span style="font-size:18px">AND (Shown as "&amp;")</span></b><br></p><p>AND will check if both bits are 1 and if they are the result will be 1, otherwise, the result is 0.</p><ul><li>1 AND 1 = 1</li><li>1 AND 0 = 0</li><li>0 AND 0 = 0</li></ul><p><img style="width:50%" src="./TryHackMe _ Windows x64 Assembly_files/BOAnd.png"></p><p><b style="font-size:1rem"><span style="font-size:18px">OR (Shown as "|")</span></b><br></p><p>OR will check if one of the bits is one and if so, then the result is 1, otherwise, the result is 0.</p><ul><li>1 OR 1 = 1</li><li>1 OR 0 = 1</li><li>0 OR 0 = 0</li></ul><p><img style="width:50%" src="./TryHackMe _ Windows x64 Assembly_files/BOOr.png"></p><p><b style="font-size:1rem"><span style="font-size:18px">XOR (Shown as "^")</span></b><br></p><p>The result is 1 if either of the bits is one, <b>but not both</b>, otherwise, the result is 0. Another way to think of XOR is it's checking if the bits are different.<br></p><ul><li>1 XOR 1 = 0</li><li>1 XOR 0 = 1</li><li>0 XOR 0 = 0</li></ul><p><img style="width:50%" src="./TryHackMe _ Windows x64 Assembly_files/BOXor.png"></p><p><br></p><p>There are inverses of these operations, such as NAND and NOR. These operations perform the respective primary operation then perform a NOT at the end. For example, NAND performs an AND operation followed by a NOT operation on the result of the AND operation.<br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the result of the binary operation: 1011 AND 1100?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the result of the binary operation: 1011 NAND 1100? <i>Include </i>leading zeroes.</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Registers
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span style="font-weight:bolder">Note:&nbsp;</span>There are two different syntaxes for assembly: Intel and AT&amp;T. We will focus on Intel because I think it's the easiest to read and it's the default for Windows tools. Note that when working with Linux, AT&amp;T is more commonly used.
+</p><h1><span style="font-weight:bold">﻿</span><span style="font-size:36px">Registers</span></h1>
+<p>Depending on whether you are working with 64-bit or 32-bit assembly things may be a little different. As already mentioned this course focuses on 64-bit Windows.</p><span style="font-size:24px">What Is Assembly?</span>
+<p>The end goal of a compiler is to translate high-level code into a language the CPU can understand. This language is Assembly. The CPU supports various instructions that all work together doing things such as moving data, performing comparisons, doing things based on comparisons, modifying values, and anything else that you can think of. While we may not have the high-level source code for any program, we can get the Assembly code from the executable.</p>
+<h3><span style="font-size:24px">Assembly VS C:</span></h3>
+<p>Small example:</p>
+<pre class=" language-c" tabindex="0"><code class=" language-c"><span class="token keyword">if</span><span class="token punctuation">(</span>x <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>is functionally the same as the following pseudo-assembly:</p>
+<pre class=" language-assembly" tabindex="0"><code class=" language-assembly">mov RAX, x
+cmp RAX, 4
+jne 5       ; Line 5 (ret)
+call func1
+ret
+</code></pre>
+<p>This should be fairly self-explanatory, but I'll go over it briefly. First, the variable <code>x</code> is moved into RAX. RAX is a register, think of it as a variable in assembly. Then, we compare that with 4. If the comparison between RAX (4) and 5 results in them not being equal then jump (jne) to line 5 which returns. Otherwise, they are equal, so call <code>func1()</code>.</p>
+<h3><span style="font-size:24px"><b>The Registers</b></span></h3>
+<p>Let's talk about <strong>General Purpose Registers (GPR)</strong>. You can think of these as variables because that's essentially what they are. The CPU has its own storage that is extremely fast. This is great, however, space in the CPU is extremely limited. Any data that's too big to fit in a register is stored in memory (RAM). Accessing memory is much slower for the CPU compared to accessing a register. Because of the slow speed, the CPU tries to put data in registers instead of memory if it can. If the data is too large to fit in a register, a register will hold a pointer to the data so it can be accessed.</p>
+<h4><span style="font-size:18px"><b>There are 8 main general-purpose registers:</b></span></h4>
+<p>There are several GPR's, each with an assigned task. However, this task is more of a template as registers are usually used for whatever, except for a few. Regardless, it's good to know their assigned purpose for when they are used according to their designation.</p>
+<ul>
+<li>RAX - Known as the <strong>accumulator register</strong>. Often used to store the return value of a function.</li>
+<li>RBX - Sometimes known as the <strong>base register</strong>, not to be confused with the base pointer. Sometimes used as a base pointer for memory access.</li>
+<li>RDX - Sometimes known as the <strong>data register</strong>. </li>
+<li>RCX - Sometimes known as the <strong>counter register</strong>. Used as a loop counter.</li>
+<li>RSI - Known as the <strong>source index</strong>. Used as the source pointer in string operations.</li>
+<li>RDI - Known as the <strong>destination index</strong>. Used as the destination pointer in string operations.</li>
+<li>RSP - The <strong>stack pointer</strong>. Holds the address of the top of the stack.</li>
+<li>RBP - The <strong>base pointer</strong>. Holds the address of the base (bottom) of the stack.</li>
+</ul>
+<p>All of these registers are used for holding data. Something to point out immediately is that these registers can be used for anything. Again, their "use" is just common practice. For example, RAX is often used to hold the return value of a function but it doesn't have to (and often doesn't). However, imagine you were writing a program in Assembly. It would be extremely helpful to know where the return value of a function went, otherwise why call the function? Also, look at the Assembly example I gave earlier. It uses RAX to store the <em>x</em> variable.</p>
+<p>With that said, some registers are best left alone when dealing with typical data. For example, RSP and RBP should almost always only be used for what they were designed for. They store the location of the current stack frame (we'll get into the stack soon) which is very important. If you do use RBP or RSP, you'll want to save their values so you can restore them to their original state when you are finished. As we go along, you'll get the hang of the importance of various registers at different stages of execution.</p>
+<h4><b><span style="font-size:18px">The Instruction Pointer</span></b></h4>
+<p>RIP is probably the most important register. RIP is the "Instruction Pointer". It is the address of the <em>next</em> line of code to be executed. You cannot directly write into this register, only certain instructions such as ret can influence the instruction pointer.</p>
+<h4><b><span style="font-size:18px">Register Break Downs</span></b></h4>
+<p>Each register can be broken down into smaller segments which can be referenced with other register names. RAX is 64 bits, the lower 32 bits can be referenced with EAX, and the lower 16 bits can be referenced with AX. AX is broken down into two 8 bit portions. The high/upper 8 bits of AX can be referenced with AH. The lower 8 bits can be referenced with AL.</p><p><img src="./TryHackMe _ Windows x64 Assembly_files/RegisterBreakdown.png" style="width:100%"><br></p>
+<p align="center">
+  
+</p>
+
+<p>RAX consists of all 8 bytes which would be bytes 0-7. EAX consists of bytes 4-7, AX consists of bytes 6-7, AH consists of only byte 6, and AL consists of only byte 7 (the final byte).</p>
+<p>If <code>0x0123456789ABCDEF</code> was loaded into a 64-bit register such as RAX, then RAX refers to <code>0x0123456789ABCDEF</code>, EAX refers to <code>0x89ABCDEF</code>, AX refers to <code>0xCDEF</code>, AH refers to <code>0xCD</code>, AL refers to <code>0xEF</code>.</p>
+<p>What is the difference between the "E" and "R" prefixes? Besides one being a 64-bit register and the other 32 bits, the <strong>"E" stands for extended</strong>. The <strong>"R" stands for register</strong>. The "R" registers were newly introduced in x64, and no, you won't see them on 32-bit systems.</p>
+<p>To see how <em>all</em> registers are broken apart go here:<br><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/x64-architecture">https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/x64-architecture</a></p>
+<h2><span style="font-size:24px">Different Data Types</span></h2>
+<ul>
+<li><strong>Floating Point Values</strong> - Floats and Doubles.</li>
+<li><strong>Integer Values</strong> - Integers, Booleans, Chars, Pointers, etc.</li>
+</ul>
+<p>Different data types can't be put in just any register. Floating-point values are represented differently than integers. Because of this, floating-point values have special registers. These registers include <strong>YMM0 to YMM15</strong> (64-bit) and <strong>XMM0 to XMM15</strong> (32-bit). The XMM registers are the lower half of the YMM registers, similar to how EAX is the lower 32 bits of RAX. Something unique about these registers is that they can be treated as arrays. In other words, they can hold multiple values. For example, YMM# registers are 256-bit wide each and can hold 4 64-bit values or 8 32-bit values. Similarly, the XMM# registers are 128-bits wide and can hold 2 64-bit values or 4 32-bit values. Special instructions are needed to utilize these registers as vectors.</p>
+<p>A nice table of these registers, and more information about them, can be found here: <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">https://en.wikipedia.org/wiki/Advanced_Vector_Extensions</a></p>
+<h3><span style="font-size:24px">Extra Registers</span></h3>
+<p>There are additional registers that should be mentioned. These registers don't have any special uses. There are registers <strong>r8 to r15</strong> which are designed to be used by integer type values (not floats or doubles). The lower 4 bytes (32 bits), 2 bytes (16 bits), and 8 bits (1 byte) can all be accessed. These can be accessed by appending the letter "d", "w", or "b".<br>Examples: </p>
+<ul>
+<li>R8 - Full 64-bit (8 bytes) register.</li>
+<li>R8D - Lower double word (4 bytes).</li>
+<li>R8W - Lower word (2 bytes)</li>
+<li>R8B - Lower byte.</li>
+</ul>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>How many bytes is RAX?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                How many bytes is EAX?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Instructions
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span style="font-weight:bolder">Note:&nbsp;</span>There are two different syntaxes for assembly: Intel and AT&amp;T. We will focus on Intel because I think it's the easiest to read and it's the default for Windows tools. Note that when working with Linux, AT&amp;T is more commonly used.
+</p><h2>Instructions</h2>
+<p>The ability to read and comprehend assembly code is vital to reverse engineering. There are roughly 1,500 instructions, however, a majority of the instructions are not commonly used or they're just variations (such as MOV and MOVS). Just like in high-level programming, don't hesitate to look up something you don't know.</p>
+<p>Before we get started there are three different terms you should know: <strong>immediate</strong>, <strong>register</strong>, and <strong>memory</strong>. </p>
+<ul>
+<li>
+<p>An <strong>immediate value</strong> (or just immediate, sometimes IM) is something like the number 12. An immediate value is <em>not</em> a memory address or register, instead, it's some sort of constant data.</p>
+</li>
+<li>
+<p>A <strong>register</strong> is referring to something like RAX, RBX, R12, AL, etc. </p>
+</li>
+<li>
+<p><strong>Memory</strong> or a <strong>memory address</strong> refers to a location in memory (a memory address) such as 0x7FFF842B.</p>
+</li>
+</ul>
+<blockquote>
+<p>You may see a semicolon at the end of, or in-between, a few Assembly instructions. This is because the semicolon (;) is used to write a comment in Assembly.</p>
+</blockquote>
+<p>It's important to know the format of instructions which is as follows:  </p>
+<p><strong>(Instruction/Opcode/Mnemonic) &lt;Destination Operand&gt;, &lt;Source Operand&gt;</strong>  </p>
+<blockquote>
+<p>I will be referring to Instructions/Opcodes/Mnemonics as instructions, just note that some people call it different things.</p>
+</blockquote>
+<p>Example:</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 5</code></pre>
+
+<p>MOV is the instruction, RAX is the destination operand, and 5 is the source operand. The capitalization of instructions or operands does not matter. You will see me use a mixture of all letters capitalized and all letters lowercase. In the example given, 5 is an immediate value because it's not a valid memory address and it's certainly not a register.</p>
+<h2>Common Instructions</h2>
+<h3>Data Movement</h3>
+<p><strong>MOV</strong> is used to move/store the source operand into the destination. The source doesn't have to be an immediate value like it is in the following example. In the following example, the immediate value of 5 is being moved into RAX.  </p>
+<p><strong>This is equivalent to RAX = 5.</strong></p>
+<pre class=" language-nasm" tabindex="0"><code class=" language-nasm">mov RAX, 5</code></pre>
+
+<p><strong>LEA</strong> is short for Load Effective Address. This is essentially the same as MOV except for addresses. They key difference between MOV and LEA is that LEA doesn't dereference. It's also commonly used to compute addresses. In the following example, RAX will contain the memory address/location of num1.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">lea RAX, num1</code></pre>
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">lea RAX, [struct+8]</code></pre>
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RBX, 5
+lea RAX, [RBX+1]
+</code></pre>
+
+<p>In the first example, RAX is set to the address of num1. In the second, RAX is set to the address of the member in a structure which is 8 bytes from the start of the structure. This would usually be the second member. The third example RBX is set to 5, then LEA is used to set RAX to RBX + 1. RAX will be 6.<br><strong></strong></p><p><strong>PUSH</strong> is used to push data onto the stack. Pushing refers to putting something on the top of the stack. In the following example, RAX is pushed onto the stack. Pushing will act as a copy so RAX will still contain the value it had before it was pushed. Pushing is often used to save the data inside a register by pushing it onto the stack, then later restoring it with `pop`.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">push RAX</code></pre>
+
+<p><strong>POP</strong> is used to take whatever is on the top of the stack and store it in the destination. In the following example whatever is on the top of the stack will be put into RAX.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">pop RAX</code></pre>
+
+<h4>Arithmetic:</h4>
+<p><strong>INC</strong> will increment data by one. In the following example RAX is set to 8, then incremented. RAX will be 9 by the end.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 8
+inc RAX
+</code></pre>
+
+<p><strong>DEC</strong> decrements a value. In the following example, RAX ends with a value of 7.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 8
+dec RAX
+</code></pre>
+
+<p><strong>ADD</strong> adds a source to a destination and stores the result in the destination. In the following example, 2 is moved into RAX, 3 into RBX, then they are added together. The result (5) is then stored in RAX.  </p>
+<p>Same as RAX = RAX + RBX or RAX += RBX.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 2
+mov RBX, 3
+add RAX, RBX
+</code></pre>
+
+<p><strong>SUB</strong> subtracts a source from a destination and stores the result in the destination. In the following example, RAX will end with a value of 2.  </p>
+<p>Same as RAX = RAX - RBX or RAX -= RBX.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 5
+mov RBX, 3
+sub RAX, RBX
+</code></pre>
+
+<h5><b>Multiplication and division are a bit different.</b></h5>
+Because the sizes of data can vary and change greatly when multiplying and dividing, they use a concatenation of two registers to store the result. The upper half of the result is stored in RDX, and the lower half is in RAX. The total result of the operation is RDX:RAX, however, referencing just RAX is usually good enough. Furthermore, only <i>one</i> operand is given to the instruction. Whatever you want to multiply or divide is stored in RAX, and what you want to multiply or divide <i>by</i> is passed as the operand. Examples are provided in the following descriptions.<p></p><p> 
+
+</p><p><strong>MUL</strong><span style="font-size:1rem"> (unsigned) or </span><strong>IMUL</strong><span style="font-size:1rem"> (signed) multiplies RAX by the operand. The result is stored in RDX:RAX. In the following example, RDX:RAX will end with a value of 125.</span><br></p>
+
+The following is the same as 25*5
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 25
+mov RBX, 5
+mul RBX ; Multiplies RAX (25) with RBX (5)
+</code></pre>
+After that code runs, the result is stored in RDX:RAX but in this case, and in most cases, RAX is enough.<p></p><p>
+
+</p><p><b style="font-size:1rem">DIV</b><span style="font-size:1rem"> (unsigned) and </span><b style="font-size:1rem">IDIV</b><span style="font-size:1rem"> (unsigned) work the same as MUL. What you want to divide (dividend) is stored in RAX, and what you want to divide it by (divisor) is passed as the operand. The result is stored in RDX:RAX, but once again RAX alone is usually enough.</span><br></p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 18
+mov RBX, 3
+div RBX ; Divides RAX (18) by RBX (3)
+</code></pre>
+After that code executes, RAX would be 6.
+
+<h4><br></h4><h4>Flow Control:</h4><p><span style="font-weight:bolder">RET</span>&nbsp;is short for return. This will return execution to the function that called the currently executing function, aka the caller. As you will soon learn, one of the purposes of RAX is to hold return values.&nbsp;<span style="font-size:1rem">The following example sets RAX to 10 then returns. This is </span>equivalent<span style="font-size:1rem">&nbsp;to </span><code>return 10;</code> in higher-level programming languages.
+</p><pre style="font-size:14px" class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 10 ret</code></pre>
+<p><strong>CMP</strong> compares two operands and sets the appropriate flags depending on the result. The following would set the Zero Flag (ZF) to 1 which means the comparison determined that RAX was equal to five. Flags are talked about in the next section. In short, flags are used to represent the result of a comparison, such as if the two numbers were equal or not.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 5
+cmp RAX, 5
+</code></pre>
+
+<p><strong>JCC</strong> instructions are conditional jumps that jump based on the flags that are currently set. JCC is not an instruction, rather a term used to mean the set of instructions that includes JNE, JLE, JNZ, and many more. JCC instructions are usually self-explanatory to read. JNE will jump if the comparison is not equal, and JLE jumps if less than or equal, JG jumps if greater, etc. This is the assembly version of if statements.</p><p>The following example will return if RAX isn't equal to 5. If it is equal to 5 then it will set RBX to 10, <i>then</i> return.</p>
+
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 5
+cmp RAX, 5
+jne 5 ; Jump to line 5 (ret) if not equal.
+mov RBX, 10
+ret
+</code></pre>
+
+<p><strong>NOP</strong><span style="font-size:1rem"> is short for No Operation. This instruction effectively does nothing. It's typically used for padding because some parts of code like to be on specific boundaries such as 16-bit or 32-bit boundaries.</span><br></p>
+<h3>Back To The Example</h3>
+<p>Remember the example from 3.1? Here it is:</p>
+
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token keyword">if</span><span class="token punctuation">(</span>x <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">else</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+<p>is the same as</p>
+
+<pre class=" language-nasm" tabindex="0"><code class=" language-nasm">mov RAX, x
+cmp RAX, 4
+jne 5 ; Line 5 (ret)
+call func1
+ret
+</code></pre>
+
+<p>Hopefully, you can now work out the assembly version on its own. It moves the variable <code>x</code> into RAX, then it compares <code>x</code> to 4. If they <em>are not equal</em> then it will return, if they <em>are equal</em> then it calls "func1".</p>
+<h2>Flipping Out</h2>
+<p>Remember how the compiler is all about efficiency? Let me show you how the compiler thinks, as you're going to see it constantly.</p>
+<p>Instead of what a programmer would typically write:</p>
+
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token keyword">if</span><span class="token punctuation">(</span>x <span class="token operator">==</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">else</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+<p>The compiler will generate something closer to:</p>
+
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token keyword">if</span><span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">goto</span> __exit<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token function">func1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+__exit<span class="token operator">:</span>
+<span class="token keyword">return</span><span class="token punctuation">;</span>
+</code></pre>
+
+<p>The compiler generates code this way because it's almost always more efficient and skips more code. The above examples may not see much of a performance improvement over one another, however, in larger programs the improvement can be quite significant.</p>
+
+<h2>Pointers</h2>
+<p>Assembly has its ways of working with pointers and memory addresses as C/C++ does. In C/C++ you can use dereferencing to get the value inside of a memory address. For example:</p>
+
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> num <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span><span class="token operator">*</span> ptr <span class="token operator">=</span> <span class="token operator">&amp;</span>num
+    <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token operator">*</span>ptr <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+<ul>
+<li>
+<p><code>ptr</code> is a pointer to <code>num</code>, which means <code>ptr</code> is holding the memory address of <code>num</code>.</p>
+</li>
+<li>
+<p>Then return the sum of what's at the address inside <code>ptr</code> (<code>num</code> which is 10) and 5.</p>
+</li>
+</ul>
+<p>Two of the most important things to know when working with pointers and addresses in Assembly are <strong>LEA</strong> and <strong>square brackets</strong>.  </p>
+<ul>
+<li>
+<p><strong>Square Brackets</strong> - Square brackets dereference in assembly. For example, <code>[var]</code> is the address pointed to by var. In other words, when using <code>[var]</code> we want to access the memory address that <code>var</code> is holding.</p>
+</li>
+<li>
+<p><strong>LEA</strong> - Ignore everything about square brackets when working with LEA. LEA is short for Load Effective Address and it's used for calculating and loading addresses.</p>
+</li>
+</ul>
+<p><strong>It's important to note that when working with the LEA instruction, square brackets do <em>not</em> dereference.</strong></p>
+<p>LEA is used to load and calculate addresses, NOT data. It doesn't matter if there are square brackets or not, it's dealing with addresses ONLY. LEA is the instruction that will mess with your head when you're sleep-deprived.  </p>
+<p>Here is a simple example of dereferencing and a pointer in Assembly:</p>
+
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp">lea RAX<span class="token punctuation">,</span> <span class="token punctuation">[</span>var<span class="token punctuation">]</span>
+mov <span class="token punctuation">[</span>RAX<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">12</span>
+</code></pre>
+
+<p>In the example above the <u><em>address</em></u> of <code>var</code> is loaded into RAX. This is LEA we are working with, there is <em><u>no</u></em> dereferencing. RAX is now acting as a pointer since it holds the address to the variable. Then 12 is moved into the address pointed to by RAX). The address pointed to by RAX is the <code>var</code> variable. If that Assembly was executed, <code>var</code> would be 12. This is all the same as doing&nbsp;<code>mov var, 12</code>.</p>
+<p>Going back to the code example from when we started talking about pointers, here it is in <i>pseudo</i>-assembly:</p>
+
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp">mov num<span class="token punctuation">,</span> <span class="token number">10</span>
+lea ptr<span class="token punctuation">,</span> <span class="token punctuation">[</span>num<span class="token punctuation">]</span>
+mov rax<span class="token punctuation">,</span> <span class="token punctuation">[</span>ptr<span class="token punctuation">]</span>
+add rax<span class="token punctuation">,</span> <span class="token number">5</span>
+ret
+</code></pre>
+
+<ol>
+<li>
+<p>Move 10 into <code>num</code></p>
+</li>
+<li>
+<p>Load the address of <code>num</code> into <code>ptr</code></p>
+</li>
+<li>
+<p>Move the data that is at the address inside <code>ptr</code> (<code>num</code> which is 10) into <code>rax</code>.</p>
+</li>
+<li>
+<p>Add rax (10) and 5.</p>
+</li>
+<li>
+<p>RET - This will return the data inside RAX. This is explained later in calling conventions.</p>
+</li>
+</ol>
+<p>Earlier I said that LEA can be used to calculate addresses, and it often is, here's an example.</p>
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp">lea RAX<span class="token punctuation">,</span> <span class="token punctuation">[</span>RCX<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token punctuation">;</span>This will add <span class="token number">8</span> to the address inside RCX<span class="token punctuation">,</span> <span class="token operator">and</span> set RAX to the resulting address<span class="token punctuation">.</span></code></pre>
+
+<pre class=" language-cpp" tabindex="0"><code class=" language-cpp">mov RAX<span class="token punctuation">,</span> <span class="token punctuation">[</span>RCX<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token punctuation">;</span>This will add <span class="token number">8</span> to the address already held by RCX<span class="token punctuation">,</span> then dereference the <span class="token keyword">new</span> address <span class="token operator">and</span> put whatever is at that address into RAX<span class="token punctuation">.</span></code></pre>
+
+<p>One more time:  </p>
+<p><strong>It's important to note that when working with LEA square brackets do <em>not</em> dereference.</strong>  </p>
+<p>You'll see LEA and MOV used all the time so be sure you understand this and pay attention to details.  </p>
+<h2>Zero Extension</h2>
+<p>Zero extension is setting the rest of the remaining bits in a register to zero when modifying the other bits. For example, if you moved a value into EAX should the upper 32 bits of RAX change?</p>
+<p>In general, a move to the lower 32 bits of RAX via EAX <em>will</em> zero out/zero extend the upper 32 bits. A move to anything less will <em>not</em> zero extend. So moving something into AX will not zero out the rest of RAX. If you <em>do</em> want to zero extend no matter what, use <code>movzx</code> which performs zero extension no matter what.</p>
+<h2>The JMP's Mason, what do they mean?!</h2>
+<p>Let's talk about the difference between instructions such as <code>jg</code> (jump if greater) and <code>ja</code> (jump if above). Knowing the difference can help you snipe those hard-to-understand data types. There are other instructions like this so be sure to look up what they do when you come across them. For example, there are several variants of <code>mov</code>.</p>
+<p>Here's the rundown for the jump instructions when it comes to signed or unsigned. Ignore the "CF" and "ZF" if you don't know what they mean, I've included them for reference after you understand flags (covered next).</p>
+<p>For <strong><em>unsigned</em></strong> comparisons:</p>
+<ul>
+<li>
+<p>JB/JNAE (CF = 1) ; Jump if below/not above or equal</p>
+</li>
+<li>
+<p>JAE/JNB (CF = 0) ; Jump if above or equal/not below</p>
+</li>
+<li>
+<p>JBE/JNA (CF = 1 or ZF = 1) ; Jump if below or equal/not above</p>
+</li>
+<li>
+<p>JA/JNBE (CF = 0 and ZF = 0); Jump if above/not below or equal </p>
+</li>
+</ul>
+<p>For <strong><em>signed</em></strong> comparisons:</p>
+<p>JL/JNGE (SF &lt;&gt; OF)  ; Jump if less/not greater or equal</p>
+<p>JGE/JNL (SF = OF)   ; Jump if greater or equal/not less</p>
+<p>JLE/JNG (ZF = 1 or SF &lt;&gt; OF); Jump if less or equal/not greater</p>
+<p>JG/JNLE (ZF = 0 and SF = OF); Jump if greater/not less or equal</p>
+<p>Easy way to remember this, and how I remember it:</p>
+<p>Humans normally work with signed numbers, and we usually say greater than or less than. That's how I remember signed goes with the greater than and less than jumps.</p>
+<h2>Final Note</h2>
+<p>There are many more Assembly instructions that I haven't covered. As we continue I will introduce more instructions as they come. Don't be afraid to look up instructions, because like I said, there are quite a few (hundreds or thousands).</p>
+
+<p></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What instruction returns from a function?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What instruction will call/execute a function?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What instruction could be used to save a register in a way that it can later be restored?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-7">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse7">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 7                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Flags
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <h1>Flags</h1>
+<p>Flags are used to signify the result of the previously executed operation or comparison. For example, if two numbers are compared to each other the flags will reflect the results such as them being even. Flags are contained in a register called EFLAGS (x86) or RFLAGS (x64). I usually just refer to it as the flags register. There is an actual FLAGS register that is 16 bit, but the semantics are just a waste of time. If you want to get into that stuff, look it up, Wikipedia has a good article on it. I'll tell you what you need to know.</p>
+<h2>Status Flags</h2>
+<p>Here are the flags you should know. Note that when I say a "flag is set" I mean the flag is set to 1 which is true/on. 0 is false/off.</p>
+<ul>
+<li><strong>Zero Flag (ZF)</strong> - Set if the result of an operation is zero. Not set if the result of an operation is <em>not</em> zero.</li>
+<li><strong>Carry Flag (CF)</strong> - Set if the last <em>unsigned</em> arithmetic operation carried (addition) or borrowed (subtraction) a bit beyond the register. It's also set when an operation would be negative if it wasn't for the operation being unsigned.</li>
+<li><strong>Overflow Flag (OF)</strong> - Set if a <em>signed</em> arithmetic operation is too big for the register to contain.</li>
+<li><strong>Sign Flag (SF)</strong> - Set if the result of an operation is negative.</li>
+<li><strong>Adjust/Auxiliary Flag (AF)</strong> - Same as the carry flag but for Binary Coded Decimal (BCD) operations.</li>
+<li><strong>Parity Flag (PF)</strong> - Set to 1 if the number of bits set in the last 8 bits is even. (10110100, PF=1; 10110101, PF=0)</li>
+<li><strong>Trap Flag (TF)</strong> - Allows for single-stepping of programs.</li>
+</ul>
+<p>For a full list of flags see: <a href="https://www.tech-recipes.com/rx/1239/assembly-flags/">https://www.tech-recipes.com/rx/1239/assembly-flags/</a></p>
+<h2>Examples</h2>
+<h4><u>Basic Comparison</u></h4>
+<p>Here are some examples to demonstrate flags being set.</p>
+<p>Here's the first example. The following code is trying to determine if RAX is equal to 4. Since we're testing for equality, the ZF is going to be the most important flag. <br>On line 2 there is a CMP instruction that is going to be testing for equality between RAX and the number 4. The way in which CMP works is by subtracting the two values. So when <code>cmp RAX, 4</code> runs, 4 is subtracted from RAX (also 4). This is why the comparison results in zero because the subtraction process literally results in zero. Since the result is zero, the ZF flag is set to 1 (on/true) to denote that the operation resulted in the value of 0, also meaning the values were equal! That brings us to the JNE, which jumps if <i>not</i> equal/zero. Since the ZF is set it will not jump, since they <i>are</i> equal, and therefore the call to func1() is made. If they were not equal, the jump would be taken which would jump over the function call straight to the return.<br></p>
+<pre class=" language-assembly" tabindex="0"><code class=" language-assembly">mov RAX, 4
+cmp RAX, 4
+jne 5       ; Line 5 (ret)
+call func1
+ret
+; ZF = 1, OF = 0, SF = 0
+</code></pre>
+<h4><u>Subtraction</u><br></h4>
+<p>The following example will be demonstrating a <i>signed </i>operation. SF will be set to 1 because the subtraction operation results in a negative number. Using the <code>cmp</code> instruction instead of <code>sub</code> would have the same results, except the value of the operation (-6) wouldn't be saved in any register.<br></p>
+<pre class=" language-assembly" tabindex="0"><code class=" language-assembly">mov RAX, 2
+sub RAX, 8  ; 2 - 8 = -6.
+; ZF = 0, OF = 0, SF = 1
+</code></pre>
+<h4><u>Addition</u><br></h4><p>
+The following is an example where the result is too big to fit into a register. Here I'm using 8-bit registers so we can work with small numbers. The biggest number that can fit in a signed 8-bit register is 128. AL is loaded with 75 then 60 is added to it. The result of adding the two together should result in 135, which exceeds the maximum. Because of this, the number wraps around and AL is going to be -121. This sets the OF because the result was too big for the register, and the SF flag is set because the result is negative. If this was an unsigned operation CF would be set.</p>
+<pre class=" language-assembly" tabindex="0"><code class=" language-assembly">mov AL, 75
+add AL, 60
+; ZF = 0, OF = 1, SF = 1
+</code></pre>
+<h2>Final Note</h2>
+<p>Hopefully, that gives you a good idea of what flags are and how they work. Remember that CMP will set flags depending on the result of the comparison. Conditional jumps will simply look at the flags. This tells us that a conditional jump does not need to be immediately proceeded with a CMP to work. Also, flags are set by things other than CMP instructions.</p>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>If two equal values are compared to each other, what will ZF be set to as result of the comparison?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-8">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse8">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 8                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Calling Conventions
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <h1>Windows x64 Calling Convention</h1>
+<p>There are many calling conventions, I will cover the one used on x64 Windows in detail. Once you understand one you can understand the others very easily, it's just a matter of remembering which is which (if you choose to).</p><ul>
+</ul>
+<p>Before we start, be aware that <strong>attention to detail is <em>very</em> important here</strong>.</p>
+<p>When a function is called you could, theoretically, pass parameters via registers, the stack, or even on disk. You just need to be sure that the function you are calling knows where you're putting the parameters. This isn't too big of a problem if you are using your own functions, but things would get messy when you start using libraries. To solve this problem we have <strong>calling conventions</strong> that define how parameters are passed to a function, who allocates space for variables, and who cleans up the stack.</p>
+<blockquote>
+<p><strong>Callee</strong> refers to the function being called, and the <strong>caller</strong> is the function making the call.</p>
+</blockquote>
+<p>There are several different calling conventions including cdecl, syscall, stdcall, fastcall, and more. Because I've chosen to focus on x64 Windows for simplicity, we will be working with x64 fastcall. If you plan to reverse engineer on other platforms, be sure to learn their respective calling convention(s).</p>
+<blockquote>
+<p>You will sometimes see a double underscore prefix<strong>&nbsp;</strong>before a calling convention's name. For example: __fastcall. I won't be doing this because it's annoying to type.</p>
+</blockquote>
+<h1>Fastcall</h1>
+<p>Fastcall is <em>the</em> calling convention for x64 Windows. Windows uses a four-register fastcall calling convention by default. Quick FYI, when talking about calling conventions you will hear about something called the "Application Binary Interface" (ABI). The ABI defines various rules for programs such as calling conventions, parameter handling, and more.</p>
+<h4>How does the x64 Windows calling convention work?</h4>
+<ul>
+<li>The first four parameters are passed in registers, <strong><em>LEFT</em></strong> to <strong><em>RIGHT</em></strong>. Parameters that are <em><b>not</b></em> floating-point values, such as integers, pointers, and chars, will be passed via RCX, RDX, R8, and R9 (in that order). Floating-point parameters will be passed via XMM0, XMM1, XMM2, and XMM3 (in that order).</li><li>If there is a mix of floating-point and integer values, they will still be passed via the register that corresponds to their position. For example, <code>func(1, 3.14, 6, 6.28)</code> will pass the first parameter through RCX, the second through XMM1, the third through R8, and the last through XMM3.</li>
+<li>If the parameter being passed is too big to fit in a register then it is passed by reference (a pointer to the data in memory). Parameters can be passed via any sized corresponding register. For example, RCX, ECX, CX, CH, and CL can all be used for the first parameter. Any other parameters are pushed onto the stack, <strong><em>RIGHT</em></strong> to <strong><em>LEFT</em></strong>.</li>
+</ul>
+<blockquote>
+<p>There is <i>always</i> going to be space allocated on the stack for 4 parameters, even if there aren't any parameters. This space isn't completely wasted because the compiler can, and often will, use it. Usually, if it's a debug build, the compiler will put a copy of the parameters in the space. On release builds, the compiler will use it for temporary or local variable storage.</p></blockquote><p><span style="font-size:24px">Here are some more rules of the calling convention:</span></p><blockquote>
+</blockquote>
+<ul>
+<li>The base pointer (RBP) is saved when a function is called so it can be restored.</li>
+<li>A function's return value is passed via RAX if it's an integer, bool, char, etc., or XMM0 if it's a float or double.</li>
+<li>Member functions have an implicit first parameter for the "this" pointer. Because it's a pointer and it's the first parameter, it will be passed via RCX. This can be very useful to know.</li>
+<li>The <em>caller</em> is responsible for allocating space for parameters for the <em>callee</em>. The caller must always allocate space for 4 parameters even if no parameters are passed.</li>
+<li>The registers RAX, RCX, RDX, R8, R9, R10, R11, and XMM0-XMM5 are considered <em>volatile</em> and must be considered destroyed on function calls.</li>
+<li>The registers RBX, RBP, RDI, RSI, RSP, R12, R13, R14, R15, and XMM6-XMM15 are considered <em>nonvolatile</em> and should be saved and restored by a function that uses them.</li>
+</ul>
+<h2>Stack Access</h2>
+<p>Data on the stack such as local variables and function parameters are often accessed with RBP or RSP. On x64 it's extremely common to see RSP used instead of RBP to access parameters. Remember that the first four parameters, even though they are passed via registers, still have space reserved for them on the stack. This space is going to be 32 bytes (0x20), 8 bytes for each of the 4 registers. Remember this because at some point you will see this offset when accessing parameters passed on the stack.</p>
+<ul>
+<li>1-4 Parameters:<ul>
+<li>Arguments will be pushed via their respective registers, left to right. The compiler will likely use RSP+0x0 to RSP+0x18 for other purposes.</li>
+</ul>
+</li>
+<li>More Than 4 Parameters:<ul>
+<li>The first four arguments are passed via registers, left to right, and the rest are pushed onto the stack starting at offset RSP+0x20, right to left. This makes RSP+0x20 the fifth argument and RSP+0x28.</li>
+</ul>
+</li>
+</ul>
+<p>Here is a very simple example where the numbers 1 to 8 are passed from one function to another function. Notice the order they are put in.</p>
+
+<pre class=" language-c" tabindex="0"><code class=" language-c"><span class="token function">function</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">)</span></code></pre>
+
+<pre class=" language-nasm" tabindex="0"><code class=" language-nasm">MOV RCX 0x1 ; Going left to right.
+MOV RDX 0x2
+MOV R8 0x3
+MOV R9 0x4
+PUSH 0x8 ; Now going right to left.
+PUSH 0x7
+PUSH 0x6
+PUSH 0x5
+CALL function
+</code></pre>
+
+<p>In this case, the stack parameters should be accessed via RSP+0x20 to RSP+0x28.</p>
+<p>Putting them in registers left to right and then pushing them on the stack right to left may not make sense, but it does once you think about it. By doing this, if you were to pop the parameters off the stack they would be in order.</p>
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">POP R10 ; = 5
+POP R11 ; = 6
+POP R12 ; = 6
+POP R13 ; = 7
+</code></pre>
+<p>Now you can access them, left to right in order: RCX, RDX, R8, R9, R10, R11, R12, R13.</p>
+<p>Beautiful :D</p>
+<h1>Further Exploration</h1>
+<p>That's the x64 Windows fastcall calling convention in a nutshell. Learning your first calling convention is like learning your first programming language. It seems complex and daunting at first, but that's probably because you're overthinking it. Furthermore, it's typically harder to learn your first calling convention than it is your second or third.</p>
+<p>If you want to learn more about this calling convention you can here:<br><a href="https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=vs-2019">https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=vs-2019</a><br><a href="https://docs.microsoft.com/en-us/cpp/build/x64-software-conventions?view=vs-2019">https://docs.microsoft.com/en-us/cpp/build/x64-software-conventions?view=vs-2019</a>  </p>
+<blockquote>
+<p>Quick reminder, it may not hurt to go back and read the registers, memory layout, and instructions sections again. Maybe even come back and read this section after those. All of these concepts are intertwined, so it can help. I know it's annoying and sometimes frustrating to re-read, but trust me when I say it's worth it.</p>
+</blockquote>
+<h1>cdecl (C Declaration)</h1>
+<p>After going in-depth on fastcall, here's a quick look at cdecl.</p>
+<ul>
+<li>The parameters are passed on the <em>stack</em> backward (right to left). </li>
+<li>The base pointer (RBP) is saved so it can be restored.</li>
+<li>The return value is passed via EAX.</li>
+<li>The caller cleans the stack. This is what makes cdecl cool. Because the caller cleans the stack, cdecl allows for a variable number of parameters.</li></ul><p>Like I said after you understand your first calling convention learning others is pretty easy. Quick reminder, this was only a brief overview of cdecl.</p><ul>
+</ul>
+<p><span style="font-size:1.75rem">See here for more info:</span><br></p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/cpp/build/x64-software-conventions?view=vs-2019">https://docs.microsoft.com/en-us/cpp/build/x64-software-conventions?view=vs-2019</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=vs-2019">https://docs.microsoft.com/en-us/cpp/build/x64-calling-convention?view=vs-2019</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cpp/build/prolog-and-epilog?view=vs-2019">https://docs.microsoft.com/en-us/cpp/build/prolog-and-epilog?view=vs-2019</a></li>
+<li><a href="https://www.gamasutra.com/view/news/171088/x64_ABI_Intro_to_the_Windows_x64_calling_convention.php">https://www.gamasutra.com/view/news/171088/x64_ABI_Intro_to_the_Windows_x64_calling_convention.php</a></li>
+</ul>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                In fastcall, what 64-bit register will hold the return value of a function?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>In fastcall, what register is the first function parameter passed in?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-9">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse9">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 9                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Memory Layout
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse9" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <h1>Memory Layout</h1>
+<p>The system's memory is organized in a specific way. This is done to make sure everything has a place to reside in.</p>
+<h2>Memory Segments</h2>
+<p>There are different segments/sections in which data or code is stored in memory. They are the following:  </p>
+<ul>
+<li><strong>Stack</strong> - Holds non-static local variables. Discussed more in-depth soon.</li>
+<li><strong>Heap</strong> - Contains <em>dynamically</em> allocated data that can be uninitialized at first.</li>
+<li><strong>.data</strong> - Contains global and static data initialized to a <em>non-zero value</em>.</li>
+<li><strong>.bss</strong> - Contains global and static data that is <em>uninitialized or initialized to zero</em>.</li>
+<li><strong>.text</strong> - Contains the code of the program (don't blame me for the name, I didn't make it).</li>
+</ul>
+<h2>Overview of Memory Sections</h2>
+<p>Here is a general overview of how memory is laid out in Windows. <strong>This is extremely simplified.</strong></p>
+
+<p align="center"><img src="./TryHackMe _ Windows x64 Assembly_files/WindowsMemoryLayoutRF.png" style="width:25%"><span style="font-size:1.75rem;text-align:left"></span></p>
+<p><span style="font-size:1.75rem;text-align:left">Important:</span><br></p>
+<p>The diagram above shows the direction variables (and any named data, even structures) are put into or taken out of memory. The actual data is put into memory differently. This is why stack diagrams vary so much. You'll often see stack diagrams with the stack and heap growing towards each other or high memory addresses at the top. <em>I will explain more later</em>. The diagram I'm showing is the most relevant for reverse engineering. Low addresses being at the top is also the most realistic depiction.</p>
+Each Section Explained:
+<ul>
+<li><strong>Stack</strong> - Area in memory that can be used quickly for static data allocation. Imagine the stack with low addresses at the top and high addresses at the bottom. This is identical to a normal numerical list. Data is read and written as <b>"last-in-first-out" (LIFO)</b>. The LIFO structure of the stack is often represented with a stack of plates. You can't simply take out the third plate from the top, you have to take off one plate at a time to get to it. You can only access the piece of data that's on the top of the stack, so to access other data you need to move what's on top out of the way. When I said that the stack holds static data I'm referring to data that has a known length such as an integer. The size of an integer is defined at compile-time, the size is typically 4 bytes, so we can throw that on the stack. Unless a maximum length is specified, user input should be stored on the heap because the data has a variable size. <em>However</em>, the address/location of the input will probably be stored on the stack for future reference. When you put data on top of the stack you <strong>push</strong> it onto the stack. <strong>When data is pushed onto the stack, the stack grows up, towards lower memory addresses.</strong> When you remove a piece of data off the top of the stack you <strong>pop</strong> it off the stack. <strong>When data is popped off the stack, the stack shrinks down, towards higher addresses.</strong> That all may seem odd but remember, it's like a normal numerical list where 1, the lower number, is at the top. 10, the higher number, is at the bottom. Two registers are used to keep track of the stack. The <strong>stack pointer (RSP/ESP/SP)</strong> is used to keep track of the top of the stack and the <strong>base pointer (RBP/EBP/BP)</strong> is used to keep track of the base/bottom of the stack. This means that when data is pushed onto the stack, the stack pointer is decreased since the stack grew up towards lower addresses. Likewise, the stack pointer increases when data is popped off the stack. The base pointer has no reason to change when we push or pop something to/from the stack. We'll talk about both the stack pointer and base pointer more as time goes on.</li>
+</ul>
+<blockquote>
+<p>Be warned, you will sometimes see the stack represented the other way around, but the way I'm teaching it is how you'll see it in the real world.</p>
+</blockquote>
+<ul>
+<li><strong>Heap</strong> - Similar to the stack but used for dynamic allocation and it's a little slower to access. The heap is typically used for data that is dynamic (changing or unpredictable). Things such as structures and user input might be stored on the heap. If the size of the data isn't known at compile-time, it's usually stored on the heap. <strong>When you add data to the heap it grows towards higher addresses.</strong></li>
+<li><strong>Program Image</strong> - This is the program/executable loaded into memory. On Windows, this is typically a <strong>Portable Executable (PE)</strong>.</li>
+</ul>
+<blockquote>
+<p>Don't worry too much about the TEB and PEB for now. This is just a brief introduction to them.</p>
+<ul>
+<li><strong>TEB</strong> - The <strong>Thread Environment Block (TEB)</strong> stores information about the currently running thread(s).</li>
+<li><strong>PEB</strong> - The <strong>Process Environment Block (PEB)</strong> stores information about the process and the loaded modules. One piece of information the PEB contains is "BeingDebugged" which can be used to determine if the current process is being debugged.<br>PEB Structure Layout: <a href="https://docs.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb">https://docs.microsoft.com/en-us/windows/win32/api/winternl/ns-winternl-peb</a></li>
+</ul>
+</blockquote>
+<p>Here's a quick example diagram of the stack and heap with some data on them.</p>
+<p align="center"><img src="./TryHackMe _ Windows x64 Assembly_files/StackHeapRelationRF.png" style="width:337.986px"><br></p>
+
+<p>In the diagram above, <code>stackVar1</code> was created <i>before</i> <code>stackVar2</code>, likewise for the heap variables.</p>
+<h2>Stack Frames</h2>
+<p>Stack frames are chunks of data for functions. This data includes local variables, the saved base pointer, the return address of the caller, and function parameters. Consider the following example:</p>
+<pre class=" language-c" tabindex="0"><code class=" language-c"><span class="token keyword">int</span> <span class="token function">Square</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> x<span class="token operator">*</span>x<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> num <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    <span class="token function">Square</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>In this example, the <code>main()</code> function is called first. When <code>main()</code> is called, a stack frame is created for it. The stack frame for <code>main()</code>, before the function call to <code>Square()</code>, includes the local variable <code>num</code> and the parameters passed to it (in this case there are no parameters passed to main). When <code>main()</code> calls <code>Square()</code> the base pointer (RBP) and the return address are both saved. Remember, the base pointer points to the base/bottom of the stack. The base pointer is saved because when a function is called, the base pointer is updated to point to the base of that function's stack. Once the function returns, the base pointer is restored so it points to the base of the caller's stack frame. The return address is saved so once the function returns, the program knows where to resume execution. The return address is the next instruction after the function call. So in this case the return address is the end of the <code>main()</code> function. That may sound confusing, hopefully, this can clear it up:</p>
+<pre class=" language-asm" tabindex="0"><code class=" language-asm">mov RAX, 15 ;RAX = 15
+call func   ;Call func. Same as func();
+mov RBX, 23 ;RBX = 23. This line is saved as the return address for the function call.
+</code></pre>
+<p>I know that this can be a bit confusing but it is quite simple in how it works. It just may not be intuitive at first. It's simply telling the computer where to go (what instruction to execute) when the function returns. You don't want it to execute the instruction that called the function because that will cause an infinite loop. This is why the next instruction is used as the return address instead. So in the above example, RAX is set to 15, then the function called <code>func</code> is called. Once it returns it's going to start executing at the return address which is the line that contains <code>mov RBX, 23</code>.</p>
+<p>Here is the layout of a stack frame:</p>
+<p align="center"><img src="./TryHackMe _ Windows x64 Assembly_files/StackFrameLayoutRF.png" style="width:480.99px"><br></p>
+
+<p>Note the location of everything. This will be helpful in the future.</p>
+<blockquote>
+<p><span style="font-size:2rem">Endianness</span><br></p></blockquote>
+<p>Given the value of 0xDEADBEEF, how should it be stored in memory? This has been debated for a while and still strikes arguments today. At first, it may seem intuitive to store it as it is, but when you think of it from a computer's perspective it's not so straightforward. Because of this, there are two ways computers can store data in memory - big-endian and little-endian.</p>
+<ul>
+<li>Big Endian - The <strong>most</strong> significant byte (far left) is stored first. This would be 0xDEADBEEF from the example.</li>
+<li>Little Endian - The <strong>least</strong> significant byte (far right) is stored first. This would be 0xEFBEADDE from the example.</li>
+</ul>
+<p>You can learn more about endianness here: <a href="https://www.youtube.com/watch?v=NcaiHcBvDR4">https://www.youtube.com/watch?v=NcaiHcBvDR4</a></p><ul>
+</ul>
+<h2>Data Storage</h2>
+<p>As promised, I'll explain how data is written into memory. It's slightly different than how space is allocated for data. As a quick recap, space is allocated on the stack for variables from bottom to top, or higher addresses to lower addresses.</p><p>Data is put into this allocated space very simply. It's just like writing English: left to right, top to bottom. The first piece of data in a variable or structure is at the lowest address in memory compared to the rest of the data. As data gets added, it's put at a higher address further down the stack.<br></p><p align="center"><img src="./TryHackMe _ Windows x64 Assembly_files/DataLayout.png" style="width:632.723px;height:246.545px"><br></p>
+
+<p><span style="font-size:1rem">This diagram illustrates two things. First, how data is put into its allocated space. Second, a side effect of how data is put into its allocated memory. I'll break down the diagram. On the left are the variables being created. On the right are the results of those variable creations. <b>I'll just focus on the stack for this explanation.</b></span><br></p>
+<ul>
+<li>On the left three variables are given values. The first variable, as previously explained, is put on the bottom. The next variable is put on top of that, and the next on top of that.</li>
+<li>After allocating the space for the variables, data is put into those variables. It's all pretty simple but something interesting is going on with the array. Notice how it only allocated an array of 2 elements <code>stackArr[2]</code>, but it was given 3 <code>= {3,4,5}</code>. Because data is written from lower addresses to higher or left to right and top to bottom, it overwrites the data of the variable below it. So instead of <code>stackVar2</code> being 2, it's overwritten by the 5 that was intended to be in <code>stackArr[2]</code>.</li>
+</ul>
+<p>Hopefully that all makes sense. Here's a quick recap:</p>
+<p>Variables are allocated on the stack one on top of the other like a stack of trays. This means they're put on the stack starting from higher addresses and going to lower addresses.</p>
+<p>Data is put into the variables from left to right, top to bottom. That is, from lower to higher addresses.</p>
+<p>It's a simple concept, try not to over-complicate it just because I've given a long explanation. It's vital you understand it, which is why I've taken so much time to explain this concept. It's because of these concepts that there are so many depictions of memory out there that go in different directions.</p>
+<h2>RBP &amp; RSP on x64</h2>
+<p>On x64, it's common to see RBP used in a non-traditional way (compared to x86). Sometimes only RSP is used to point to data on the stack such as local variables and function parameters, and RBP is used for general data (similar to RAX). This will be discussed in further detail later.</p>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                In what order is data taken off of or put onto the stack? Provide the acronym.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-10">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse10">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 10                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Final Thoughts
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse10" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>That wraps up our introductory look at reverse engineering. You should now know a little more about low-level operations, what registers are, how assembly works, and how memory is organized. Hopefully, you enjoyed this room, however, this was one of the more boring parts of this subject so don't fret. Getting to reverse engineer and analyze real software is where lots of fun is to be had, which is what you will learn in future rooms of this series!<br><br>One of the best ways to learn is to write your own software and reverse it to see what it looks like. I often do this when I want to learn or get familiar with a new topic. It's especially useful when learning new methods of attack or trying exploits. It also makes you a better programmer which is nice for exploit development and more advanced reverse engineering techniques.<br><br>For further reading, the <a href="https://software.intel.com/content/www/us/en/develop/articles/intel-sdm.html" target="_blank">Intel</a> and <a href="https://developer.amd.com/resources/developer-guides-manuals/" target="_blank">AMD</a>&nbsp;("AMD64 Architecture" section) manuals are great places to look when it comes to assembly. They contain loads of information directly from the people who made your CPU. <a href="https://docs.microsoft.com/en-us/" target="_blank">Microsoft's documentation</a> (aka MSDN) is still the go-to place for developers and the documented low-level Windows concepts. Also, check out <a href="https://github.com/ReversingID/Awesome-Reversing" target="_blank">Awesome Reverse Engineering</a> on GitHub.<br><span style="font-size:1rem"><br>Anyways, I hope to see you in the next room of this series!</span></p><p align="center"><u><b>Next Room</b></u><br><a href="https://tryhackme.com/room/windowsreversingintro" target="_blank">https://tryhackme.com/room/windowsreversingintro</a><br><a href="https://tryhackme.com/room/win64assembly" target="_blank"></a></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Go forth and do great things!<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Windows x64 Assembly_files/edb328f009285787ab7cec73f4fe59b5.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/Z0F">Z0F</a></p><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 6184 users are in here and this room is 685 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Windows x64 Assembly_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Windows x64 Assembly_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="N1hdM7XB-Os3m51JazGzZwp3GrZWOk03JqJ8">
+<input type="hidden" name="roomCode" value="win64assembly">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Windows x64 Assembly_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Windows x64 Assembly_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Windows x64 Assembly_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/win64assembly#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/win64assembly#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Windows x64 Assembly_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" href="https://tryhackme.com/forum/thread/612e7c30b5d42d6b946a5b49">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Windows x64 Assembly_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22"></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/win64assembly#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/win64assembly#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/win64assembly#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/win64assembly#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/win64assembly#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows x64 Assembly_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Windows x64 Assembly_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Windows x64 Assembly_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Windows x64 Assembly_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows x64 Assembly_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows x64 Assembly_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/win64assembly#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/win64assembly#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div><iframe id="_hjSafeContext_85410782" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Windows x64 Assembly_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+<script src="./TryHackMe _ Windows x64 Assembly_files/notify.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/api-requests.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/events.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Windows x64 Assembly_files/chart.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/expire.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/sockets.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/certificate.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/utils.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/confetti.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/videos.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/intro.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/prism.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/logic.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/tasks.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/connection-status.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/glossary.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Windows x64 Assembly_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "N1hdM7XB-Os3m51JazGzZwp3GrZWOk03JqJ8"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "win64assembly"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: false,
+      path: "pentesting",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : true
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="D4949D13-2140-5A41-810C-AAD2B6B47EFA"></div><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./TryHackMe _ Windows x64 Assembly_files/saved_resource(1).html"></iframe><div class="intercom-lightweight-app"><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><img src="./TryHackMe _ Windows x64 Assembly_files/9e0f012f15b6fc981dde2f1f5198d728.png" alt="" class="intercom-lightweight-app-launcher-custom-icon-open"></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="white"></path>
+</svg>
+</div></div><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1C2538;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+    
+        width: 400px;
+        height: calc(100% - 104px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 84px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: #1c2538
+
+    
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+    
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>

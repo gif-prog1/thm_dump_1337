@@ -1,0 +1,2997 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://tryhackme.com/room/investigatingwithelk101 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Investigating with ELK 101</title>
+<meta name="description" content="Investigate VPN logs through ELK.">
+<meta name="og:description" content="Investigate VPN logs through ELK.">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Investigating with ELK 101">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/206122f33d716948bfb0ff1248467d95.png">
+<meta property="og:url" content="https://tryhackme.com/room/investigatingwithelk101">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Investigate VPN logs through ELK.">
+
+<script type="text/javascript" async="" src="./TryHackMe _ Investigating with ELK 101_files/pgpbhph6"></script><script src="./TryHackMe _ Investigating with ELK 101_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Investigating with ELK 101_files/boostrap431.min.css">
+<script src="./TryHackMe _ Investigating with ELK 101_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Investigating with ELK 101_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Investigating with ELK 101_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Investigating with ELK 101_files/general-style.css">
+<script src="./TryHackMe _ Investigating with ELK 101_files/script.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Investigating with ELK 101_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Investigating with ELK 101_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Investigating with ELK 101_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Investigating with ELK 101_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style><script async="" src="./TryHackMe _ Investigating with ELK 101_files/modules.5957fbf26d1b525b5a12.js" charset="utf-8"></script><style></style></head>
+
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-classic cc-bottom cc-right cc-color-override-382972913 cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We use cookies to ensure you get the best user experience. For more information contact us. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://tryhackme.com/legal/terms-of-use" target="_blank">Read more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<link href="./TryHackMe _ Investigating with ELK 101_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Investigating with ELK 101_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Investigating with ELK 101_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Investigating with ELK 101_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Investigating with ELK 101_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Investigating with ELK 101_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Investigating with ELK 101_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Investigating with ELK 101_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Investigating with ELK 101_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/investigatingwithelk101#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/investigatingwithelk101#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-disconnected" style="display: flex;">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white">Access Machines</span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 18:47:44 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/investigatingwithelk101#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/investigatingwithelk101#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Investigating with ELK 101_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Investigating with ELK 101_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Investigating with ELK 101_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Investigating with ELK 101_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Investigating with ELK 101_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/investigatingwithelk101#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Investigating with ELK 101_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Investigating with ELK 101_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/notifications.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Investigating with ELK 101_files/d43ff804dd897ce1b7394eb387e59302.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">310</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Investigating with ELK 101_files/206122f33d716948bfb0ff1248467d95.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Investigating with ELK 101</h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: inline-flex;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/investigatingwithelk101#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/investigatingwithelk101#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/investigatingwithelk101" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Investigating with ELK 101_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Investigate VPN logs through ELK.</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/investigatingwithelk101#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/investigatingwithelk101#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/investigatingwithelk101#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/investigatingwithelk101#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/investigatingwithelk101#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-medium">Medium</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Read or post on the dedicated forum <a href="https://tryhackme.com/forum/thread/6363d770edef468a1f2b7a1e">post</a></div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data">There are no writeups submitted.</div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+</div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">Only subscribers can deploy virtual machines in this room! 
+        Go to your <a href="https://tryhackme.com/profile">profile</a> page to subscribe (if you have not already). 8345 users are in here and this room is 256 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Investigating with ELK 101_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Investigating with ELK 101_files/115efc44f6c0948da02bb8378f447637.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/Dex01">Dex01</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-secondary" role="progressbar" style="width: 5%; aria-valuemin=" 0"="" aria-valuemax="100"> 0%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse1" aria-expanded="true">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 1                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Introduction
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>In this room, we will learn how to utilize the Kibana interface to search, filter, and create visualizations and dashboards, while investigating VPN logs for anomalies. This room also covers a brief overview of Elasticstack components and how they work together.<br></p>
+
+<p><b><span style="font-size:24px">Learning Objective</span></b></p><p>This room has the following learning objectives:</p>
+<ul><li>How to perform searches, apply a filter, save search.</li><li>How to create visualizations.</li><li>Investigate VPN logs to identify anomalies.</li><li>To create a dashboard using saved searches and visualizations.</li></ul>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Move to the next task.<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header collapsed" data-toggle="collapse" href="#collapse2" aria-expanded="false">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 2                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Incident Handling Scenario
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>A US-based company <strong><code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">CyberT</span></code></strong><span> has been monitoring the VPN logs of the employees, and the <a class="ypMWZxsG glossary-term" onclick="initPopOver(&#39;SOC&#39;, &#39;ypMWZxsG&#39;)">SOC</a> team detected some anomalies in the VPN activities. Our task as SOC Analysts is to examine the VPN logs for January 2022 and identify the anomalies. Some of the key points to note before the investigation are:</span></p>
+<ul><li>All VPN logs are being ingested into the index <b><code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">vpn_connections</span></code></b>.</li><li>The index contains the VPN logs for January 2022.</li><li>A user <b><code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">Johny Brown</span></code></b> was terminated on 1st January 2022.</li><li>We observed failed connection attempts against some users that need to be investigated.</li></ul><p align="center"><img style="width:973.017px;height:402.259px" alt="image of Kibana Discover tab" src="./TryHackMe _ Investigating with ELK 101_files/93bf216574fb435bef51b890a741e4cb.png"><br></p>
+<p></p>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Task Complete.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header collapsed" data-toggle="collapse" href="#collapse3" aria-expanded="false">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 3                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> ElasticStack Overview
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><b><span style="font-size:24px">Elastic stack</span></b></p>
+<p>Elastic stack is the collection of different open source components linked together to help users take the data from any source and in any format and perform a search, analyze and visualize the data in real-time.</p><p align="center"></p><p align="center"><img style="width:698.9px;height:242.526px" alt="Shows Elasticstack components" src="./TryHackMe _ Investigating with ELK 101_files/f858c0d22d015b663438dae207981532.png"><br></p>
+<p><span style="font-size:16px">﻿</span><span style="font-size:24px"><span style="font-size:16px">Let's explore each component briefly and see how they work together.</span><br></span><b><span style="font-size:24px"></span></b></p><p><b><span style="font-size:24px">Elasticsearch</span></b></p><p>Elasticsearch is a full-text search and analytics engine used to store JSON-formated documents. Elasticsearch is an important component used to store, analyze, perform correlation on the data, etc. Elasticsearch supports RESTFul API to interact with the data.<br></p>
+
+<p><b><span style="font-size:24px">Logstash</span></b></p><p>Logstash is a data processing engine used to take the data from different sources, apply the filter on it or normalize it, and then send it to the destination which could be Kibana or a listening port. A logstash configuration file is divided into three parts, as shown below. </p><p>The <b>input</b> part is where the user defines the source from which the data is being ingested. Logstash supports many input plugins as shown in the reference <a href="https://www.elastic.co/guide/en/logstash/8.1/input-plugins.html" target="_blank">https://www.elastic.co/guide/en/logstash/8.1/input-plugins.html</a><a href="https://www.elastic.co/guide/en/logstash/8.1/input-plugins.html" target="_blank"></a></p><p>The <b>filter</b> part is where the user specifies the filter options to normalize the log ingested above. Logstash supports many filter plugins as shown in the reference documentation <a href="https://www.elastic.co/guide/en/logstash/8.1/filter-plugins.html" target="_blank">https://www.elastic.co/guide/en/logstash/8.1/filter-plugins.html</a></p><p>The Output part is where the user wants the filtered data to send. It can be a listening port, Kibana Interface, elasticsearch database, a file, etc. Logstash supports many Output plugins as shown in the reference documentation <a href="https://www.elastic.co/guide/en/logstash/8.1/output-plugins.html" target="_blank">https://www.elastic.co/guide/en/logstash/8.1/output-plugins.html</a></p><p align="center"><img style="width:161.967px;height:251.737px" alt="Shows Logstash configuration file pattern" src="./TryHackMe _ Investigating with ELK 101_files/2fa46c77b70465c7194e7972d5e42e42.png"><br></p><p><b><span style="font-size:24px">Beats</span></b></p><p>Beats is a host-based agent known as Data-shippers that is used to ship/transfer data from the endpoints to elasticsearch. Each beat is a single-purpose agent that sends specific data to the elasticsearch. All available beats are shown below. <br></p><p align="center"><img style="width:805.967px;height:355.358px" alt="Shows beats components" src="./TryHackMe _ Investigating with ELK 101_files/0f2969b20c466e7a371a49bc809a6d5b.png"></p><p><b><span style="font-size:24px">Kibana</span></b></p><p>Kibana is a 
+web-based data visualization that works with elasticsearch to analyze, 
+investigate and visualize the data stream in real-time. It allows the 
+users to create multiple visualizations and dashboards for better 
+visibility—more on Kibana in the following tasks.</p><p><b><span style="font-size:24px">How they work together:</span></b><br></p><p><img alt="ELK components" src="./TryHackMe _ Investigating with ELK 101_files/ec4f681a412aa825b284523dcd5b8650.png" style="width:100%"><br></p><ul><li>Beats is a set of different data shipping agents used to collect data from multiple agents. Like Winlogbeat is used to collect windows event logs, Packetbeat collects network traffic flows.</li><li>Logstash collects data from beats, ports or files, etc., parses/normalizes it into field value pairs, and stores them into elasticsearch.</li><li>Elasticsearch acts as a database used to search and analyze the data.</li><li>Kibana is responsible for displaying and visualizing the data stored in elasticsearch. The data stored in elasticseach can easily be shaped into different visualizations, time charts, infographics, etc., using Kibana.</li></ul><p align="center"></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Logstash is used to visualize the data. (yay / nay)<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span>Elasticstash supports all data formats apart from <a class="nIFRMS18 glossary-term" onclick="initPopOver(&#39;JSON&#39;, &#39;nIFRMS18&#39;)">JSON</a>. (yay / nay)</span></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Kibana Overview
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-server text-lgreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a deployable machine"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><div class="btn-group mb-3 ml-3 float-right">
+            <button type="button" class="btn btn-success" value="623e2aaf2ee908004aa423a9" onclick="deploy(this)"><i class="fas fa-play mr-2"></i> Start Machine</button>
+        </div> <p>As we already covered a brief intro of Kibana. In this room, we will explore different Kibana features while investigating the VPN logs. Kibana is an integral component of Elastic stack that is used to display, visualize and search logs. Some of the important tabs we will cover here are:</p>
+<ul><li>Discover tab</li><li>Visualization</li><li>Dashboard</li></ul><p><img style="width:1076.97px;height:538.502px" alt="Kibana - Discover tab Interface" src="./TryHackMe _ Investigating with ELK 101_files/79666633db3996dd33925223bae09e46.png"><br></p>
+<p></p>
+
+<p><b><span style="font-size:24px">Room Machine</span></b></p><p>Before moving forward, Connect via VPN and deploy the machine or start AttackBox. When you deploy the machine, it will be assigned an IP <strong>Machine IP</strong>: <code>MACHINE_IP</code>.&nbsp; The machine will take up to 3-5 minutes to start, then the interface will be accessible via the IP.</p><p><b>Username: <code>Analyst</code></b></p><p><b>Password: <code>analyst123</code></b> </p>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Connect with the Lab.<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Discover Tab
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Kibana Discover tab is a place where analyst spends most of their time. This tab shows the ingested logs (also known as documents), the search bar, normalized fields, etc. Here analysts can perform the following tasks:</p>
+<ul><li>Search for the logs</li><li>Investigate anomalies</li><li>Apply filter based on
+<ul><li>search term</li><li>Time period</li></ul>
+</li></ul>
+
+<p><b><span style="font-size:24px">Discover Tab</span></b><br></p><p>Discover tab within the Kibana interface contains the logs being ingested manually or in real-time, the time-chart, normalized fields, etc. Analysts use this tab mostly to search/investigate the logs using the search bar and filter options.</p>
+<p><img style="width:1078.97px;height:494.406px" alt="Shows Discover tab with key functionalities numbered" src="./TryHackMe _ Investigating with ELK 101_files/9635453d465f7625f5dfda21966aa6a6.png"><br></p>
+<p>Some key information available in a dashboard interface are</p>
+<ol><li><b>Logs (document):</b> Each log here is also known as a single document containing information about the event. It shows the fields and values found in that document.</li><li><b>Fields pane</b>: Left panel of the interface shows the list of the fields parsed from the logs. We can click on any field to add the field to the filter or remove it from the search.</li><li><b>Index Pattern:</b> Let the user select the index pattern from the available list.</li><li><b>Search bar:</b> A place where the user adds search queries / applies filters to narrow down the results.</li><li><b>Time Filter:</b> We can narrow down results based on the time duration. This tab has many options to select from to filter/limit the logs.</li><li><b>Time Interval: </b>This chart shows the event counts over time.</li><li><b>TOP Bar: </b>This bar contains various options to save the search, open the saved searches, share or save the search, etc.</li></ol>
+<p>Each important element found in the Discover tab is briefly explained below:</p>
+<p><b><span style="font-size:24px">Time Filter</span></b><br></p>
+<p>The time filter allows us to apply a log filter based on the time. It has many options to choose from.</p><p align="center"><img style="width:630.317px;height:454.034px" alt="Shows time filter tab" src="./TryHackMe _ Investigating with ELK 101_files/3691fb78e08f98b9b825fa6eaeefcf91.png"><br></p>
+<p></p>
+<h2><span style="font-weight:normal;font-size:24px"><b><span style="font-size:24px">Quick Select</span></b><br></span></h2>
+<p>The <b>Quick Select tab</b> is another useful tab within the Kibana interface that provides multiple options to select from. The <strong>Refresh, Every</strong> option at the end will allow us to choose the time to refresh the logs continuously. If 5 seconds is set, the logs will refresh every 5 seconds automatically.</p>
+<p align="center"><img style="width:417.317px;height:492.859px" alt="Shows Quick Search tab" src="./TryHackMe _ Investigating with ELK 101_files/08c20ee43574e803cddadc2a0dcaf9f4.png"><br></p><p><b><span style="font-size:24px">Timeline</span></b></p><p>The timeline pane provides an overview of the number of events that occurred for the time/date, as shown below. We can select the bar only to show the logs in that specified period. The count at the top left displays the number of documents/events it found in the selected time.</p>
+<p><img style="width:1036.91px;height:164.833px" alt="Shows timeline" src="./TryHackMe _ Investigating with ELK 101_files/5a2096f7dac927eaeb020c2c81e15565.png"><br></p>
+<p>This bar is also helpful in identifying the spike in the logs. We got an unusual spike on 11th January 2022, which is worth investigating.</p>
+
+<p><b><span style="font-size:24px">Index Pattern</span></b><br></p><p>Kibana, by default, requires an index pattern to access the data stored/being ingested in the elasticsearch. <strong>Index pattern</strong> tells Kibana which elasticsearch data we want to explore. Each Index pattern corresponds to certain defined properties of the fields. A single index pattern can point to multiple indices.</p>
+<p>Each log source has a different log structure; therefore, when logs are ingested in the elasticsearch, they are first normalized into corresponding fields and values by creating a dedicated index pattern for the data source.</p>
+<p>In the attached lab, we will be exploring the index pattern with the name <b><code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">vpn_connections</span></code></b> that contains the VPN logs.</p><p align="center"><img alt="Shows Index Pattern tab" src="./TryHackMe _ Investigating with ELK 101_files/7a417aad777ee8afa398d98532f68478.png"><br></p>
+<p></p>
+
+<p><b><span style="font-size:24px">Left Panel - Fields</span></b></p><p>The left panel of the Kibana interface shows the list of the normalized fields it finds in the available documents/logs. Click on any field, and it will show the top 5 values and the percentage of the occurrence.</p>
+<p>We can use these values to apply filters to them. Clicking on the + button will add a filter to show the logs containing this value, and the - button will apply the filter on this value to show the results that do not have this value.</p><p align="center"><img style="width:593.967px;height:410.704px" alt="Shows left panel fields" src="./TryHackMe _ Investigating with ELK 101_files/aa7c29f3d971ce34a6f69c0dd9b1be86.png"><br></p>
+<p></p>
+
+<p><strong><span style="font-size:24px">Add Filter Option</span><br></strong></p><p><strong>Add filter</strong> option under the search bar allows us to apply a filter on the fields as shown below.</p><p><img style="width:1058.41px;height:515.583px" alt="Shows steps to add filter to the search" src="./TryHackMe _ Investigating with ELK 101_files/f8f4399d7fbfc14c0a6659da697af1db.gif"><br></p>
+<p></p><strong><span style="font-size:24px">Create Table</span></strong>
+<p>By default, the documents are shown in raw form. We can click on any document and select important fields to create a table showing only those fields. This method reduces the noise and makes it more presentable and meaningful.</p>
+<p></p><p><img style="width:1067.97px;height:549.594px" alt="Shows steps to create table by selecting fields and remove noise" src="./TryHackMe _ Investigating with ELK 101_files/ed538dabafffd64020b51f88fabce8f9.gif"><br></p>
+<p>Don't forget to save the table format once it is created. It will then show the same fields every time a user logs into the dashboard.</p><p></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Select the index <b>vpn_connections</b> and filter from 31st December 2021 to 2nd Feb 2022. How many hits are returned? 
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which IP address has the max number of connections?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***.***.***.***" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which user is responsible for max traffic?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Create a table with the fields IP, UserName, Source_Country and save.</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Apply Filter on UserName <span style="font-weight:600" class="notion-enable-hover">Emanda; </span><span class="notion-enable-hover">which</span> SourceIP has max hits?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***.**.*.***" value="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>On 11th Jan, which IP caused the spike observed in the time chart?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***.***.**.***" value="">
+                            <input type="hidden" value="6">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>How many connections were observed from IP <b>238.163.231.224</b>, excluding the <b>New York</b> state?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **" value="">
+                            <input type="hidden" value="7">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> KQL Overview
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><b>KQL (Kibana Query Language)</b> is a search query language used to search the ingested logs/documents in the elasticsearch. Apart from the KQL language, Kibana also supports <b>Lucene Query Language</b>. We can disable the KQL query as shown below.</p><p align="center"><img style="width:824.77px;height:274.2px" alt="KQL tab" src="./TryHackMe _ Investigating with ELK 101_files/3327ee49838ed3b50aa9ffca5295b271.png"><br></p>
+<p></p>
+<p>In this task, we will be exploring KQL syntax. With KQL, we can search for the logs in two different ways.</p>
+<ul><li>Free text search</li><li>Field-based search</li></ul>
+
+<p><b><span style="font-size:24px">Free text Search</span></b></p><p>Free text search allows users to search for the logs based on the <b>text-only</b>. That means a simple search of the term <code><span style="font-size:16px;font-family:&quot;Ubuntu&quot;">security</span></code> will return all the documents that contain this term, irrespective of the field. </p><p>Let us look at the index, which includes the VPN logs. One of the fields <code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">Source_Country</span></code> has the list of countries from where the VPN connections originated, as shown below.</p><p align="center"><img style="width:404.8px;height:405.885px" alt="Shows left field column values" src="./TryHackMe _ Investigating with ELK 101_files/5563237bfda366e4aee6572cf206b92c.png"><br></p>
+<p></p>
+<p>Let's search for the text <b><code><span style="font-size:16px;font-family:&quot;Ubuntu&quot;">United States</span></code></b> in the search bar to return all the logs that contain this term  regardless of the place or the field.  This search returned 2304 hits, as shown below.</p><p align="center"><img style="width:865.95px;height:335.117px" alt="Shows result for the search &#39;United States&#39;" src="./TryHackMe _ Investigating with ELK 101_files/beb9f3912904e689952027ced1475755.png"><br></p>
+<p></p>
+<p>What if we only search for the term <code>United</code> Will it return any result?</p><p align="center"><img style="width:860.233px;height:324.565px" alt="Shows result for the term &#39;United&#39;" src="./TryHackMe _ Investigating with ELK 101_files/a4cbeb5fe4b5507762c0f3a7bfaf43ca.png"><br></p>
+<p></p>
+<p>It didn't return any result because KQL looks for the whole term/word in the documents.</p>
+
+<p><b><span style="font-size:24px">WILD CARD</span></b></p><p>KQL allows the wild card <code><span style="font-family:&quot;Ubuntu&quot;">*</span></code> to match parts of the term/word. Let's find out how to use this wild card in the search query.</p>
+<p><strong>Search Query:</strong> <code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">United*</span></code></p>
+<p></p>
+<p align="center"><img style="width:949.837px;height:366.433px" alt="Shows result for the term United*" src="./TryHackMe _ Investigating with ELK 101_files/e4ce12cedbed2b6c7d5519d49a000881.png"><br></p><p>We have used the wildcard with the term <b>United</b> to return all the results containing the term United and any other term. If we had logs with the term <code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">United Nations</span></code>It would also have returned those as a result of this wildcard.</p>
+<p><strong><span style="font-size:24px">Logical Operators (AND | OR | NOT)</span></strong></p>
+<p>KQL also allows users to utilize the logical operators in the search query. Let us see the examples below.</p>
+<p><strong><span style="font-size:18px">1- OR Operator</span></strong></p>
+<p>We will use the <b>OR</b> operator to show logs that contain either the <b>United States</b> or <b>England</b>.</p>
+<p><strong>Search Query:</strong> <code><span style="font-size:16px;font-family:&quot;Ubuntu&quot;">"United States" &nbsp;&nbsp; </span><b><span style="font-family:&quot;Ubuntu&quot;">OR</span></b><span style="font-size:16px;font-family:&quot;Ubuntu&quot;">&nbsp;&nbsp;&nbsp;&nbsp; "England"</span></code></p>
+<p></p>
+<p align="center"><img style="width:1043.97px;height:437.729px" alt="Shows result for the term United States OR England" src="./TryHackMe _ Investigating with ELK 101_files/3397dcf2455056e7cab5a14a4fe28c45.png"><br><strong></strong></p><p><strong><span style="font-size:18px">2- AND Operator</span></strong></p>
+<p>Here, we will use <b>AND</b> Operator to create a search that will return the logs that contain the terms "<b>UNITED STATES</b>" AND "<b>Virginia</b>."</p>
+<p><b>Search Query: </b><code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">"United States" </span><b><span style="font-size:16px">AND</span></b><span style="font-family:&quot;Ubuntu&quot;;font-size:16px"> "Virginia"</span></code></p>
+<p></p>
+<p align="center"><img style="width:425.967px;height:423.209px" alt="Shows results for United States AND Virginia" src="./TryHackMe _ Investigating with ELK 101_files/18302e0059d525f30f5627af20f309c9.png"><br></p><p><b><span style="font-size:18px">3- NOT Operator</span></b></p>
+<p>Similarly, we can use <b>NOT</b> Operator to remove the particular term from the search results. This search query will show the logs from <b>the United States</b>, including all states but ignoring Florida.<br></p>
+<p><strong>Search Query:</strong> <code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">"United States" </span><b><span style="font-size:16px">AND NOT</span></b><span style="font-family:&quot;Ubuntu&quot;;font-size:16px"> ("Florida")</span></code></p>
+<p></p>
+<h1><img style="width:890.967px;height:341.873px" alt="Shows result for United States AND NOT Florida" src="./TryHackMe _ Investigating with ELK 101_files/12ba759b11ceebb78375a61097e826b3.png"><br></h1>
+<p><b><span style="font-size:24px">Field-based search</span></b></p><p>In the Field-based search, we will provide the field name and the value we are looking for in the logs. This search has a special syntax as <code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">FIELD    :    VALUE</span></code><b></b>. It uses a colon <code><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">:</span></code> as a separator between the field and the value. Let's look at a few examples.</p>
+<p><strong>Search Query:</strong> <code><b><span style="font-family:&quot;Ubuntu&quot;;font-size:16px">Source_ip</span></b><span style="font-family:&quot;Ubuntu&quot;;font-size:16px"> : 238.163.231.224&nbsp;&nbsp;&nbsp; </span><b><span style="font-size:16px;font-family:&quot;Ubuntu&quot;">AND</span><span style="font-family:&quot;Ubuntu&quot;;font-size:16px"><span style="font-family:&quot;Ubuntu&quot;"> </span>&nbsp; &nbsp; </span></b><span style="font-size:16px;font-family:&quot;Ubuntu&quot;">UserName</span><span style="font-family:&quot;Ubuntu&quot;;font-size:16px"><b> </b>: Suleman</span></code></p>
+<p><strong>Explanation:</strong> We are telling Kibana to display all the documents in which the <strong>field</strong> <code>Source_ip</code> contains the value <strong><code>19.112.190.54</code></strong> and <code>UserName</code> as <code>Suleman</code> as shown below.</p><p align="center"><img style="width:1063.97px;height:509.346px" alt="Shows result for Source_ip : 238.163.231.224    AND     UserName : Suleman" src="./TryHackMe _ Investigating with ELK 101_files/ffbf735277d98273d6229f4d9ee586bf.gif"><br></p>
+<p></p>
+<p>As we click on the search bar, we will be presented with all the available fields that we can use in our search query. To explore the other options of KQL, look at this official reference <a href="https://www.elastic.co/guide/en/kibana/7.17/kuery-query.html">https://www.elastic.co/guide/en/kibana/7.17/kuery-query.html</a></p><p></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <span style="font-size:16px">Create a search query to filter out the logs from Source_Country as the <b>United States</b> and show logs from User James or Albert. How many records were returned?</span><span style="font-size:18px"><br></span>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>As User <b>Johny Brown</b> was terminated on 1st January 2022, create a search query to determine how many times a VPN connection was observed after his termination.<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-7">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse7">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 7                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Creating Visualizations
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>The visualization tab allows us to visualize the data in different forms like Table, Pie charts, Bar charts, etc. This visualization task will use multiple options this tab provides to create some simple presentable visualizations.</p>
+
+<p><b><span style="font-size:24px">Create Visualization</span></b><br></p><p>There are a few ways to navigate to the visualization tab. One way is to click on any field in the discover tab and click on the visualization as shown below.</p><p><img style="width:1069.97px;height:583.064px" alt="Shows Visualization tab overview" src="./TryHackMe _ Investigating with ELK 101_files/334ed7c0a1e727de35844174434fd4fc.gif"><br></p>
+<p></p>
+<p>We can create multiple visualizations by selecting options like tables, pie charts, etc.</p>
+
+<p><b><span style="font-size:24px">Correlation Option</span></b><br></p><p>Often, we require creating correlations between multiple fields. Dragging the required field in the middle will create a correlation tab in the visualization tab. Here we selected the Source_Country as the second field to show a correlation among the client Source_IP.</p>
+<p align="center"><img style="width:658.967px;height:437.123px" alt="Pie-chart for TOP 5 Source_Country" src="./TryHackMe _ Investigating with ELK 101_files/e5f27f38815a495499935f5a373728a6.png"><br></p>
+<p>We can also create a table to show the values of the selected fields as columns, as shown below.</p>
+<p align="center"><img style="width:730.967px;height:484.899px" alt="Table with IPs VS country Count" src="./TryHackMe _ Investigating with ELK 101_files/819d71befcd64675b9450ee16d0b3d59.png"><br></p>
+<p>The most important step in creating these visualizations is to save them. Click on the <strong>save Option</strong> on the right side and fill in the descriptive values below. We can add these visualizations to the already existing dashboard, or we can create a new one as well.</p><p align="center"><img style="width:640.6px;height:423.203px" alt="Button to save Visualization" src="./TryHackMe _ Investigating with ELK 101_files/432f67edc84fff2cb9e6fc7bb6243b1b.png"><br></p>
+<p align="center"><br></p>
+<p>Steps to take after creating Visualizations:</p>
+<ul><li>Create a visualization and Click on the Save button at the top right corner.</li><li>Add the title and description to the visualization.</li><li>We can add the visualization to any existing Dashboard or a new dashboard.</li><li>Click <strong>Save and add to the library</strong> when it's done.</li></ul>
+<p><strong><span style="font-size:24px">Failed Connection Attempts</span></strong></p>
+<p>We will utilize the knowledge gained above to create a table to display the user and the IP address involved in failed attempts.</p>
+<p><img style="width:1018.97px;height:514.28px" alt="How to create visualization for failed Attempts" src="./TryHackMe _ Investigating with ELK 101_files/93e9aebb89efb58df9ab5a52eeb0177c.gif"></p><p></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Which user was observed with the greatest number of failed attempts?
+
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>How many wrong VPN connection attempts were observed in January?
+</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-8">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse8">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 8                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Creating Dashboards
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Dashboards provide good visibility on the logs collection. A user can create multiple dashboards to fulfil a specific need.</p>
+<p>In this task, we can combine different saved searches and visualizations to create a custom dashboard for VPN logs visibility.</p>
+
+<p><b><span style="font-size:24px">Creating Custom Dashboard</span></b><br></p><p>By now, we have saved a few searches from the Discover tab and created some visualizations, and saved them. It's time to explore the dashboard tab and create a custom dashboard. The steps to create a dashboard are:</p>
+<ul><li>Go to the Dashboard tab and click on the <b>Create dashboard.</b></li></ul><p align="center"><img style="width:586.317px;height:394.523px" alt="Image with a button to create Dashboard" src="./TryHackMe _ Investigating with ELK 101_files/2b8beb35c48052335e21479f096e2cf2.png"><br></p>
+
+<ul><li>Click on <b>Add from Library.</b></li><li>Click on the visualizations and saved searches. It will be added to the dashboard.</li><li>Once the items are added, adjust them accordingly, as shown below.</li><li>Don't forget to save the dashboard after completing it.</li></ul>
+<p></p><p><img style="width:1052.97px;height:568.842px" alt="steps to show how to add objects to the dashboard" src="./TryHackMe _ Investigating with ELK 101_files/05016a6cc1c12d40b90ce9d290525378.gif"><br></p>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Create the dashboard containing the available visualizations.<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-9">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse9">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 9                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Conclusion
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse9" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>In this room, we briefly explored ELK components and then focused more on the Kibana interface and its features. While exploring Kibana Interface, we learned:</p><ul><li>How to create a search query to search for the logs</li><li>Apply filters to narrow down the results.</li><li>Create Visualizations and dashboards.</li><li>How to investigate VPN logs.</li></ul></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Complete
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Investigating with ELK 101_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Investigating with ELK 101_files/115efc44f6c0948da02bb8378f447637.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/Dex01">Dex01</a></p><p class="mb-0">Only subscribers can deploy virtual machines in this room! 
+        Go to your <a href="https://tryhackme.com/profile">profile</a> page to subscribe (if you have not already). 8345 users are in here and this room is 256 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Investigating with ELK 101_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Investigating with ELK 101_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="eZJwq6ml-fU6ZvBbU5KtFJtYeC9_GWiflLF4">
+<input type="hidden" name="roomCode" value="investigatingwithelk101">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Investigating with ELK 101_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Investigating with ELK 101_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Investigating with ELK 101_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/investigatingwithelk101#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/investigatingwithelk101#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Investigating with ELK 101_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" href="https://tryhackme.com/forum/thread/6363d770edef468a1f2b7a1e">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Investigating with ELK 101_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22">You are <span class="text-danger">disconnected</span></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/investigatingwithelk101#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/investigatingwithelk101#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/investigatingwithelk101#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/investigatingwithelk101#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/investigatingwithelk101#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Investigating with ELK 101_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Investigating with ELK 101_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Investigating with ELK 101_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Investigating with ELK 101_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Investigating with ELK 101_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Investigating with ELK 101_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/investigatingwithelk101#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/investigatingwithelk101#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()" style="display: none;">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div>
+<script src="./TryHackMe _ Investigating with ELK 101_files/notify.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/api-requests.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/events.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Investigating with ELK 101_files/chart.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/expire.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/sockets.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/certificate.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/utils.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/confetti.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/videos.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/intro.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/prism.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/logic.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/tasks.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/connection-status.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/glossary.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Investigating with ELK 101_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "eZJwq6ml-fU6ZvBbU5KtFJtYeC9_GWiflLF4"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "investigatingwithelk101"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: true,
+      path: "soclevel1",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : false
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="A6D02F9B-B974-0377-E875-572CFC405CBC"></div><iframe id="_hjSafeContext_60193735" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Investigating with ELK 101_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./TryHackMe _ Investigating with ELK 101_files/saved_resource(1).html"></iframe><div class="intercom-lightweight-app"><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><img src="./TryHackMe _ Investigating with ELK 101_files/9e0f012f15b6fc981dde2f1f5198d728.png" alt="" class="intercom-lightweight-app-launcher-custom-icon-open"></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="white"></path>
+</svg>
+</div></div><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1C2538;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+    
+        width: 400px;
+        height: calc(100% - 104px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 84px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: #1c2538
+
+    
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+    
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>

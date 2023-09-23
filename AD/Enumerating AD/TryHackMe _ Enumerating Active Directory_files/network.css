@@ -1,0 +1,57 @@
+/*
+  Style for network display on UI
+*/
+
+#network-box {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  background-color: #232323;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: none;
+}
+
+#network-display {
+  height: 100%;
+}
+
+.vis-network {
+  /* padding-bottom: 3px; */
+  position: relative;
+  padding-top: -5px;
+}
+
+.vis-network:focus {
+  outline: none;
+}
+
+#network-state {
+  position: absolute;
+  z-index: 1;
+  color: white;
+  right: 0;
+  margin: 10px 15px;
+  font-size: 16px;
+}
+
+#network-uptime {
+  font-weight: 500;
+}
+
+#network-controls {
+  display: none;
+  background: #e8e8e8;
+  /* color: white; */
+  border: 1px solid #cecccc;
+  padding: 8px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* Changes to the room */
+
+.room-avatar {
+  height: 100px;
+  width: 100px;
+}

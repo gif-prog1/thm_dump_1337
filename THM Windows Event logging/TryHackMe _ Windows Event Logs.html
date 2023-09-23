@@ -1,0 +1,3809 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://tryhackme.com/room/windowseventlogs -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Windows Event Logs</title>
+<meta name="description" content="Introduction to Windows Event Logs and the tools to query them.">
+<meta name="og:description" content="Introduction to Windows Event Logs and the tools to query them.">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Windows Event Logs">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/0484889fb85cacdd041f9e47ab13f113.png">
+<meta property="og:url" content="https://tryhackme.com/room/windowseventlogs">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Introduction to Windows Event Logs and the tools to query them.">
+
+<script type="text/javascript" async="" src="./TryHackMe _ Windows Event Logs_files/pgpbhph6"></script><script src="./TryHackMe _ Windows Event Logs_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Windows Event Logs_files/boostrap431.min.css">
+<script src="./TryHackMe _ Windows Event Logs_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Windows Event Logs_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Windows Event Logs_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Windows Event Logs_files/general-style.css">
+<script src="./TryHackMe _ Windows Event Logs_files/script.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Windows Event Logs_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Windows Event Logs_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Windows Event Logs_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Windows Event Logs_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Windows Event Logs_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><script async="" src="./TryHackMe _ Windows Event Logs_files/modules.5957fbf26d1b525b5a12.js" charset="utf-8"></script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style><style></style></head>
+
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-classic cc-bottom cc-right cc-color-override-382972913 cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We use cookies to ensure you get the best user experience. For more information contact us. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://tryhackme.com/legal/terms-of-use" target="_blank">Read more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<link href="./TryHackMe _ Windows Event Logs_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Event Logs_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Event Logs_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Event Logs_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Windows Event Logs_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Windows Event Logs_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Windows Event Logs_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Windows Event Logs_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Windows Event Logs_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/windowseventlogs#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/windowseventlogs#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-disconnected" style="display: flex;">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white">Access Machines</span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 18:47:44 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/windowseventlogs#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/windowseventlogs#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Windows Event Logs_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Windows Event Logs_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Windows Event Logs_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Windows Event Logs_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Windows Event Logs_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/windowseventlogs#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Windows Event Logs_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Windows Event Logs_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Windows Event Logs_files/notifications.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Windows Event Logs_files/Endpoint Security Monitoring banner-01.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">563</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Windows Event Logs_files/0484889fb85cacdd041f9e47ab13f113.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Windows Event Logs</h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: inline-flex;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/windowseventlogs#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/windowseventlogs#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/windowseventlogs" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Windows Event Logs_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Introduction to Windows Event Logs and the tools to query them.</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/windowseventlogs#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowseventlogs#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowseventlogs#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowseventlogs#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowseventlogs#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-medium">Medium</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Search our <a href="https://tryhackme.com/forum">forum</a> for pre-existing threads about this room, or create your own!</div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data"> <a target="_blank" rel="noopener nofollow" href="https://www.youtube.com/watch?v=KA9WccJEe14">TryHackMe Windows Event Logs</a>
+                by <img class="user-avatar-writeup" src="./TryHackMe _ Windows Event Logs_files/80c07a406e8d271d3dda307efff1ba28.png"> 
+              <a class="nocss" href="https://tryhackme.com/p/motasemhamdan">motasemhamdan</a><br></div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+</div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">Only subscribers can deploy virtual machines in this room! 
+        Go to your <a href="https://tryhackme.com/profile">profile</a> page to subscribe (if you have not already). 26086 users are in here and this room is 925 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Windows Event Logs_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Windows Event Logs_files/380e8e46c73516efb1f435f06bc3c615.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/SecurityNomad">SecurityNomad</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-secondary" role="progressbar" style="width: 5%; aria-valuemin=" 0"="" aria-valuemax="100"> 0%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse1">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 1                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> What are event logs?
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-server text-lgreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a deployable machine"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><div class="btn-group mb-3 ml-3 float-right">
+            <button type="button" class="btn btn-success" value="6345b666cde385005411c15c" onclick="deploy(this)"><i class="fas fa-play mr-2"></i> Start Machine</button>
+        </div> <p style="text-align:justify">Per Wikipedia, "<i><strong>Event logs</strong> record events taking place in the execution of a system to provide an audit trail that can be used to understand the activity of the system and to diagnose problems. They are essential to understand the activities of complex systems, particularly in applications with little user interaction (such as server applications).</i>"</p>
+<p style="text-align:justify">This definition would apply to system administrators, IT technicians, desktop engineers, etc. If the endpoint is experiencing an issue, the event logs can be queried to see clues about what led to the problem. The operating system, by default, writes messages to these logs.</p>
+<p style="text-align:justify">As defenders (blue teamers), there is another use case for event logs. "Combining log file entries from multiple sources can also be useful<em>. This approach, in combination with statistical analysis, may yield correlations between seemingly unrelated events on different servers.</em>"</p>
+<p style="text-align:justify">This is where SIEMs (<span class="colour" style="color:rgba(0, 0, 0, 0.87)"><strong>Security information and event management</strong></span>) such as Splunk and Elastic come into play. </p>
+
+<p style="text-align:justify">If you don't know exactly what a SEIM is used for, below is a visual overview of its capabilities.</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/c5cd275e2515b64a8e999bf7f0456466.png" alt="The image is showing the capabilities provided by a SIEM such as threat detection, investigation and time to respond"></p>
+
+<p style="text-align:justify"><span>Even though accessing a remote machine's event logs is possible, this will not be feasible in a large enterprise environment. Instead, one can view the logs from all the endpoints, appliances, etc., in a <a class="0V6gwK5z glossary-term" onclick="initPopOver(&#39;SIEM&#39;, &#39;0V6gwK5z&#39;)">SIEM</a>. This will allow you to query the logs from multiple devices instead of manually connecting to a single device to view its logs.</span></p>
+<p style="text-align:justify"><span>Windows is not the only operating system that uses a logging system. <a class="IH0weL4Z glossary-term" onclick="initPopOver(&#39;Linux&#39;, &#39;IH0weL4Z&#39;)">Linux</a> and macOS do as well. For example, the logging system&nbsp;</span><span style="font-size:1rem"><span>on <a class="GsRhJl6s glossary-term" onclick="initPopOver(&#39;Linux&#39;, &#39;GsRhJl6s&#39;)">Linux</a> systems</span></span><span style="font-size:1rem">&nbsp;is known as </span><strong>Syslog</strong><span style="font-size:1rem">. In this room, though, we're only focusing on the Windows logging system, Windows Event Logs.</span></p><div><p><span style="font-size:24px"><b>Room Machine</b></span></p><p><span style="font-size:1rem">Before moving forward, please deploy the machine.&nbsp;</span></p><p><span style="font-size:1rem">You can use the&nbsp;</span><span style="font-size:1rem;font-weight:bolder">AttackBox</span><span style="font-size:1rem">&nbsp;and&nbsp;</span><span style="font-size:1rem;font-weight:bolder">Remmina</span><span style="font-size:1rem">&nbsp;to connect to the remote machine. Make sure the remote machine is deployed before proceeding.</span></p><p>Click on the plus icon, as shown below.</p><p style="text-align:center"><img src="./TryHackMe _ Windows Event Logs_files/remmina5.png" alt="RDP connection."></p>
+
+<p>For&nbsp;the<span style="font-weight:bolder"> Server,</span>&nbsp;provide (<code style="font-size:14px">MACHINE_IP</code>) as the IP address provided to you for the remote machine. The credentials for the user account are:</p><ul><li>User name:&nbsp;<code style="font-size:14px">administrator</code></li><li>User password:&nbsp;<code style="font-size:14px">blueT3aming!</code></li></ul><p></p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Windows Event Logs_files/remmina.png" style="width:604px" alt="RDP Connection details."><br></p><p>Accept the Certificate when prompted, and you should be logged into the remote system now.</p><p style="margin-bottom:1rem"><span style="font-weight:bolder">Note</span>: The virtual machine may take up to 3 minutes to load.</p></div>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Let's begin...</p>
+
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse2">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 2                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Event Viewer
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <div><p style="text-align:justify"><span style="font-size:1rem"><span>The Windows Event Logs are not text files that can be viewed using a text editor. However, the raw data can be translated into <a class="Hrj62EKX glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;Hrj62EKX&#39;)">XML</a> using the Windows API. The events in these log files are stored in a proprietary binary format with a .evt or .evtx extension. The log files with the .evtx file extension typically reside in </span></span><code>C:\Windows\System32\winevt\Logs</code><span style="font-size:1rem">.</span><br></p></div><div><br></div>
+
+<div>
+
+<h2>Elements of a Windows Event Log</h2></div>
+
+<div style="text-align:justify">Event logs are crucial for troubleshooting any computer incident and help understand the situation and how to remediate the incident. To get this picture well, you must first understand the format in which the information will be presented. Windows offers a standardized means of relaying this system information.</div><div><br></div><div>First, we need to know what elements form event logs in Windows systems. These elements are:</div><ul><li><span style="font-size:1rem"><b>System Logs:</b>&nbsp;Records events associated with the Operating System segments. They may include information about hardware changes, device drivers, system changes, and other activities related to the device.</span></li><li><span style="font-size:1rem"><b>Security Logs:</b>&nbsp;Records events connected to logon and logoff activities on a device. The system's audit policy specifies the events. The logs are an excellent source for analysts to investigate attempted or successful unauthorized activity.</span></li><li><span style="font-size:1rem"><b>Application Logs</b>:&nbsp;Records events related to applications installed on a system. The main pieces of information include application errors, events, and warnings.</span></li><li><span style="font-size:1rem"><b>Directory Service Events:</b> Active Directory changes and activities are recorded in these logs, mainly on domain controllers.</span></li><li><span style="font-size:1rem"><b>File Replication Service Events: </b>Records events associated with Windows Servers during&nbsp;</span>the sharing of Group Policies and logon scripts to domain controllers, from where they may be accessed by the users through the client servers.</li><li><span style="font-size:1rem"><b><span><a class="5394g8vf glossary-term" onclick="initPopOver(&#39;DNS&#39;, &#39;5394g8vf&#39;)">DNS</a> Event Logs:</span></b>&nbsp;DNS servers use these logs to record domain events and to map out</span></li><li><span style="font-size:1rem"><b>Custom Logs: </b>Events are logged by applications that require custom data storage. This allows applications to control the log size or attach other parameters, such as ACLs, for security purposes.</span></li></ul><div style="text-align:justify">Under this categorization, event logs can be further classified into types. Here, types describe the activity that resulted in the event being logged. There are 5 types of events that can be logged, as described in the table below&nbsp;<span style="font-size:1rem">from</span><span style="font-size:1rem">&nbsp;</span><a href="https://docs.microsoft.com/en-us/windows/win32/eventlog/event-types">docs.microsoft.com</a>.</div>
+<div><br></div>
+
+<img src="./TryHackMe _ Windows Event Logs_files/five-event-types.png" alt="Windows Event Log Types sourced from Microsoft Documents">&nbsp;<div><br></div><div style="text-align:justify">There are three main ways of accessing these event logs within a Windows system:</div><ol><li style="text-align:justify"><b>Event Viewer</b> (GUI-based application)</li><li style="text-align:justify"><b>Wevtutil.exe</b> (command-line tool)</li><li style="text-align:justify"><b>Get-WinEvent</b><span> (<a class="w4YXB8wk glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;w4YXB8wk&#39;)">PowerShell</a> cmdlet)</span></li></ol>
+
+<h2>Event Viewer</h2>
+
+<p style="text-align:justify">In any Windows system, the Event Viewer, a <b>Microsoft Management Console (MMC)</b>&nbsp;snap-in, can be launched by simply right-clicking the Windows icon in the taskbar and selecting <b>Event Viewer</b>.&nbsp;<span style="font-size:1rem">For the savvy sysadmins that use the CLI much of their day, Event Viewer can be launched by typing </span><code>eventvwr.msc</code><span style="font-size:1rem">. It is a GUI-based application that allows you to interact quickly with and analyze logs.</span></p><div style="text-align:justify">Event Viewer has three panes.</div><ol><li style="text-align:justify">The pane on the left provides a hierarchical tree listing of the event log providers.</li><li style="text-align:justify">The pane in the middle will display a general overview and summary of the events specific to a selected provider.</li><li style="text-align:justify">The pane on the right is the actions pane.</li></ol>
+<img src="./TryHackMe _ Windows Event Logs_files/e2ceaa065e80a6763b7a861dbd4142fb.gif" alt="Windows Event Viewer Pane highlighting the different sections." style="width:100%">
+<div><br></div><div style="text-align:left">The standard logs we had earlier defined on the left pane are visible under <b>Windows Logs</b>.&nbsp;</div><div></div><div style="text-align:left"><br></div><div style="text-align:left">The following section is the&nbsp;<b style="font-size:1rem">Applications and Services Logs</b><span style="font-size:1rem">. Expand this section and drill down on </span><code><span>Microsoft &gt; Windows &gt; <a class="ivEAAoHC glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;ivEAAoHC&#39;)">PowerShell</a> &gt; Operational.</span></code>
+
+<span style="font-size:1rem"><span><a class="e1DCCWnU glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;e1DCCWnU&#39;)">PowerShell</a> will log operations from the engine, providers, and cmdlets to the Windows event log.&nbsp;</span></span></div><div><br></div><div>Right-click on <b>Operational</b> then <b>Properties</b>.</div><div><br></div><div><img src="./TryHackMe _ Windows Event Logs_files/operational-properties.png" alt="Windows Powershell Operational log properties."></div><div><br></div><div style="text-align:justify">Within <b>Properties,</b> you see the log location, log size, and when it was created, modified, and last accessed. Within the Properties window, you can also see the maximum set log size and what action to take once the criteria are met. This concept is known as log rotation. These are discussions held with corporations of various sizes. How long does it take to keep logs, and when it's permissible to overwrite them with new data.</div><div><br></div>
+
+<div style="text-align:justify">Lastly, notice the <b>Clear Log</b> button at the bottom right. There are legitimate reasons to use this button, such as during security maintenance, but adversaries will likely attempt to clear the logs to go undetected.&nbsp;<b>Note</b>: This is not the only method to remove the event logs for any given event provider.</div><div><br></div><div style="text-align:justify">Focus your attention on the middle pane. Remember from previous descriptions that this pane will display the events specific to a selected provider. In this case,&nbsp;<b>PowerShell/Operational</b>.</div><div><br></div><div><img src="./TryHackMe _ Windows Event Logs_files/posh-operational-1b.png" alt="PowerShell Operational log details displayed associated with EventID 4103."></div>
+
+<div><br></div>
+
+<div style="text-align:justify">From the above image, notice the event provider's name and the number of events logged. In this case, there are 44 events logged. You might see a different number. No worries, though.&nbsp;<span style="font-size:1rem">Each column of the pane presents a particular type of information as described below:</span></div><ul><li style="text-align:justify"><b>Level:</b>&nbsp;Highlights the log recorded type based on the identified event types specified earlier. In this case, the log is labe<span style="font-size:1rem">led as </span><b style="font-size:1rem">Information</b><span style="font-size:1rem">.</span></li><li style="text-align:justify"><b>Date and Time: </b>Highlights the time at which the event was logged.</li><li style="text-align:justify"><b>Source:</b><span>&nbsp;The name of the software that logs the event is identified. From the above image, the source is <a class="12rBS782 glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;12rBS782&#39;)">PowerShell</a>.</span></li><li style="text-align:justify"><b>Event ID: </b>This is a predefined numerical value that maps to a specific operation or event based on the log source. This makes Event IDs not unique, so <code>Event ID 4103</code> in the above image is related to Executing Pipeline but will have an entirely different meaning in another event log.</li><li style="text-align:justify"><b>Task Category:</b>&nbsp;Highlights the Event Category. This entry will help you organize events so the Event Viewer can filter them. The event source defines this column.</li></ul><div style="text-align:justify">The middle pane has a split view. More information is displayed in the bottom half of the middle pane for any event you click on.</div><div style="text-align:justify"><br></div><div style="text-align:justify">This section has two tabs: <b>General</b> and <b>Details</b>.</div><ul><li style="text-align:justify">General is the default view, and the rendered data is displayed.</li><li style="text-align:justify"><span>The Details view has two options: Friendly view and <a class="pMfGxRsa glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;pMfGxRsa&#39;)">XML</a> view.</span></li></ul><div>Below is a snippet of the General view.</div><div><br></div><div><img src="./TryHackMe _ Windows Event Logs_files/posh-operational-2.png" alt="PowerShell Event 4103 general log details 1">&nbsp; &nbsp;<img src="./TryHackMe _ Windows Event Logs_files/posh-operational-3.png" alt="PowerShell Event 4103 general log details 2" style="font-size:1rem;caret-color:rgb(0, 0, 0);color:rgb(0, 0, 0)"></div>
+
+<div><br></div>
+
+<div style="text-align:justify">Lastly, take a look at the <b>Actions</b> pane. Several options are available, but we'll only focus on a few. Please examine all the actions that can be performed at your leisure if you're unfamiliar with MMC snap-ins.</div><div><br></div><div style="text-align:justify">As you should have noticed, you can open a saved log within the Actions pane. This is useful if the remote machine can't be accessed. The logs can be provided to the analyst. You will perform this action a little later.&nbsp;</div>
+
+<div style="text-align:justify"><br></div>
+
+<div style="text-align:justify">The <b>Create Custom View</b> and <b>Filter Current Log</b> are nearly identical. The only difference between the 2 is that the <code>By log</code> and <code>By source</code> radio buttons are greyed out in <b>Filter Current Log</b>. What is the reason for that? The filter you can make with this specific action only relates to the current log. Hence no reason for 'by log' or 'by source' to be enabled.</div>
+
+<div><br></div>
+
+<div><img src="./TryHackMe _ Windows Event Logs_files/a06823a8acefe78317235bf66d02152d.gif" alt="Windows Event Viewer pane showing the &#39;Create Custom View&#39; and &#39;Filter Current Log&#39; windows, with a highlight on the described difference." style="width:100%"><br></div>
+
+<div><br></div>
+
+<div style="text-align:justify">Why are these actions beneficial? Say, for instance, you don't want all the events associated with PowerShell/Operational cluttering all the real estate in the pane. Maybe you're only interested in 4104 events. That is possible with these two actions.&nbsp;</div><div><br></div><div>To view event logs from another computer, right-click <code>Event Viewer (Local) &gt; Connect to Another Computer...</code></div>
+
+<div><br></div>
+
+<div><img src="./TryHackMe _ Windows Event Logs_files/remote-computer.png" alt="Menu option on how to connect to another computer to view its logs." style="width:351px"></div>
+
+<div><br></div><div style="text-align:justify">That will conclude the general overview of the Event Viewer—time to become familiar with the tool.</div><div style="text-align:justify"><br></div><div style="text-align:justify"><b>Note: </b>Don't forget to deploy the machine for this room before proceeding. Give the room about 3 minutes to load fully.</div>
+</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>For the questions below, u<span style="font-size:1rem">se Event Viewer to analyze&nbsp;<b>Microsoft-Windows-PowerShell/Operational</b>&nbsp;log.</span><br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the Event ID for the first recorded event?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span>Filter on Event ID 4104. What was the 2nd command executed in the <a class="QyunZmmz glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;QyunZmmz&#39;)">PowerShell</a> session?</span><br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the Task Category for Event ID 4104?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******* * ****** *******" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span style="font-size:1rem">Analyze the&nbsp;</span><span style="font-size:1rem"><span>Windows <a class="TOmwTVaE glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;TOmwTVaE&#39;)">PowerShell</a></span></span><span style="font-size:1rem">&nbsp;log.&nbsp;</span>What is the&nbsp;<b>Task Category</b>&nbsp;for Event ID 800?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******** ********* *******" value="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse3">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 3                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> wevtutil.exe
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span>Ok, you played around with Event Viewer. Imagine you have to sit there and manually sift through hundreds or even thousands of events (even after filtering the log). Not fun. It would be nice if you could write scripts to do this work for you. We will explore some tools that will allow you to query event logs via the command line and/or <a class="gB4bslHz glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;gB4bslHz&#39;)">PowerShell</a>.</span></p>
+
+<p><span style="font-size:1rem">Let's look at </span><b style="font-size:1rem">wevtutil.exe</b><span style="font-size:1rem"> first</span><span style="font-size:1rem">. Per Microsoft, the wevtutil.exe tool "enables you to retrieve information about event logs and publishers. You can also use this command to install and uninstall event manifests, to run queries, and to export, archive, and clear logs."</span></p>
+<p><span style="font-size:1rem">As with any tool, access its help files to find out how to run the tool. </span>An example of a command to do this is<span style="font-size:1rem">&nbsp;</span><code>wevtutil.exe /?</code><span style="font-size:1rem">.&nbsp;</span><br></p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - wevtutil.exe
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">PS&gt; C:\Users\Administrator&gt; wevtutil.exe /?
+Windows Events Commandline Utility.
+Enables you to retrieve information about event logs and publishers, install and uninstall event manifests, run queries, and export, archive and clear logs.
+
+Usage:
+
+You can use either the short (for example, ep /uni) or long (for example, enum-publishers /unicode) version of the command and option names. Commands, options and option values are not case-sensitive.
+
+Variables are noted in all upper-case.
+
+wevtutil COMMAND [ARGUMENT [ARGUMENT] ...] [/OPTION:VALUE [/OPTION:VALUE] ...]
+
+Commands:
+
+el  | enum-logs              List log names.
+gl  | get-log                Get log configuration information.
+sl  | set-log                Modify configuration of a log.
+ep  | enum-publishers        List event publishers.
+gp  | get-publisher          Get publisher configuration information.
+im  | install-manifest       Install event publishers and logs from manifest.
+um  | uninstall-manifest     Uninstall event publishers and logs from manifest.
+qe  | query-events           Query events from a log or log file.
+gli | get-log-info           Get log status information.
+epl | export-log             Export a log.
+al  | archive-log            Archive an exported log.
+cl  | clear-log              Clear a log.</code>
+</pre>
+</div>
+</div>
+
+<p>From the above screenshot, under <b>Usage</b>, you are provided a brief example of how to use the tool.&nbsp;<span style="font-size:1rem">In this example,&nbsp;</span><code>ep</code><span style="font-size:1rem">&nbsp;(</span><b style="font-size:1rem">enum-publishers</b><span style="font-size:1rem">) is used. This is a&nbsp;</span><b style="font-size:1rem">command</b><span style="font-size:1rem">&nbsp;for wevtutil.exe.</span></p><p></p>
+<p>Below, we can find the <b>Common options</b> that can be used with Windows Events Utility.&nbsp;</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - wevtutil.exe
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">Common Options:
+
+/{r | remote}:VALUE
+If specified, run the command on a remote computer. VALUE is the remote computer name. Options /im and /um do not support remote operations.
+
+/{u |username}:VALUE
+Specify a different user to log on to the remote computer. VALUE is a user name in the form of domain\user or user. Only applicable when option /r is specified.
+
+/{p | password}:VALUE
+Password for the specified user. If not specified, or if VALUE is "*", the user will be prompted to enter a password. Only applicable when the /u option is specified.
+
+/{a | authentication}:[Default|Negotiate|Kerberos|NTLM]
+Authentication type for connecting to remote computer. The default is Negotiate.
+
+/uni | unicode}:[true|false]
+Display output in Unicode. If true, then output is in Unicode.
+
+To learn more about a specific command, type the following:
+
+wevtutil COMMAND /?</code>
+</pre>
+</div>
+</div>
+
+<p>Notice at the bottom of the above snapshot, <code>wevtutil COMMAND /?</code>. This will provide additional information specific to a command.&nbsp;<span style="font-size:1rem">We can use it to get more information on the command </span><code>qe</code><span style="font-size:1rem"> (</span><b style="font-size:1rem">query-events</b><span style="font-size:1rem">).&nbsp;</span></p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - wevtutil.exe
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">PS&gt; C:\Users\Administrator&gt; wevtutil qe /?
+Read events from an event log, log file or using a structured query.
+
+Usage:
+
+wevtutil {qe | query-events}  [/OPTION:VALUE [/OPTION:VALUE]...]</code>
+</pre>
+</div>
+</div>
+
+<p>Look over the information within the help menu to fully understand how to use this command.</p>
+<p>Ok, great! You have enough information to use this tool—time to answer some questions. It is always recommended to look into the tool and its related information at your own leisure.&nbsp;</p><p><b>Note</b>: You can get more information about using this tool further but visiting the online help documentation&nbsp;<a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil" target="_blank">docs.microsoft.com</a>.&nbsp;</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>How many log names are in the machine?&nbsp;</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What event files would be read when using the&nbsp;<b>query-events</b>&nbsp;command?<br></p>
+
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***** ***, *** ****, ********** *****" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What option would you use to provide a path to a log file?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: /**:****" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the <b>VALUE</b>&nbsp;for <b>/q</b>?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***** *****" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>The questions below are based on this command: <b>wevtutil qe Application /c:3 /rd:true /f:text</b></p><div></div>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span style="font-size:1rem">What is the log name?</span><br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***********" value="">
+                            <input type="hidden" value="6">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the <b>/rd</b> option for?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***** **** *********" value="">
+                            <input type="hidden" value="7">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the <b>/c</b>&nbsp;option for?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******* ****** ** ****** ** ****" value="">
+                            <input type="hidden" value="8">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Get-WinEvent
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <h2>Get-WinEvent</h2>
+
+<p style="text-align:justify"><span>On to the next tool. This is a <a class="BH0gAW7Z glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;BH0gAW7Z&#39;)">PowerShell</a> cmdlet called </span><b>Get-WinEvent</b><span>. Per Microsoft, the Get-WinEvent cmdlet "gets events from event logs and event tracing log files on local and remote computers." It provides information on event logs and event log providers. Additionally, you can combine numerous events from multiple sources into a single command and filter using XPath queries, structured <a class="LWgS3PHy glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;LWgS3PHy&#39;)">XML</a> queries, and hash table queries.</span></p><p><b>Note</b>: The <b>Get-WinEvent</b> cmdlet replaces the <b>Get-EventLog</b> cmdlet.&nbsp;</p><p>As with any new tool, it's good practice to read the Get-Help documentation to become acquainted with its capabilities. Please refer to the Get-Help information online at&nbsp;<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-winevent?view=powershell-5.1" target="_blank">docs.microsoft.com</a>.&nbsp;</p>
+
+<p>Let us look at a couple of examples of how to use Get-WinEvent, as supported by the documentation. Some tasks might require some PowerShell-fu, while others don't. Even if your PowerShell-fu is not up to par, fret not; each example has a detailed explanation of the commands/cmdlets used.&nbsp;</p>
+
+<h3>Example 1: Get all logs from a computer</h3>
+
+<p>Here, we are obtaining all event logs locally, and the list starts with classic logs first, followed by new Windows Event logs. It is possible to have a log's <b>RecordCount</b> be zero or null.</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - Get-WinEvent Logs
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">Get-WinEvent -ListLog *
+
+LogMode   MaximumSizeInBytes RecordCount LogName
+-------   ------------------ ----------- -------
+Circular            15532032       14500 Application
+Circular             1052672         117 Azure Information Protection
+Circular             1052672        3015 CxAudioSvcLog
+Circular            20971520             ForwardedEvents
+Circular            20971520           0 HardwareEvents</code>
+</pre>
+</div>
+</div>
+
+<h3>Example 2: Get event log providers and log names</h3>
+
+<p>The command here will result in the event log providers and their associated logs. The <b>Name</b>&nbsp;is the provider, and <b>LogLinks</b>&nbsp;is the log that is written to.</p>
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - Get-WinEvent Providers
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">Get-WinEvent -ListProvider *
+
+Name     : .NET Runtime
+LogLinks : {Application}
+Opcodes  : {}
+Tasks    : {}
+
+Name     : .NET Runtime Optimization Service
+LogLinks : {Application}
+Opcodes  : {}
+Tasks    : {}</code>
+</pre>
+</div>
+</div>
+
+<h3>Example 3: Log filtering</h3>
+<p>Log filtering allows you to select events from an event log. We can filter event logs using the <b>Where-Object</b> cmdlet as follows:</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - Get-WinEvent Filters
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">PS C:\Users\Administrator&gt; Get-WinEvent -LogName Application | Where-Object { $_.ProviderName -Match 'WLMS' }
+
+   ProviderName: WLMS
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+12/21/2020 4:23:47 AM          100 Information
+12/18/2020 3:18:57 PM          100 Information
+12/15/2020 8:50:22 AM          100 Information
+12/15/2020 8:18:34 AM          100 Information
+12/15/2020 7:48:34 AM          100 Information
+12/14/2020 6:42:18 PM          100 Information
+12/14/2020 6:12:18 PM          100 Information
+12/14/2020 5:39:08 PM          100 Information
+12/14/2020 5:09:08 PM          100 Information</code></pre>
+</div>
+</div>
+
+<p><b style="text-align:justify;font-size:1rem">Tip</b><span style="text-align:justify;font-size:1rem">: If you are ever working on a Windows evaluation virtual machine that is cut off from the Internet eventually, it will shut down every hour. ;^)&nbsp;</span><br></p>
+
+<p style="text-align:justify">When working with large event logs, per Microsoft, it's inefficient to send objects down the pipeline to a <code>Where-Object</code> command. The use of the Get-WinEvent cmdlet's <b>FilterHashtable</b> parameter is recommended to filter event logs. We can achieve the same results as above by running the following command:</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - Get-WinEvent Filters
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">Get-WinEvent -FilterHashtable @{
+  LogName='Application' 
+  ProviderName='WLMS' 
+}</code>
+</pre>
+</div>
+</div>
+
+<p>The syntax of a hash table is as follows:</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+       <div class="terminal-top">
+            Hash Table Syntax
+      </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">@{ &lt;name&gt; = &lt;value&gt;; [&lt;name&gt; = &lt;value&gt; ] ...}</code>
+</pre>
+</div>
+</div>
+
+
+<p><span style="font-size:1rem">Guidelines for defining a hash table are:</span><br></p><ul><li>Begin the hash table with an @ sign.</li><li>Enclose the hash table in braces {}</li><li>Enter one or more key-value pairs for the content of the hash table.</li><li>Use an equal sign (=) to separate each key from its value.</li></ul>
+
+<p><b>Note</b>: You don't need to use a semicolon if you separate each key/value with a new line, as in the screenshot above for the -FilterHashtable for&nbsp;<code>ProviderName='WLMS'</code>.&nbsp;</p><p>Below is a table that displays the accepted key/value pairs for the Get-WinEvent FilterHashtable parameter.</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/filter-hashtable.png" style="width:847px" alt="Get-WinEvent acceptable key/value pairs for the FilterHashtable parameter"><br></p>
+
+<p>When building a query with a hash table, Microsoft recommends making the hash table one key-value pair at a time.&nbsp;<span style="font-size:1rem">Event Viewer can provide quick information on what you need to build your hash table.</span></p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/build-hash-table.png" style="width:827px" alt="Windows Event Viewer displaying information about MsiInstaller application"><br></p>
+
+<p>Based on this information, the hash table will look as follows:</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/msi-installer.png" style="width:50%" alt="FilterHashtable being applied on the Application logs for MsiInstaller as the ProviderName."><br></p>
+
+<p>For more information on creating Get-WinEvent queries with FilterHashtable, check the official Microsoft documentation <a href="https://docs.microsoft.com/en-us/powershell/scripting/samples/Creating-Get-WinEvent-queries-with-FilterHashtable?view=powershell-7.1" target="_blank">docs.microsoft.com</a>.</p>
+
+<p>Since we're on the topic of Get-WinEvent and FilterHashtable, here is a command that you might find helpful (shared by <a href="https://twitter.com/mubix" target="_blank">@mubix</a>):&nbsp;</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            Powershell - Get-WinEvent Filters
+        </div>
+<pre class="terminal-code language-shell-source" tabindex="0"><code class=" language-shell-source">Get-WinEvent -FilterHashtable @{LogName='Microsoft-Windows-PowerShell/Operational'; ID=4104} | Select-Object -Property Message | Select-String -Pattern 'SecureString'</code>
+</pre>
+</div>
+</div>
+
+<p>You can read more about creating hash tables in general&nbsp;<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.1" target="_blank">docs.microsoft.com</a>.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Answer the following questions using the <b><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/Get-WinEvent?view=powershell-7.1" target="_blank">online</a></b> help documentation for <b>Get-WinEvent</b></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Execute the command from <b>Example 1</b> (as is). What are the names of the logs related to <b>OpenSSH</b>?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *******/*****,*******/***********" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Execute the command from <b>Example 8</b>. Instead of the string <b>*Policy*</b> search for <b><span>*<a class="JYAS62am glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;JYAS62am&#39;)">PowerShell</a>*</span></b>. What is the name of the 3rd log provider?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **************************************************************************" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Execute the command from <b>Example 9</b>. Use <b>Microsoft-Windows-PowerShell</b> as the log provider. How many event ids are displayed for this event provider?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>How do you specify the number of events to display?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **********" value="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>When using the <b>FilterHashtable</b> parameter and filtering by level, what is the value for <b>Informational</b>?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="6">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> XPath Queries
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p style="text-align:justify">Now we will examine filtering events with <b>XPath</b>.&nbsp;<span style="font-size:1rem">The W3C created XPath, or</span><b style="font-size:1rem"><span> <a class="HiKchQqQ glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;HiKchQqQ&#39;)">XML</a> Path Language </span></b><span style="font-size:1rem"><span>in full, to provide a standard syntax and semantics for addressing parts of an <a class="bohR0FTB glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;bohR0FTB&#39;)">XML</a> document and manipulating strings, numbers, and booleans</span></span><span style="font-size:1rem">. The Windows Event Log supports a subset of </span><a href="https://www.w3.org/TR/1999/REC-xpath-19991116/" target="_blank">XPath 1.0</a><span style="font-size:1rem">.&nbsp;</span></p><p>Below is an example XPath query along with its explanation:</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            XPath Query
+        </div>
+<pre class="terminal-code language-shell-session" tabindex="0"><code class=" language-shell-session"><span class="token output">// The following query selects all events from the channel or log file where the severity level is less than or equal to 3 and the event occurred in the last 24 hour period. 
+XPath Query: *[System[(Level &lt;= 3) and TimeCreated[timediff(@SystemTime) &lt;= 86400000]]]</span></code>
+</pre>
+</div>
+</div>
+
+<p>Based on <a href="https://docs.microsoft.com/en-us/windows/win32/wes/consuming-events#xpath-10-limitations" target="_blank">docs.microsoft.com</a>, an XPath event query starts with '<b>*</b>' or '<b>Event</b>'.&nbsp;<span style="font-size:1rem">The above code block confirms this. But how do we construct the rest of the query? Luckily the Event Viewer can help us with that.&nbsp;</span></p>
+
+<p>Let's create an XPath query for the same event from the previous section. Note that b<span style="font-size:1rem">oth&nbsp;</span><span style="font-size:1rem;font-weight:bolder">wevtutil</span><span style="font-size:1rem">&nbsp;and&nbsp;</span><span style="font-size:1rem;font-weight:bolder">Get-WinEvent</span><span style="font-size:1rem">&nbsp;support XPath queries as event filters.&nbsp;</span></p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/xpath-2.png" style="width:667px" alt="Windows Event Viewer showing WLMS logs."><span style="font-size:1rem"><br></span></p>
+
+<p><span style="font-size:1rem">Draw your attention to the bottom half of the middle pane.&nbsp;</span>In the Event Viewer section, the Details tab was briefly touched on. Now you'll see how the information in this section can be useful.&nbsp; &nbsp;</p>
+
+<p>Click on the <code>Details</code> tab and select the <code><span><a class="UbPCnpai glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;UbPCnpai&#39;)">XML</a> View</span></code><span> radio button. Don't worry if the log details you are viewing are slightly different. The point is understanding how to use the <a class="PwH05KX5 glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;PwH05KX5&#39;)">XML</a> View to construct a valid XPath query.</span></p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/xpath-3a.png" style="width:626px" alt="Windows Event Viewer Details tab showing WLMS logs in XML View, with Event section highlighted."></p>
+
+<p>The first tag is the starting point. This can either be an <code>*</code>&nbsp;or the word <code>Event</code>. </p><p>The command so far looks like this: <code>Get-WinEvent -LogName Application -FilterXPath '*'</code></p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/xpath-3b.png" style="width:626px" alt="Windows Event Viewer Details tab showing WLMS logs in XML View, with System section highlighted."><br>
+
+</p><p><span>Now we work our way down the <a class="FhTIlY3F glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;FhTIlY3F&#39;)">XML</a> tree. The next tag is </span><code>System</code>.</p>
+
+<p>Let's add that. Now our command is: <code>Get-WinEvent -LogName Application -FilterXPath '*/System/'</code></p>
+
+<p><b>Note</b>: Its best practice to explicitly use the keyword <code>System</code> but you can use an <code>*</code> instead as with the <code>Event</code> keyword. The query <code>-FilterXPath '*/*'</code> is still valid.&nbsp;</p>
+
+<p>The <b>Event ID</b> is <b>100</b>. Let's plug that into the command.&nbsp;</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/xpath-3c.png" style="width:626px" alt="Windows Event Viewer Details tab showing WLMS logs in XML View, with EventID section highlighted."><br></p>
+
+<p>Our command now is: <code>Get-WinEvent -LogName Application -FilterXPath '*/System/EventID=100'</code></p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            XPath Query Powershell
+        </div>
+<pre class="terminal-code language-shell-session" tabindex="0"><code class=" language-shell-session"><span class="token output">PS C:\Users\Administrator&gt; Get-WinEvent -LogName Application -FilterXPath '*/System/EventID=100'
+
+   ProviderName: WLMS
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+12/21/2020 4:23:47 AM          100 Information
+12/18/2020 3:18:57 PM          100 Information
+12/15/2020 8:50:22 AM          100 Information
+12/15/2020 8:18:34 AM          100 Information
+12/15/2020 7:48:34 AM          100 Information
+12/14/2020 6:42:18 PM          100 Information
+12/14/2020 6:12:18 PM          100 Information
+12/14/2020 5:39:08 PM          100 Information
+12/14/2020 5:09:08 PM          100 Information</span></code>
+</pre>
+</div>
+</div>
+
+<p>When using wevtutil.exe and XPath to query for the same event log and ID, this is our result:</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            XPath Query using Wevtutil.exe
+        </div>
+<pre class="terminal-code language-shell-session" tabindex="0"><code class=" language-shell-session"><span class="token output">C:\Users\Administrator&gt;wevtutil.exe qe Application /q:*/System[EventID=100] /f:text /c:1
+Event[0]:
+  Log Name: Application
+  Source: WLMS
+  Date: 2020-12-14T17:09:08.940
+  Event ID: 100
+  Task: None
+  Level: Information
+  Opcode: Info
+  Keyword: Classic
+  User: N/A
+  User Name: N/A
+  Computer: WIN-1O0UJBNP9G7
+  Description:
+N/A</span></code>
+</pre>
+</div>
+</div>
+
+<p><b>Note</b><span>: 2 additional parameters were used in the above command. This was done to retrieve just 1 event and for it not to contain any <a class="YdFa0t4K glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;YdFa0t4K&#39;)">XML</a> tags.</span></p><p>If you want to query a different element, such as <code>Provider Name</code>, the syntax will be different.&nbsp;To filter on the provider, we need to use the <code>Name</code> attribute of <code>Provider</code></p>
+
+<p>The XPath query is:&nbsp;</p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            XPath Query for Provider
+        </div>
+<pre class="terminal-code language-shell-session" tabindex="0"><code class=" language-shell-session"><span class="token output">PS C:\Users\Administrator&gt; Get-WinEvent -LogName Application -FilterXPath '*/System/Provider[@Name="WLMS"]'
+
+   ProviderName: WLMS
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+12/21/2020 4:23:47 AM          100 Information
+12/18/2020 3:18:57 PM          100 Information
+12/15/2020 8:50:22 AM          100 Information
+12/15/2020 8:48:34 AM          101 Information
+12/15/2020 8:18:34 AM          100 Information
+12/15/2020 7:48:34 AM          100 Information
+12/14/2020 7:12:18 PM          101 Information
+12/14/2020 6:42:18 PM          100 Information
+12/14/2020 6:12:18 PM          100 Information
+12/14/2020 6:09:09 PM          101 Information
+12/14/2020 5:39:08 PM          100 Information
+12/14/2020 5:09:08 PM          100 Information</span></code>
+</pre>
+</div>
+</div>
+
+<p>What if you want to combine 2 queries? Is this possible? The answer is yes.</p><p>Let's build this query based on the screenshot above. The Provider Name is <b>WLMS,</b> and based on the output, there are <b>2 Event IDs</b>.</p>
+
+<p>This time we only want to query for events with <b>Event ID 101</b>.&nbsp;</p>
+
+<p>The XPath query would be <code>Get-WinEvent -LogName Application -FilterXPath '*/System/EventID=101 and */System/Provider[@Name="WLMS"]'</code></p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            XPath Two Queries
+        </div>
+<pre class="terminal-code language-shell-session" tabindex="0"><code class=" language-shell-session"><span class="token output">PS C:\Users\Administrator&gt; Get-WinEvent -LogName Application -FilterXPath '*/System/Provider[@Name="WLMS"]'
+
+   ProviderName: WLMS
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+12/15/2020 8:48:34 AM          101 Information
+12/14/2020 7:12:18 PM          101 Information
+12/14/2020 6:09:09 PM          101 Information</span></code>
+</pre>
+</div>
+</div>
+
+<p>Lastly, let's discuss how to create XPath queries for elements within&nbsp;<code style="font-size:14px">EventData</code>. The query will be slightly different.</p>
+
+<p><b>Note:</b>&nbsp;The EventData element doesn't always contain information.</p>
+
+<p><span>Below is the <a class="1sI4uyIP glossary-term" onclick="initPopOver(&#39;XML&#39;, &#39;1sI4uyIP&#39;)">XML</a> View of the event for which we will build our XPath query.</span></p>
+<p><img src="./TryHackMe _ Windows Event Logs_files/xpath-7b.png" style="width:877px" alt="Windows Event Viewer Details tab showing Event 4624 logs in XML View, with EventData section highlighted."><br></p>
+
+<p>We will build the query for <code>TargetUserName</code>. In this case, that will be System. The XPath query would be <code>Get-WinEvent -LogName Security -FilterXPath '*/EventData/Data[@Name="TargetUserName"]="System"'</code></p>
+
+<div class="terminal-container">
+    <div class="terminal-content defender">
+        <div class="terminal-top">
+            XPath Query for TargetUserName
+        </div>
+<pre class="terminal-code language-shell-session" tabindex="0"><code class=" language-shell-session"><span class="token output">PS C:\Users\Administrator&gt; Get-WinEvent -LogName Security -FilterXPath '*/EventData/Data[@Name="TargetUserName"]="System"' -MaxEvents 1
+
+   ProviderName: Microsoft-Windows-Security-Auditing
+
+TimeCreated                     Id LevelDisplayName Message
+-----------                     -- ---------------- -------
+12/21/2020 10:50:26 AM         4624 Information     An account was successfully logged on...</span></code>
+</pre>
+</div>
+</div>
+
+<p><b>Note</b>: The <code>-MaxEvents</code> parameter was used, and it was set to 1. This will return just 1 event.&nbsp;</p>
+
+<p>At this point, you have enough knowledge to create XPath queries for <b>wevtutil.exe</b> or<b> Get-WinEvent</b>. To further this knowledge, I suggest reading the official Microsoft XPath Reference <a href="https://docs.microsoft.com/en-us/previous-versions/dotnet/netframework-4.0/ms256115(v=vs.100)" target="_blank">docs.microsoft.com</a>.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Using the knowledge gained on&nbsp;<b>Get-WinEvent</b> and <b>XPath</b>, what is the query to find <b>WLMS</b> events with a System Time of&nbsp;<b>2020-12-15T01:09:08.940277500Z</b>?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ************ ******** *********** ************ **/******/********************** *** */******/**************************************:**:**.*************" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Using <b>Get-WinEvent</b> and <b>XPath</b>, what is the query to find a user named Sam with an Logon Event ID of 4720?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ************ ******** ******** ************ **/*********/********************************** *** */******/*************" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Based on the previous query, how many results are returned?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Based on the output from the question #2, what is Message?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: * **** ******* *** *******" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Still working with Sam as the user, what time was Event ID 4724 recorded? (<b>MM/DD/YYYY H:MM:SS [AM/PM]</b>)</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **/**/**** *:**:** **" value="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the Provider Name?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***********************************" value="">
+                            <input type="hidden" value="6">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Event IDs
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>When it comes to monitoring and hunting, you need to know what you are looking for. There are a large number of event IDs in use. This section is aimed at assisting you with this task. There are plenty of blogs, writeups, etc., on this topic. A few resources will be shared in this section. Please note this is not an exhaustive list.</p>
+
+<p>First on the list is <a href="https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/580595db9f745688bc7477f6/1476761074992/Windows+Logging+Cheat+Sheet_ver_Oct_2016.pdf" target="_blank">The Windows Logging Cheat Sheet (Windows 7 - Windows 2012)</a>. The last version update is October 2016, but it's still a good resource. The document covers a few things that need to be enabled and configured and what event IDs to look for based on different categories, such as Accounts, Processes, Log Clear, etc.&nbsp;</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/event-ids-1.png" style="width:727px" alt="Image showing a snippet of the Windows Logging Cheatsheet with WEvtUtil queries."><br></p>
+
+<p>Above is a snippet from the cheatsheet. Want to detect if a new service was installed? Look for <b>Event ID 7045</b> within the <b>System Log</b>.</p>
+
+<p>Next is <a href="https://apps.nsa.gov/iaarchive/library/reports/spotting-the-adversary-with-windows-event-log-monitoring.cfm" target="_blank">Spotting the Adversary with Windows Event Log Monitoring</a>. This NSA resource is also a bit outdated but good enough to build upon your foundation. The document covers some concepts touched on in this room and beyond. You must click on <code>Get File</code> to download the resource.&nbsp;</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/event-ids-2.png" style="width:653px" alt="Image showing a snippet of Windows Firewall log details with rules and Event IDs."><br></p>
+
+<p>Above is a snippet from the document. Maybe you want to monitor if a firewall rule was deleted from the host. That is <b>Event ID 2006/2033</b>.&nbsp;</p><p>Where else can we get a list of event IDs to monitor/hunt for?&nbsp;<a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>!</p>
+
+<p>If you are unfamiliar with <b><span><a class="07dv5nkd glossary-term" onclick="initPopOver(&#39;MITRE&#39;, &#39;07dv5nkd&#39;)">MITRE</a></span></b> or <b><span><a class="nCYVVOVg glossary-term" onclick="initPopOver(&#39;MITRE&#39;, &#39;nCYVVOVg&#39;)">MITRE</a> ATT&amp;CK</span></b>, I suggest you check out the <a href="https://tryhackme.com/room/mitre" target="_blank">MITRE Room</a>.&nbsp;</p>
+
+<p>Let's look at ATT&amp;CK ID <a href="https://attack.mitre.org/techniques/T1098/" target="_blank">T1098</a> (Account Manipulation). Each ATT&amp;CK ID will contain a section sharing tips to mitigate the technique and detection tips.&nbsp;</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/event-ids-3.png" style="width:1076px" alt="Image showing a snippet of the detection details of the ATT&amp;CK technique T1098."><br></p>
+
+<p>The last two resources are from <b>Microsoft</b>:</p><ul><li><a href="https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor" target="_blank">Events to Monitor</a> (Best Practices for Securing Active Directory)</li><li><a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=52630" target="_blank">The Windows 10 and Windows Server 2016 Security Auditing and Monitoring Reference</a>&nbsp;(a comprehensive list [<b>over 700 pages</b>])</li></ul>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/event-ids-4.png" style="width:908px" alt="Image showing a snippet of the Events to Monitor documentation from Microsoft, with the Event XML formats."><br></p>
+
+<p><b>Note</b><span>: Some events will not be generated by default, and certain features will need to be enabled/configured on the endpoint, such as <a class="xpKR4TqC glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;xpKR4TqC&#39;)">PowerShell</a> logging. This feature can be enabled via </span><b>Group Policy</b> or the <b>Registry</b>.</p>
+
+<p><code><span>Local Computer Policy &gt; Computer Configuration &gt; Administrative Templates &gt; Windows Components &gt; Windows <a class="nguofEGk glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;nguofEGk&#39;)">PowerShell</a></span></code></p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/posh-logging-1b.png" style="width:792px" alt="Image showing the enabling of PowerShell logging features."><br></p>
+
+<p>Some resources to provide more information about enabling this feature, along with its associated event IDs:</p>
+
+<ul><li><a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows?view=powershell-7.1" target="_blank">About Logging Windows</a></li><li><a href="https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html" target="_blank">Greater Visibility Through PowerShell Logging</a></li><li><a href="https://docs.splunk.com/Documentation/UBA/5.0.4/GetDataIn/AddPowerShell" target="_blank">Configure PowerShell logging to see PowerShell anomalies in Splunk UBA</a></li>
+</ul>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/posh-logging-2.png" style="width:410px" alt="Image showing various PowerShell Event IDs."><br></p>
+
+<p>Another feature to enable/configure is <b>Audit Process Creation</b>, which will generate <b>event ID 4688</b>. This will allow <b>command-line process auditing</b>. This setting is NOT enabled in the virtual machine but feel free to enable it and observe the events generated after executing some commands. </p>
+
+<p><code>Local Computer Policy &gt; Computer Configuration &gt; Administrative Templates &gt; System &gt; Audit Process Creation</code></p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/enable-4688-a.png" style="width:827px" alt="Image showing the configuration of Audit Process Creation."><br></p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/enable-4688-2.png" style="width:532px" alt="Image showing the details of Event ID 4688 with the Process Command Line highlighted."><br></p>
+
+<p>To read more about this feature, refer to <a href="https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/manage/component-updates/command-line-process-auditing#try-this-explore-command-line-process-auditing" target="_blank">docs.microsoft.com</a>. The steps to test the configuration are at the bottom of the document.&nbsp;</p>
+
+<p><img src="./TryHackMe _ Windows Event Logs_files/enable-4688.png" style="width:895px" alt="Image showing how to test the configuration using command line Process auditing."><br></p>
+
+<p>To conclude this section, it will be reiterated that this is not an exhaustive list. There are countless blogs, writeups, threat intel reports, etc., on this topic. </p><p>To effectively monitor and detect, you need to know what to look for (as mentioned earlier).&nbsp;</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                I'm ready to look at some event logs...
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-7">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse7">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 7                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Putting theory into practice
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><b>Note</b>: To successfully answer the questions below, you may need to search online for more information.&nbsp;</p><p>The next scenarios/questions are based on the external event log file titled <code>merged.evtx</code> found on the Desktop.&nbsp;<span style="font-size:1rem">You can use any of the aforementioned tools to answer the questions below.</span></p><p><u>Scenario 1 (Questions 1 &amp; 2)</u><span>: The server admins have made numerous complaints to Management regarding <a class="7iDPNSIq glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;7iDPNSIq&#39;)">PowerShell</a> being blocked in the environment. Management finally approved the usage of PowerShell within the environment. Visibility is now needed to ensure there are no gaps in coverage. You researched this topic: what logs to look at, what event IDs to monitor, etc. You enabled PowerShell logging on a test machine and had a colleague execute various commands.&nbsp;</span></p><p><u>Scenario 2 (Questions 3 &amp; 4)</u>: The Security Team is using Event Logs more. They want to ensure they can monitor if event logs are cleared. You assigned a colleague to execute this action.</p><p><u>Scenario 3 (Questions 5, 6 &amp; 7)</u>: The threat intel team shared its research on <b>Emotet</b><span>. They advised searching for event ID 4104 and the text "ScriptBlockText" within the EventData element. Find the encoded <a class="3AjuzO9f glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;3AjuzO9f&#39;)">PowerShell</a> payload.&nbsp;</span></p><p><u>Scenario 4 (Questions 8 &amp; 9)</u>: A report came in that an intern was suspected of running unusual commands on her machine, such as enumerating members of the Administrators group. A senior analyst suggested searching for "<code>C:\Windows\System32\net1.exe</code>". Confirm the suspicion.&nbsp; &nbsp;</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details"><span>
+                                What event ID is to detect a PowerShell downgrade attack?
+                            </span></div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the <b>Date and Time</b>&nbsp;this attack took place?&nbsp;<span style="font-size:1rem">(<b>MM/DD/YYYY H:MM:SS [AM/PM]</b>)</span></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **/**/**** *:**:** **" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>A <b>Log clear</b>&nbsp;event was recorded. What is the 'Event Record ID'?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the name of the computer?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****.*******.****" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span>What is the name of the first variable within the <a class="qcQ4ntRK glossary-term" onclick="initPopOver(&#39;PowerShell&#39;, &#39;qcQ4ntRK&#39;)">PowerShell</a> command?</span></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********" value="">
+                            <input type="hidden" value="5">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the <b>Date and Time</b>&nbsp;this attack took place?&nbsp;<span style="font-size:1rem">(<b>MM/DD/YYYY H:MM:SS [AM/PM]</b>)</span><br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: */**/**** **:**:** **" value="">
+                            <input type="hidden" value="6">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the <b>Execution Process ID</b>?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="7">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the <b>Group Security ID</b>&nbsp;of the group she enumerated?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ************" value="">
+                            <input type="hidden" value="8">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the event ID?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="9">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-8">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse8">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 8                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Conclusion
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>In this room, we covered Windows Event Logs, what they are, and how to query them using various tools and techniques.&nbsp;</p><p>We also briefly discussed various features within Windows that you need to enable/configure to log additional events to gain visibility into those processes/features that are turned off by default.&nbsp;</p><p>The information covered in this room will serve as a primer for other rooms covering&nbsp;<span style="font-weight:bolder"><a href="https://tryhackme.com/jr/windowsinternals" target="_blank">Windows Internals</a></span>,&nbsp;<span style="font-weight:bolder"><a href="https://tryhackme.com/jr/sysmon" target="_blank">Sysmon</a>,</span>&nbsp;and various&nbsp;<span style="font-weight:bolder"><a href="https://tryhackme.com/jr/splunk101" target="_blank">SIEM</a></span>&nbsp;tools.</p><p>I'll end this room by providing additional reading material:</p><ul><li><a href="https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES" target="_blank">EVTX Attack Samples</a>&nbsp;(a few were used in this room)</li><li><a href="https://devblogs.microsoft.com/powershell/powershell-the-blue-team/" target="_blank">PowerShell &lt;3 the Blue Team</a></li><li><a href="https://medium.com/palantir/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63" target="_blank">Tampering with Windows Event Tracing: Background, Offense, and Defense</a></li></ul></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Hope you enjoyed this room and learned a thing or two.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Windows Event Logs_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Windows Event Logs_files/380e8e46c73516efb1f435f06bc3c615.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/SecurityNomad">SecurityNomad</a></p><p class="mb-0">Only subscribers can deploy virtual machines in this room! 
+        Go to your <a href="https://tryhackme.com/profile">profile</a> page to subscribe (if you have not already). 26086 users are in here and this room is 925 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Windows Event Logs_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Windows Event Logs_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="vyICiC6O-4yV7OTy0DduhiVQgilT4i3s5OPg">
+<input type="hidden" name="roomCode" value="windowseventlogs">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Windows Event Logs_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Windows Event Logs_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Windows Event Logs_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/windowseventlogs#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/windowseventlogs#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Windows Event Logs_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Windows Event Logs_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22">You are <span class="text-danger">disconnected</span></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/windowseventlogs#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/windowseventlogs#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/windowseventlogs#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/windowseventlogs#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/windowseventlogs#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Event Logs_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Event Logs_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Event Logs_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Windows Event Logs_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Event Logs_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Windows Event Logs_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/windowseventlogs#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/windowseventlogs#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()" style="display: none;">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div><iframe id="_hjSafeContext_1678150" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Windows Event Logs_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+<script src="./TryHackMe _ Windows Event Logs_files/notify.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/api-requests.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/events.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Windows Event Logs_files/chart.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/expire.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/sockets.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/certificate.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/utils.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/confetti.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/videos.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/intro.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/prism.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/logic.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/tasks.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/connection-status.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/glossary.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Windows Event Logs_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "vyICiC6O-4yV7OTy0DduhiVQgilT4i3s5OPg"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "windowseventlogs"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: true,
+      path: "blueteam",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : false
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="0E6507C3-1775-433F-E46D-6AA303EC2EBB"></div><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./TryHackMe _ Windows Event Logs_files/saved_resource(1).html"></iframe><div class="intercom-lightweight-app"><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><img src="./TryHackMe _ Windows Event Logs_files/9e0f012f15b6fc981dde2f1f5198d728.png" alt="" class="intercom-lightweight-app-launcher-custom-icon-open"></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="white"></path>
+</svg>
+</div></div><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1C2538;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+    
+        width: 400px;
+        height: calc(100% - 104px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 84px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: #1c2538
+
+    
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+    
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>

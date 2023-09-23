@@ -1,0 +1,68 @@
+.modal-streak-freeze {
+  padding-top: 170px;
+}
+
+.modal-streak-freeze .modal-dialog {
+  max-width: 800px;
+}
+
+.modal-streak-freeze .modal-content {
+  border: none;
+  border-radius: 8px;
+}
+
+.modal-streak-freeze .modal-body {
+  text-align: center;
+  padding: 100px 64px;
+}
+
+.modal-streak-freeze figure {
+  margin-bottom: 64px;
+}
+
+.modal-streak-freeze h2 {
+  color: var(--moto-bg-color);
+}
+
+.modal-streak-freeze p {
+  font-size: 18px;
+  color: #646466;
+}
+
+.modal-streak-freeze .close.close-streak {
+  align-items: center;
+  background: #ccc;
+  border-radius: 100px;
+  display: flex;
+  height: 24px;
+  justify-content: center;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 24px;
+  z-index: 1;
+}
+
+@media all and (max-width: 800px) {
+  .modal-streak-freeze {
+    padding: 30px 8px;
+  }
+
+  .modal-streak-freeze .modal-body {
+    padding: 40px 20px;
+  }
+
+  .modal-streak-freeze figure {
+    margin-bottom: 40px;
+  }
+
+  .modal-streak-freeze img {
+    height: auto;
+    max-width: 300px;
+    width: 100%;
+  }
+
+  .modal-streak-freeze p {
+    font-size: 16px;
+  }
+}

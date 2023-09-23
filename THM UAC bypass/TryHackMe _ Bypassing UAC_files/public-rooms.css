@@ -1,0 +1,345 @@
+@import url('https://assets.tryhackme.com/css/utils/terminal.css');
+
+/* CSS file for new room design*/
+
+.popup-design-1 {
+  background: #313744;
+  color: white;
+  padding: 10px;
+  width: 19.5rem !important;
+  max-width: 19.5rem !important;
+  border-radius: 5px;
+}
+
+/* Start of room layout change */
+
+/* #room-attackbox-vm-view {
+    height: 100%;
+} */
+
+#attackbox-machine-instance {
+  overflow: none;
+}
+
+#room-attackbox-url,
+#room-attackbox-extend,
+#room-attackbox-terminate,
+#room-attackbox-exitview {
+  margin-right: 20px;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+#room-attackbox {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 30px;
+}
+
+#room-content-attackbox {
+  display: none;
+}
+
+.room-flex {
+  display: flex;
+  height: calc(100vh); /*  - var(--navbar-main-height) Make it full screen, but take into account navbar */
+  flex-flow: row;
+}
+
+#room-content-main {
+  resize: horizontal;
+  flex: 0 0 auto;
+}
+
+.room-splitscreen-content {
+  /* This is added when the room view is split to include attack box */
+  overflow-y: scroll;
+  width: 50% !important; /* When screen is split, flex box shows only 50% of tasks*/
+}
+
+/* Class is added/removed when user deploys attackbox */
+.room-attackbox {
+  height: 100%;
+  width: 100%;
+  display: flex !important;
+}
+
+/* End of room layout change */
+
+#taskContent .card {
+  margin-bottom: 15px;
+}
+
+#next-page-btn {
+  margin-top: 30px;
+  text-decoration: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#next-page-btn button:disabled {
+  background-color: #b8bec9; /* gray-400 */
+  color: #878fa2; /* gray-600 */
+  opacity: 1;
+}
+
+#taskContent .card:last-child {
+  margin-bottom: 0px;
+}
+
+#taskContent .card .card-header {
+  font-size: 16px;
+}
+
+#taskContent .card .card-header:first-child {
+  border-radius: 0px !important;
+}
+
+.task-dropdown-title {
+  margin-right: 0.25rem;
+}
+
+.task-dropdown-icon {
+  margin-left: 0.25rem;
+}
+
+.room-task-desc {
+  display: flex;
+}
+
+.room-task-desc-data {
+  flex: 2 1;
+  overflow: hidden;
+}
+
+lottie-player {
+  margin: 0 auto;
+}
+
+.tui-editor-contents p:first-child {
+  margin-top: 0 !important;
+}
+
+.room-task-desc code {
+  background-color: #212c42;
+  color: #fff;
+  padding: 6px 8px 2px 8px;
+}
+
+.room-task-desc img {
+  max-width: 100%;
+  height: auto !important;
+}
+
+.room-task-question-details p:last-child {
+  margin-bottom: 0;
+}
+
+#taskContent .room-task-questions {
+  margin-top: 1em;
+}
+
+#taskContent .room-task-questions:first-of-type {
+  margin-top: 0;
+}
+
+.room-task-questions {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.room-task-input {
+  display: grid;
+  grid-template-columns: 65% auto; /* 650px auto */
+  grid-gap: 10px;
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.room-task-input-questions {
+  display: flex;
+  position: relative;
+  flex: 4 1 auto;
+  max-width: 800px;
+}
+
+.room-task-input-answer {
+  /* display: flex;
+    flex: 1 1 auto; */
+}
+
+.room-task-input-hint {
+  /* display: flex;
+    flex: 1 1 auto;     */
+}
+
+.ellipsis-overflow {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.room-task-contents-dropdown {
+  max-height: 400px;
+  width: 400px;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.room-task-dropdown-item {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between !important;
+  flex-direction: row !important;
+  line-height: 25px;
+}
+
+.room-task-dropdown-item:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+#taskDropdownContent {
+  background: #454e5d;
+  color: white;
+}
+
+#taskDropdown {
+  background: transparent;
+  padding: 0;
+}
+
+#progress-bar {
+  display: none;
+  width: 100%;
+}
+
+.room-task-header {
+  background-color: #505867;
+  color: white;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+
+.room-task-footer {
+  background-color: #505867;
+  color: white !important;
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+
+#userNo,
+#daysBetween {
+  color: white;
+}
+
+#room-task-detail {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex: 1 1;
+}
+
+.room-task-middle {
+  flex: 2 1;
+  justify-content: center;
+  text-align: center;
+}
+
+.room-task-right {
+  justify-content: flex-end;
+}
+
+.room-task-options {
+  display: flex;
+  position: relative;
+  flex: 1;
+}
+
+.room-task-wrapper {
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.room-task.back {
+  position: relative;
+  display: inline-flex;
+}
+
+.room-task-progress {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.room-task-next {
+  position: relative;
+  display: inline-flex;
+}
+
+.room-task-contents-wrapper {
+  display: flex;
+  min-width: 0;
+  padding-right: 10px;
+}
+
+.room-task-contents {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 18px;
+}
+
+.room-task-contents:hover {
+  opacity: 0.8;
+}
+
+.btn-next,
+.btn-next:active,
+.btn-next:visited,
+.btn-next:hover {
+  width: 80px;
+  padding: 0.375rem 1rem;
+  background-color: #ffd500;
+  border-color: #ffd500;
+}
+
+.btn-back,
+.btn-back:active,
+.btn-back:visited,
+.btn-back:hover {
+  width: 80px;
+  padding: 0.375rem 1rem;
+  background-color: #23272b;
+  border-color: #646466;
+  color: #fff;
+}
+.btn-next:disabled,
+.btn-back:disabled {
+  cursor: not-allowed;
+  background-color: #646466;
+  border-color: #646466;
+}
+
+@media (max-width: 1650px) {
+  #room-banner-stats {
+    display: none !important;
+  }
+}
+
+.glossary-term {
+  text-decoration: underline !important;
+  text-decoration-style: dotted !important;
+  text-decoration-color: #949494 !important;
+  text-underline-offset: 2px;
+}
+
+.next-room {
+  text-decoration: none !important;
+}

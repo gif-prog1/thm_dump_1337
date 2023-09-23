@@ -1,0 +1,1 @@
+const streakFreezePopupCloseButton=document['getElementById']('close-streak-freeze-popup');streakFreezePopupCloseButton['addEventListener']('click',()=>{clearNotificationByType('showPopUpStreakFreeze');});

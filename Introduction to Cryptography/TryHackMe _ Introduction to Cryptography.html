@@ -1,0 +1,3474 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://tryhackme.com/room/cryptographyintro -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TryHackMe | Introduction to Cryptography</title>
+<meta name="description" content="Learn about encryption algorithms such as AES, Diffie-Hellman key exchange, hashing, PKI, and TLS.">
+<meta name="og:description" content="Learn about encryption algorithms such as AES, Diffie-Hellman key exchange, hashing, PKI, and TLS.">
+<meta name="keywords" content="cyber,security,cyber security,cyber security training,coding,computer,bitcoin,hacking,hackers,hacks,hack,exploits,keylogger,learn,poc">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta property="og:site_name" content="TryHackMe">
+<meta property="og:title" content="TryHackMe | Introduction to Cryptography">
+<meta property="og:image" content="https://tryhackme-images.s3.amazonaws.com/room-icons/2140d4d554b437c7fb2e7816c259b4fc.png">
+<meta property="og:url" content="https://tryhackme.com/room/cryptographyintro">
+<meta name="twitter:image" content="https://tryhackme.com/img/meta/default.png">
+<meta property="og:description" content="Learn about encryption algorithms such as AES, Diffie-Hellman key exchange, hashing, PKI, and TLS.">
+
+<script type="text/javascript" async="" src="./TryHackMe _ Introduction to Cryptography_files/pgpbhph6"></script><script src="./TryHackMe _ Introduction to Cryptography_files/jquery.min.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/popper.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Introduction to Cryptography_files/boostrap431.min.css">
+<script src="./TryHackMe _ Introduction to Cryptography_files/bootstrap431.min.js"></script>
+<link rel="stylesheet" href="./TryHackMe _ Introduction to Cryptography_files/animate.min.css">
+<link rel="stylesheet" href="./TryHackMe _ Introduction to Cryptography_files/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous">
+<link rel="icon" type="image/png" href="https://assets.tryhackme.com/img/favicon.png">
+<link rel="stylesheet" media="screen" href="./TryHackMe _ Introduction to Cryptography_files/general-style.css">
+<script src="./TryHackMe _ Introduction to Cryptography_files/script.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/validation.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./TryHackMe _ Introduction to Cryptography_files/cookieconsent.min.css">
+<script src="./TryHackMe _ Introduction to Cryptography_files/cookieconsent.min.js"></script>
+<script async="" src="./TryHackMe _ Introduction to Cryptography_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-Z8D4WL3D4P');
+  </script>
+
+
+<script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "pgpbhph6"
+    };
+  </script>
+<script>
+    (function (h, o, t, j, a, r) {
+      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+      h._hjSettings = { hjid: 1950941, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script'); r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  </script><script async="" src="./TryHackMe _ Introduction to Cryptography_files/hotjar-1950941.js"></script>
+<script>
+    /* Global javascript variables */
+
+    // Used inside script.js for createRooms compelted users.
+    const username = 'Silv3rsurf3r'
+    const subscribed = '1'
+    const level = '10'
+    const intercomEnabled = 'true'
+  </script>
+<script>
+    //add back tracking info
+    const userId = "63d14e7f857ae10041bb192f"
+    let tutorialComplete = false
+    if ('false' == "true") {
+      tutorialComplete = true
+    }
+    if(intercomEnabled === "true"){
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "pgpbhph6",
+        user_id: userId,
+        username: username,
+        email: "giftonpaul@karunya.edu.in",
+        created_at: Math.floor(new Date("Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)").getTime() / 1000) // Signup date as a Unix timestamp
+      };
+    }
+    window.hj('identify', userId, {
+      displayName: username,
+      subscribed: "1",
+      dateSignUp: "Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)",
+      experience: "advanced"
+    })
+  </script>
+<script type="application/ld+json">
+
+   {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "url":"https://tryhackme.com",
+      "name":"TryHackMe",
+      "logo":"https://tryhackme.com/img/favicon.png",
+      "description":"TryHackMe is a free online platform for learning cyber security, using hands-on exercises and labs, all through your browser!",
+      "email": "support@tryhackme.com",
+      "sameAs":[
+         "https://www.linkedin.com/company/tryhackme",
+         "https://twitter.com/realtryhackme"
+      ]
+   }
+
+</script>
+<script>
+    console.log(`%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`, "font-family:monospace")
+  </script>
+<script>
+  (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/pgpbhph6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/socket.io.js"></script><script>
+  let socket = io.connect({
+    transports: ['websocket'],
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionAttempts: 10
+  })
+</script><script async="" src="./TryHackMe _ Introduction to Cryptography_files/modules.85ce248fb47f3a28349a.js" charset="utf-8"></script><style type="text/css">.apexcharts-canvas {
+  position: relative;
+  user-select: none;
+  /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
+}
+
+
+/* scrollbar is not visible by default for legend, hence forcing the visibility */
+.apexcharts-canvas ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.apexcharts-canvas ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+
+.apexcharts-inner {
+  position: relative;
+}
+
+.apexcharts-text tspan {
+  font-family: inherit;
+}
+
+.legend-mouseover-inactive {
+  transition: 0.15s ease all;
+  opacity: 0.20;
+}
+
+.apexcharts-series-collapsed {
+  opacity: 0;
+}
+
+.apexcharts-tooltip {
+  border-radius: 5px;
+  box-shadow: 2px 2px 6px -4px #999;
+  cursor: default;
+  font-size: 14px;
+  left: 62px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 12;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+  border: 1px solid #e3e3e3;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark {
+  color: #fff;
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.apexcharts-tooltip * {
+  font-family: inherit;
+}
+
+
+.apexcharts-tooltip-title {
+  padding: 6px;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light .apexcharts-tooltip-title {
+  background: #ECEFF1;
+  border-bottom: 1px solid #ddd;
+}
+
+.apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
+  background: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #333;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.apexcharts-tooltip-text-y-label:empty,
+.apexcharts-tooltip-text-y-value:empty,
+.apexcharts-tooltip-text-goals-label:empty,
+.apexcharts-tooltip-text-goals-value:empty,
+.apexcharts-tooltip-text-z-value:empty {
+  display: none;
+}
+
+.apexcharts-tooltip-text-y-value,
+.apexcharts-tooltip-text-goals-value,
+.apexcharts-tooltip-text-z-value {
+  font-weight: 600;
+}
+
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-goals-group, 
+.apexcharts-tooltip-text-goals-label, 
+.apexcharts-tooltip-text-goals-value {
+  display: flex;
+}
+.apexcharts-tooltip-text-goals-label:not(:empty),
+.apexcharts-tooltip-text-goals-value:not(:empty) {
+  margin-top: -6px;
+}
+
+.apexcharts-tooltip-marker {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  top: 0px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 0 10px;
+  display: none;
+  text-align: left;
+  justify-content: left;
+  align-items: center;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active .apexcharts-tooltip-marker {
+  opacity: 1;
+}
+
+.apexcharts-tooltip-series-group.apexcharts-active,
+.apexcharts-tooltip-series-group:last-child {
+  padding-bottom: 4px;
+}
+
+.apexcharts-tooltip-series-group-hidden {
+  opacity: 0;
+  height: 0;
+  line-height: 0;
+  padding: 0 !important;
+}
+
+.apexcharts-tooltip-y-group {
+  padding: 6px 0 5px;
+}
+
+.apexcharts-tooltip-box, .apexcharts-custom-tooltip {
+  padding: 4px 8px;
+}
+
+.apexcharts-tooltip-boxPlot {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.apexcharts-tooltip-box>div {
+  margin: 4px 0;
+}
+
+.apexcharts-tooltip-box span.value {
+  font-weight: bold;
+}
+
+.apexcharts-tooltip-rangebar {
+  padding: 5px 8px;
+}
+
+.apexcharts-tooltip-rangebar .category {
+  font-weight: 600;
+  color: #777;
+}
+
+.apexcharts-tooltip-rangebar .series-name {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.apexcharts-xaxistooltip {
+  opacity: 0;
+  padding: 9px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-xaxistooltip:after,
+.apexcharts-xaxistooltip:before {
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-xaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+.apexcharts-xaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-left: -7px;
+}
+
+.apexcharts-xaxistooltip-bottom:after,
+.apexcharts-xaxistooltip-bottom:before {
+  bottom: 100%;
+}
+
+.apexcharts-xaxistooltip-top:after,
+.apexcharts-xaxistooltip-top:before {
+  top: 100%;
+}
+
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #ECEFF1;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:after {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-bottom.apexcharts-theme-dark:before {
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top:after {
+  border-top-color: #ECEFF1
+}
+
+.apexcharts-xaxistooltip-top:before {
+  border-top-color: #90A4AE;
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:after {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip-top.apexcharts-theme-dark:before {
+  border-top-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-xaxistooltip.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-yaxistooltip {
+  opacity: 0;
+  padding: 4px 10px;
+  pointer-events: none;
+  color: #373d3f;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+  background: #ECEFF1;
+  border: 1px solid #90A4AE;
+}
+
+.apexcharts-yaxistooltip.apexcharts-theme-dark {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.apexcharts-yaxistooltip:after,
+.apexcharts-yaxistooltip:before {
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.apexcharts-yaxistooltip:after {
+  border-color: rgba(236, 239, 241, 0);
+  border-width: 6px;
+  margin-top: -6px;
+}
+
+.apexcharts-yaxistooltip:before {
+  border-color: rgba(144, 164, 174, 0);
+  border-width: 7px;
+  margin-top: -7px;
+}
+
+.apexcharts-yaxistooltip-left:after,
+.apexcharts-yaxistooltip-left:before {
+  left: 100%;
+}
+
+.apexcharts-yaxistooltip-right:after,
+.apexcharts-yaxistooltip-right:before {
+  right: 100%;
+}
+
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:after {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-left.apexcharts-theme-dark:before {
+  border-left-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right:after {
+  border-right-color: #ECEFF1;
+}
+
+.apexcharts-yaxistooltip-right:before {
+  border-right-color: #90A4AE;
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:after {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip-right.apexcharts-theme-dark:before {
+  border-right-color: rgba(0, 0, 0, 0.5);
+}
+
+.apexcharts-yaxistooltip.apexcharts-active {
+  opacity: 1;
+}
+
+.apexcharts-yaxistooltip-hidden {
+  display: none;
+}
+
+.apexcharts-xcrosshairs,
+.apexcharts-ycrosshairs {
+  pointer-events: none;
+  opacity: 0;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-xcrosshairs.apexcharts-active,
+.apexcharts-ycrosshairs.apexcharts-active {
+  opacity: 1;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-ycrosshairs-hidden {
+  opacity: 0;
+}
+
+.apexcharts-selection-rect {
+  cursor: move;
+}
+
+.svg_select_boundingRect, .svg_select_points_rot {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.apexcharts-selection-rect + g .svg_select_boundingRect,
+.apexcharts-selection-rect + g .svg_select_points_rot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.apexcharts-selection-rect + g .svg_select_points_l,
+.apexcharts-selection-rect + g .svg_select_points_r {
+  cursor: ew-resize;
+  opacity: 1;
+  visibility: visible;
+}
+
+.svg_select_points {
+  fill: #efefef;
+  stroke: #333;
+  rx: 2;
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-zoom {
+  cursor: crosshair
+}
+
+.apexcharts-svg.apexcharts-zoomable.hovering-pan {
+  cursor: move
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon,
+.apexcharts-selection-icon,
+.apexcharts-menu-icon,
+.apexcharts-toolbar-custom-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 24px;
+  color: #6E8192;
+  text-align: center;
+}
+
+.apexcharts-zoom-icon svg,
+.apexcharts-zoomin-icon svg,
+.apexcharts-zoomout-icon svg,
+.apexcharts-reset-icon svg,
+.apexcharts-menu-icon svg {
+  fill: #6E8192;
+}
+
+.apexcharts-selection-icon svg {
+  fill: #444;
+  transform: scale(0.76)
+}
+
+.apexcharts-theme-dark .apexcharts-zoom-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomin-icon svg,
+.apexcharts-theme-dark .apexcharts-zoomout-icon svg,
+.apexcharts-theme-dark .apexcharts-reset-icon svg,
+.apexcharts-theme-dark .apexcharts-pan-icon svg,
+.apexcharts-theme-dark .apexcharts-selection-icon svg,
+.apexcharts-theme-dark .apexcharts-menu-icon svg,
+.apexcharts-theme-dark .apexcharts-toolbar-custom-icon svg {
+  fill: #f3f4f5;
+}
+
+.apexcharts-canvas .apexcharts-zoom-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-selection-icon.apexcharts-selected svg,
+.apexcharts-canvas .apexcharts-reset-zoom-icon.apexcharts-selected svg {
+  fill: #008FFB;
+}
+
+.apexcharts-theme-light .apexcharts-selection-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoom-icon:not(.apexcharts-selected):hover svg,
+.apexcharts-theme-light .apexcharts-zoomin-icon:hover svg,
+.apexcharts-theme-light .apexcharts-zoomout-icon:hover svg,
+.apexcharts-theme-light .apexcharts-reset-icon:hover svg,
+.apexcharts-theme-light .apexcharts-menu-icon:hover svg {
+  fill: #333;
+}
+
+.apexcharts-selection-icon,
+.apexcharts-menu-icon {
+  position: relative;
+}
+
+.apexcharts-reset-icon {
+  margin-left: 5px;
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-reset-icon,
+.apexcharts-menu-icon {
+  transform: scale(0.85);
+}
+
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon {
+  transform: scale(0.7)
+}
+
+.apexcharts-zoomout-icon {
+  margin-right: 3px;
+}
+
+.apexcharts-pan-icon {
+  transform: scale(0.62);
+  position: relative;
+  left: 1px;
+  top: 0px;
+}
+
+.apexcharts-pan-icon svg {
+  fill: #fff;
+  stroke: #6E8192;
+  stroke-width: 2;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #008FFB;
+}
+
+.apexcharts-pan-icon:not(.apexcharts-selected):hover svg {
+  stroke: #333;
+}
+
+.apexcharts-toolbar {
+  position: absolute;
+  z-index: 11;
+  max-width: 176px;
+  text-align: right;
+  border-radius: 3px;
+  padding: 0px 6px 2px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apexcharts-menu {
+  background: #fff;
+  position: absolute;
+  top: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 3px;
+  right: 10px;
+  opacity: 0;
+  min-width: 110px;
+  transition: 0.15s ease all;
+  pointer-events: none;
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.15s ease all;
+}
+
+.apexcharts-menu-item {
+  padding: 6px 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.apexcharts-theme-light .apexcharts-menu-item:hover {
+  background: #eee;
+}
+
+.apexcharts-theme-dark .apexcharts-menu {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .apexcharts-canvas:hover .apexcharts-toolbar {
+    opacity: 1;
+  }
+}
+
+.apexcharts-datalabel.apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-pie-label,
+.apexcharts-datalabels,
+.apexcharts-datalabel,
+.apexcharts-datalabel-label,
+.apexcharts-datalabel-value {
+  cursor: default;
+  pointer-events: none;
+}
+
+.apexcharts-pie-label-delay {
+  opacity: 0;
+  animation-name: opaque;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+
+.apexcharts-canvas .apexcharts-element-hidden {
+  opacity: 0;
+}
+
+.apexcharts-hide .apexcharts-series-points {
+  opacity: 0;
+}
+
+.apexcharts-gridline,
+.apexcharts-annotation-rect,
+.apexcharts-tooltip .apexcharts-marker,
+.apexcharts-area-series .apexcharts-area,
+.apexcharts-line,
+.apexcharts-zoom-rect,
+.apexcharts-toolbar svg,
+.apexcharts-area-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-line-series .apexcharts-series-markers .apexcharts-marker.no-pointer-events,
+.apexcharts-radar-series path,
+.apexcharts-radar-series polygon {
+  pointer-events: none;
+}
+
+
+/* markers */
+
+.apexcharts-marker {
+  transition: 0.15s ease all;
+}
+
+@keyframes opaque {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* Resize generated styles */
+
+@keyframes resizeanim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.resize-triggers {
+  animation: 1ms resizeanim;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.resize-triggers,
+.resize-triggers>div,
+.contract-trigger:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.resize-triggers>div {
+  background: #eee;
+  overflow: auto;
+}
+
+.contract-trigger:before {
+  width: 200%;
+  height: 200%;
+}</style><style data-jss="" data-meta="MuiDialog">
+@media print {
+  .MuiDialog-root {
+    position: absolute !important;
+  }
+}
+.MuiDialog-scrollPaper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MuiDialog-scrollBody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+.MuiDialog-scrollBody:after {
+  width: 0;
+  height: 100%;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.MuiDialog-container {
+  height: 100%;
+  outline: 0;
+}
+@media print {
+  .MuiDialog-container {
+    height: auto;
+  }
+}
+.MuiDialog-paper {
+  margin: 32px;
+  position: relative;
+  overflow-y: auto;
+}
+@media print {
+  .MuiDialog-paper {
+    box-shadow: none;
+    overflow-y: visible;
+  }
+}
+.MuiDialog-paperScrollPaper {
+  display: flex;
+  max-height: calc(100% - 64px);
+  flex-direction: column;
+}
+.MuiDialog-paperScrollBody {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.MuiDialog-paperWidthFalse {
+  max-width: calc(100% - 64px);
+}
+.MuiDialog-paperWidthXs {
+  max-width: 444px;
+}
+@media (max-width:507.95px) {
+  .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthSm {
+  max-width: 600px;
+}
+@media (max-width:663.95px) {
+  .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthMd {
+  max-width: 960px;
+}
+@media (max-width:1023.95px) {
+  .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthLg {
+  max-width: 1280px;
+}
+@media (max-width:1343.95px) {
+  .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperWidthXl {
+  max-width: 1920px;
+}
+@media (max-width:1983.95px) {
+  .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+    max-width: calc(100% - 64px);
+  }
+}
+.MuiDialog-paperFullWidth {
+  width: calc(100% - 64px);
+}
+.MuiDialog-paperFullScreen {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+  margin: 0;
+  max-width: 100%;
+}
+</style><style></style></head>
+
+
+<body><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-floating cc-type-info cc-theme-classic cc-bottom cc-right cc-color-override-382972913 cc-invisible" style="display: none;"><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We use cookies to ensure you get the best user experience. For more information contact us. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://tryhackme.com/legal/terms-of-use" target="_blank">Read more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">Got it!</a></div><!--googleon: all--></div>
+<link href="./TryHackMe _ Introduction to Cryptography_files/scoreboard.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Introduction to Cryptography_files/introjs.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Introduction to Cryptography_files/slideout.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Introduction to Cryptography_files/public-rooms.css" rel="stylesheet" type="text/css">
+<link href="./TryHackMe _ Introduction to Cryptography_files/asciinema-player.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Introduction to Cryptography_files/prism.css" rel="stylesheet" type="text/css"> 
+<link href="./TryHackMe _ Introduction to Cryptography_files/magnific-popup.css" rel="stylesheet" type="text/css"> 
+<script src="./TryHackMe _ Introduction to Cryptography_files/lottie-player.js"></script>
+
+<div id="room-content">
+<div id="room-content-main">
+<nav class="navbar navbar-expand-md navbar-dark navbar-color-loggedin navbar-main">
+<div class="container">
+<button id="thm-mobile-nav-open" class="thm-nav__hamburger-btn" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Open mobile navigation">
+<span class="thm-nav__hamburger-lines"></span>
+</button>
+<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<div class="navbar-brand" href="/">
+<a href="https://tryhackme.com/dashboard">
+<img width="115px" src="./TryHackMe _ Introduction to Cryptography_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+</div>
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0 navbar-pagelinks">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="navbar-item-icon far fa-browser"></i>
+<div class="navbar-item-text">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active" id="nav-learn">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="navbar-item-icon far fa-book-open"></i>
+<div class="navbar-item-text">Learn</div>
+</a>
+</li>
+<li class="nav-item  dropdown lite-removable">
+<a id="nav-other" class="nav-link" href="https://tryhackme.com/room/cryptographyintro#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-trophy"></i>
+<div class="navbar-item-text">Compete</div>
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/leaderboards">
+<div class="dropdown-menu-icon">
+<i class="fas fa-trophy"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/games/koth">
+<div class="dropdown-menu-icon">
+<i class="fas fa-crown"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a class="dropdown-item d-flex vertical-align-custom" href="https://tryhackme.com/workspace">
+<div class="dropdown-menu-icon">
+<i class="fas fa-user-friends"></i>
+</div>
+<div class="dropdown-menu-desc">
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a data-cy="nav-other-menu-button" id="nav-other" class="nav-link" href="https://tryhackme.com/room/cryptographyintro#" data-toggle="dropdown">
+<i class="navbar-item-icon far fa-ellipsis-h-alt"></i>
+<div class="navbar-item-text">Other</div>
+</a>
+<div data-cy="nav-other-menu" class="dropdown-menu dropdown-menu-center large-dropdown" aria-labelledby="navbarDropdown">
+<span class="dropdown-menu-arrow"></span>
+<a class="dropdown-item" href="https://tryhackme.com/resources">Resources</a>
+<a class="dropdown-item" href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a class="dropdown-item" href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/business">For Business</a>
+<a class="dropdown-item" href="https://tryhackme.com/classrooms">For Education</a>
+<a class="dropdown-item" target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+<a class="dropdown-item" href="https://tryhackme.com/glossary">Glossary</a>
+</div>
+</li>
+</ul>
+<ul class="navbar-nav navbar-right options vertical-align-custom">
+<li class="nav-item" data-toggle="modal" data-target="#navConnModal">
+<div id="thm-connection-status" class="thm-disconnected" style="display: flex;">
+<div id="thm-connection-status-dot" class="dot-small"></div> <span id="thm-connection-status-txt" class="ml-2 size-18 text-white">Access Machines</span>
+</div>
+</li>
+<li class="nav-item">
+<div class="nav-item-streak">
+<span id="streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+<script>
+                            let usersStreak = { // Global variable, used in rooms logic
+                                streakFirstAnswered: new Date('Mon Jul 10 2023 03:13:45 GMT+0100 (British Summer Time)'),
+                                streakLastAnswered: new Date('Sun Jul 16 2023 18:47:44 GMT+0100 (British Summer Time)'),
+                                usersTimezone: 'Asia/Kolkata',
+                                streakFreeze: 1
+                            };
+                            setSidebarStreaks(usersStreak.streakFirstAnswered, usersStreak.streakLastAnswered, usersStreak.usersTimezone, usersStreak.streakFreeze)
+                        </script>
+</div>
+</li>
+<li class="nav-item dropdown" id="notification-navitem">
+<a class="nav-link vertical-align-custom size-22 pl-0" href="https://tryhackme.com/room/cryptographyintro#" id="notification-btn" role="button" data-toggle="dropdown">
+<i id="notification-icon" class="fal fa-bell"></i>
+<div id="notification-dot"></div>
+</a>
+<div id="nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="notification-header">Notifications</div>
+<div id="nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle remove-arrow p-0" href="https://tryhackme.com/room/cryptographyintro#" id="navbarAvatarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<img src="./TryHackMe _ Introduction to Cryptography_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarAvatarDropdown">
+<a class="dropdown-item" href="https://tryhackme.com/profile">Profile</a>
+<a class="dropdown-item" href="https://tryhackme.com/referrals">Refer a friend</a>
+<a class="dropdown-item" href="https://tryhackme.com/badges">Badges</a>
+<a class="dropdown-item" href="https://tryhackme.com/rooms">My Rooms</a>
+<a class="dropdown-item" href="https://tryhackme.com/access">Access</a>
+<a class="dropdown-item" href="https://tryhackme.com/feedback">Give Feedback</a>
+<a class="dropdown-item" href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<link rel="stylesheet" href="./TryHackMe _ Introduction to Cryptography_files/streak-freeze.css">
+<div class="modal fade modal-streak-freeze" id="unlocked-streak-freeze" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<button type="button" class="close close-streak" id="close-streak-freeze-popup" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div class="modal-body">
+<figure>
+<img class="img-streak" width="400px" alt="streak freeze unlocked" src="./TryHackMe _ Introduction to Cryptography_files/streak-freeze.svg">
+</figure>
+<h2>You've unlocked a streak freeze!</h2>
+<p>With these one-time streak freezes, you can miss one day of hacking without losing your streak.</p>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Introduction to Cryptography_files/streak-freeze.js"></script>
+<nav id="thm-mobile-nav-menu" class="thm-mobile-nav" aria-label="Mobile secondary navigation menu.">
+<header>
+<a href="https://tryhackme.com/" aria-label="Go to the home page">
+<img width="140" src="./TryHackMe _ Introduction to Cryptography_files/tryhackme_logo_full.svg" alt="TryHackMe" class="logo">
+</a>
+<button id="thm-mobile-nav-close" data-target="#thm-mobile-nav-menu" aria-controls="thm-mobile-nav-menu" aria-expanded="false" aria-label="Close mobile navigation">
+<i class="fal fa-times"></i>
+</button>
+</header>
+<ul class="thm-mobile-nav-items mb-0">
+<li class="nav-item ">
+<a class="nav-link" href="https://tryhackme.com/dashboard">
+<i class="nav-title-icon far fa-browser"></i>
+<div class="nav-title">Dashboard</div>
+</a>
+</li>
+<li class="nav-item active">
+<a class="nav-link" href="https://tryhackme.com/hacktivities">
+<i class="nav-title-icon far fa-book-open"></i>
+<div class="nav-title">Learn</div>
+</a>
+</li>
+<li class="nav-item ">
+<a aria-expanded="false" aria-controls="mobile-nav-compete" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-compete" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-trophy"></i>
+<div class="nav-title">Compete</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-compete" class="dropdown-wrapper">
+<a href="https://tryhackme.com/leaderboards">
+<div>
+<i class="fas fa-trophy"></i>
+</div>
+<div>
+<span class="mb-0">Leaderboards</span>
+<div class="text-lgray size-12">Platform Rankings</div>
+</div>
+</a>
+<a href="https://tryhackme.com/games/koth">
+<div>
+<i class="fas fa-crown"></i>
+</div>
+<div>
+<span class="mb-0">King of the Hill</span>
+<div class="text-lgray size-12">Attack &amp; Defend</div>
+</div>
+</a>
+<a href="https://tryhackme.com/workspace">
+<div>
+<i class="fas fa-user-friends"></i>
+</div>
+<div>
+<span class="mb-0">Workspace</span>
+<div class="text-lgray size-12">Compete &amp; Collaborate</div>
+</div>
+</a>
+</div>
+</li>
+<li class="nav-item">
+<a aria-expanded="false" aria-controls="mobile-nav-other" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-other" class="sublinks-toggle nav-link">
+<i class="nav-title-icon far fa-ellipsis-h-alt"></i>
+<div class="nav-title">Other</div>
+<i class="far fa-angle-down"></i>
+</a>
+<div id="mobile-nav-other" class="dropdown-wrapper">
+<a href="https://tryhackme.com/resources">Resources</a>
+<a href="https://tryhackme.com/subscriptions">Buy Vouchers</a>
+<a href="https://tryhackme.com/develop-rooms">Develop Rooms</a>
+<a href="https://tryhackme.com/business">For Business</a>
+<a href="https://tryhackme.com/classrooms">For Education</a>
+<a target="_blank" href="https://store.tryhackme.com/">Swag Shop</a>
+</div>
+</li>
+<li class="nav-item text-center">
+<div class="nav-item-streak">
+<span id="mobile-streak-popover" class="size-24" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="bottom" data-content="&lt;p class=&#39;mb-2&#39;&gt;Complete a question every day to build your hacking streak, earn badges and streak freezes!&lt;/p&gt;
+
+&lt;div class=&#39;size-12 faded&#39;&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;7&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Access to networks, Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;streak-points&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;30&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = Badge,
+    Streak freeze&lt;/p&gt;
+  &lt;p class=&#39;m-0&#39;&gt;&lt;span class=&#39;streak-count&#39;&gt;45&lt;/span&gt; &lt;i class=&#39;fas fa-fire-alt hacker-green&#39;&gt;&lt;/i&gt; = 5% off swag&lt;/p&gt;
+&lt;/div&gt;
+ &lt;div class=&#39;size-12 text-center faded mt-2 font-italic&#39;&gt;1 
+        day streak freeze equipped&lt;/div&gt;" data-original-title="" title="">
+<span id="mobile-user-streak" data-streak="7" class="hacker-green">7 <i class="fas fa-fire-alt"></i></span>
+</span>
+</div>
+</li>
+<li class="nav-item text-center">
+<a class="nav-link size-22 d-inline-block" href="https://tryhackme.com/room/cryptographyintro#" id="mobile-notification-btn" role="button" data-toggle="dropdown">
+<i id="mobile-notification-icon" class="fal fa-bell"></i>
+<div id="mobile-notification-dot"></div>
+</a>
+<div id="mobile-nav-notification" class="dropdown-menu dropdown-menu-right">
+<div id="mobile-notification-header">Notifications</div>
+<div id="mobile-nav-notifications">
+<div class="text-center mt-2 mb-2"><i>Loading..</i></div>
+</div>
+</div>
+</li>
+<li class="nav-item text-center">
+<a aria-expanded="false" aria-controls="mobile-nav-auth" aria-label="Toggle Compete menu" data-dropdownid="mobile-nav-auth" class="sublinks-toggle nav-link d-inline-block">
+<img src="./TryHackMe _ Introduction to Cryptography_files/ab65c8602b249b83ec038adda0bdffea.jpeg" onerror="setBrokenTmpPP(this)" class="rounded-circle navbar-user-avatar">
+</a>
+<div id="mobile-nav-auth" class="dropdown-wrapper">
+<a href="https://tryhackme.com/profile">Profile</a>
+<a href="https://tryhackme.com/referrals">Refer a friend</a>
+<a href="https://tryhackme.com/badges">Badges</a>
+<a href="https://tryhackme.com/rooms">My Rooms</a>
+<a href="https://tryhackme.com/access">Access</a>
+<a href="https://tryhackme.com/feedback">Give Feedback</a>
+<a href="https://tryhackme.com/logout">Logout</a>
+</div>
+</li>
+</ul>
+</nav>
+<script defer="" src="./TryHackMe _ Introduction to Cryptography_files/mobile-nav.js"></script>
+<script>
+  const userSignedUpLessThanSevenDaysAgo = Math.floor(
+    (new Date() - new Date('Wed Jan 25 2023 15:45:03 GMT+0000 (Greenwich Mean Time)')) / (1000 * 60 * 60 * 24) < 7
+  );
+
+  const userHasFirst4RoomsBadge = !!``;
+  const isBeginner = `advanced` === 'complete-beginner';
+</script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/notifications.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/streak-freeze(1).js"></script>
+<div id="wrapper">
+<div id="room-banner" class="shadow-light">
+<img id="room-image-large" src="./TryHackMe _ Introduction to Cryptography_files/701fe785951a8e91523d337ba815120e.png">
+<div>
+<div id="room-details">
+<div class="container">
+<div class="page-header">
+<div class="room-header">
+<div id="room-voting" class="text-center vertical-align-custom">
+<div class="voting-buttons">
+<i class="fas fa-thumbs-up display-block" onclick="makeVote(true)" id="vote-up" style="color: rgb(185, 185, 185);"></i>
+<div class="display-block" id="vote-number">396</div>
+<i class="fas fa-thumbs-down display-block" onclick="makeVote(false)" id="vote-down" style="color: rgb(185, 185, 185);"></i>
+</div>
+</div>
+<div id="room-logo" class="vertical-align-custom">
+<div id="logo"><img class="room-avatar" src="./TryHackMe _ Introduction to Cryptography_files/2140d4d554b437c7fb2e7816c259b4fc.png" onerror="replaceImg(this)"></div>
+</div>
+<div class="vertical-align-custom">
+<div id="room-basic-data">
+<div class="d-flex justify-content-between">
+<h1 id="title" class="bold-head">Introduction to Cryptography</h1>
+<div id="room-title-options">
+
+<div class="btn-group" id="browser-machine-options" role="group" aria-label="Start AttackBox or Kali Linux" style="display: inline-flex;">
+<button id="browser-machine-start" type="button" class="btn btn-secondary"><i class="far fa-laptop"></i> Start AttackBox</button>
+<div class="btn-group" id="browser-machines" role="group">
+<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+<a class="dropdown-item  preventDefault" href="https://tryhackme.com/room/cryptographyintro#" onclick="changeMyMachine(&quot;kali-linux&quot;)">
+<span class="mb-0">Use Kali Linux</span>
+<div class="text-lgray size-12">Web-based Kali Machine</div>
+</a>
+<a class="dropdown-item preventDefault" href="https://tryhackme.com/room/cryptographyintro#" onclick="changeMyMachine(&quot;attackbox&quot;)">
+<span class="mb-0">Use AttackBox</span>
+<div class="text-lgray size-12">Recommended</div>
+</a>
+</div>
+</div>
+</div>
+<button id="browser-machine-split-view" type="button" class="btn btn-secondary">Show Split View</button>
+<button id="cloud-details" type="button" class="btn btn-info"><i class="far fa-clouds mr-1"></i>Cloud Details</button>
+<span id="awards-model-btn" data-toggle="modal" data-target="#award-modal" class="badge badge-warning ml-1 noselect">Awards</span>
+<span id="room-faq-slideout" type="button" class="badge badge-info ml-1 noselect d-inline-flex" onclick="openHelpMenu()">
+Help
+</span>
+<div class="dropright room-dropright noselect ml-1" id="room-options" style="display: inline-block;">
+<span class="badge badge-secondary" data-toggle="dropdown">
+<i class="fas fa-cog"></i>
+</span>
+<div class="dropdown-menu">
+<a class="dropdown-item" href="https://tryhackme.com/api/room/manage/clone/cryptographyintro" id="clone-room" style="display: none;"><i class="far fa-clone faded"></i> Clone Room</a>
+<a class="dropdown-item preventDefault" id="writeups-simple" style="display: inline-block;"><i class="fas fa-pen-alt faded"></i> Writeups</a>
+<a class="dropdown-item preventDefault" data-toggle="modal" data-target="#resetUserProgressModal"><i class="fas fa-eraser faded"></i> Reset Progress</a>
+<a class="dropdown-item preventDefault" id="leave-room"><i class="fas fa-sign-out-alt faded"></i> Leave</a>
+</div>
+</div>
+<span id="bookmark" class="badge badge-secondary badge-bookmark ">
+<img class="bookmark" src="./TryHackMe _ Introduction to Cryptography_files/bookmark.svg">
+<span class="bookmark-popover" data-container="body" data-trigger="hover" data-toggle="popover" data-html="true" data-placement="top" data-content="&lt;p class=&#39;mb-0&#39;&gt;Save room &lt;/p&gt;
+" data-original-title="" title="">
+</span>
+</span>
+</div>
+</div>
+<p class="mb0 faded" id="description">Learn about encryption algorithms such as AES, Diffie-Hellman key exchange, hashing, PKI, and TLS.</p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div id="room-banner-stats">
+<div class="creators"></div>
+<div class="numbers"></div>
+</div>
+</div>
+</div>
+<div class="container main pb">
+<div id="room-message"></div>
+<section id="sponsor">
+<i id="sponsor-close" class="fas fa-times"></i>
+<div id="sponsor-data"></div>
+</section>
+<div id="top-panel">
+<ul class="nav nav-tabs" id="task-navs">
+<li class="nav-item">
+<a class="nav-link  active " data-toggle="tab" href="https://tryhackme.com/room/cryptographyintro#chart">
+<i class="fas fa-chart-line icon-right"></i> Chart
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/cryptographyintro#scoreboard">
+<i class="fas fa-trophy icon-right"></i> Scoreboard
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/cryptographyintro#chat">
+<i class="fas fa-comments-alt icon-right chat-icon"></i> Discuss
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/cryptographyintro#writeups">
+<i class="fas fa-pen-alt icon-right"></i> Writeups
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/cryptographyintro#about">
+<i class="fas fa-info-circle icon-right"></i> More
+</a>
+</li>
+</ul>
+<div class="card cd-2 nav-above-con" id="room-main">
+<div class="card-body">
+<span id="room-tabs">
+<div class="tab-content">
+<div id="chart" class="tab-pane  active ">
+<span id="difficulty-bar">
+    <span class="room-difficulty diff-text">
+      Difficulty: 
+        <span class="difficulty-medium">Medium</span>
+    </span></span>
+<br><div id="chart-data"></div>
+</div>
+<div id="scoreboard" class="tab-pane fade">
+<table class="table table-striped table-bordered table-condensed table-header-rotated mb-0" id="scoreboard_table">
+<thead>
+<tr id="scoreboard_header">
+<th>Rank</th>
+<th>Username</th>
+<th>Total Score</th>
+</tr>
+</thead>
+<tbody id="scoreboard_body"></tbody>
+</table>
+</div>
+<div id="chat" class="tab-pane fade">
+
+<div class="row">
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Discord</h3>
+<p>Come join our <a target="_blank" href="https://discord.gg/QgC6Tdk">Discord</a> server for support or further discussions</p>
+</div>
+<div class="col-sm-6 text-center">
+<h3 class="mb-2">Forum</h3>
+<div id="forum-text">Read or post on the dedicated forum <a href="https://tryhackme.com/forum/thread/63e2677059b963b478309428">post</a></div>
+</div>
+</div>
+</div>
+<div id="writeups" class="tab-pane text-center">
+<div id="writeups-data">There are no writeups submitted.</div>
+<button onclick="showWriteupForm(this)" type="button" class="btn btn-xs btn-secondary mt-3 mb-2">Add Writeup</button>
+<div id="writeup-form">
+<div class="form-row">
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-title" placeholder="Writeup Title">
+</div>
+<div class="col-auto">
+<input type="text" class="form-control mb-2" id="writeup-link" placeholder="Writeup URL">
+</div>
+<div class="col-auto">
+<button id="submit-writeup" type="submit" class="btn btn-success mb-2">Submit</button>
+</div>
+</div>
+<p class="faded mb-0 size-14"><i class="fas fa-exclamation-triangle text-warning"></i> Writeups should have a link to TryHackMe and not include any passwords/cracked hashes/flags</p>
+</div>
+</div>
+<div id="about" class="tab-pane text-center">
+<p id="about-freeRoom"><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 6351 users are in here and this room is 160 days old.</p></p>
+<p id="about-owner"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Introduction to Cryptography_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Introduction to Cryptography_files/4376f82c9984b89656a5df8913e3842c.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/strategos">strategos</a></p></p>
+</div>
+</div>
+</span>
+</div>
+</div>
+</div>
+<div id="room-simple-video" class="card card-body cd-2"></div>
+<div class="card mt-3 mb-3 cd-2 text-center" id="instance-info">
+<div class="card-header card-header-red">Active Machine Information</div>
+<div class="card-body">
+<div class="row vertical-align-custom">
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3" id="table-machine-ip">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+<div class="col-sm-3">
+<i>Loading...</i>
+</div>
+</div>
+</div>
+</div>
+<div id="task-list">
+<div id="room-task-detail" class="mb-3"><span id="progress-bar" style="display: block;"><div class="progress"><div class="progress-bar bg-secondary" role="progressbar" style="width: 5%; aria-valuemin=" 0"="" aria-valuemax="100"> 0%</div></div></span></div>
+<div id="taskContent"><div class="card" id="task-1">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse1">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 1                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Introduction
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse1" class="collapse show" data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>The purpose of this room is to introduce users to basic cryptography concepts such as:</p>
+<ul>
+<li>Symmetric encryption, such as AES</li>
+<li>Asymmetric encryption, such as RSA</li>
+<li>Diffie-Hellman Key Exchange</li>
+<li>Hashing</li>
+<li><span><a class="b68pOsHj glossary-term" onclick="initPopOver(&#39;PKI&#39;, &#39;b68pOsHj&#39;)">PKI</a></span></li>
+</ul>
+<p>Suppose you want to send a message that no one can understand except the intended recipient. How would you do that?</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/a31ad9ee6b4e321453508e8662fc4679.png" alt="Top Secret Document with the words WUB KDFN PH" style="width:50%"><br></p>
+
+<p>One of the simplest ciphers is the Caesar cipher, used more than 2000 years ago. Caesar Cipher shifts the letter by a fixed number of places to the left or to the right. Consider the case of shifting by 3 to the right to encrypt, as shown in the figure below.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/b4f1cbf444e5f19f855dadb7f272ab50.png" alt="Illustration of Caesar cipher encryption" style="font-size:1rem;width:75%"><br></p>
+
+<p>The recipient needs to know that the text was shifted by 3 to the right to recover the original message.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/45b482f79ebcc2f202813a5d7de4df87.png" alt="Illustration of Caesar cipher decryption" style="font-size:1rem;width:75%"><br></p>
+
+<p>Using the same key to encrypt “TRY HACK ME”, we get “WUB KDFN PH”.</p>
+<p>The Caesar Cipher that we have described above can use a key between 1 and 25. With a key of 1, each letter is shifted by one position, where A becomes B, and Z becomes A. With a key of 25, each letter is shifted by 25 positions, where A becomes Z, and B becomes A. A key of 0 means no change; moreover, a key of 26 will also lead to no change as it would lead to a full rotation. Consequently, we conclude that Caesar Cipher has a keyspace of 25; there are 25 different keys that the user can choose from.</p>
+<p>Consider the case where you have intercepted a message encrypted using Caesar Cipher: “YMNX NX FQUMF GWFAT HTSYFHYNSL YFSLT MTYJQ RNPJ”. We are asked to decrypt it without knowledge of the key. We can attempt this by using brute force, i.e., we can try all the possible keys and see which one makes the most sense. In the following figure, we noticed that key being 5 makes the most sense, “THIS IS ALPHA BRAVO CONTACTING TANGO HOTEL MIKE.”</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/83c79636b07babb43ffe5402e2697772.png" alt="Decrypting a ciphertext by trying all possible keys, i.e., by brute force" style="width:75%"><br></p>
+
+<p>Caesar cipher is considered a <strong>substitution cipher</strong> because each letter in the alphabet is substituted with another.</p>
+<p>Another type of cipher is called <strong>transposition cipher</strong>, which encrypts the message by changing the order of the letters. Let’s consider a simple transposition cipher in the figure below. We start with the message, “THIS IS ALPHA BRAVO CONTACTING TANGO HOTEL MIKE”, and the key <code>42351</code>. After we write the letters of our message by filling one column after the other, we rearrange the columns based on the key and then read the rows.&nbsp;In other words, we write by columns and we read by rows. Also notice that we ignored all the space in the plaintext in this example.&nbsp; The resulting ciphertext “NPCOTGHOTH…” is read one row after the other. In other words, a transposition cipher simply rearranges the order of the letters, unlike the substitution cipher, which substitutes the letters without changing their order.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/d1c99f9bf3e305eb4b50cb8c30be430d.png" alt="Illustration of a transposition cipher" style="width:75%"><br></p>
+
+<p>This task introduced simple substitution and transposition ciphers and applied them to messages made of alphabetic characters. For an encryption algorithm to be considered <strong>secure</strong>, it should be infeasible to recover the original message, i.e., plaintext. (In mathematical terms, we need a <strong>hard</strong> problem, i.e., a problem that cannot be solved in polynomial time. A problem that we can solve in polynomial time is a problem that’s&nbsp;feasible to solve even for large input, although it might take the computer quite some time to finish.)</p>
+<p>If the encrypted message can be broken in one week, the encryption used would be considered insecure. However, if the encrypted message can be broken in 1 million years, the encryption would be considered practically secure.</p>
+<p>Consider the mono-alphabetic substitution cipher, where each letter is mapped to a new letter. For example, in English, you would map “a” to one of the 26 English letters, then you would map “b” to one of the remaining 25 English letters, and then map “c” to one of the remaining 24 English letters, and so on.</p>
+<p>For example, we might choose the letters in the alphabet “abcdefghijklmnopqrstuvwxyz” to be mapped to “xpatvrzyjhecsdikbfwunqgmol” respectively. In other words, “a” becomes “x”, “b” becomes “p”, and so on. The recipient needs to know the key, “xpatvrzyjhecsdikbfwunqgmol”, to decrypt the encrypted messages successfully.</p>
+<p>This algorithm might look very secure, especially since trying all the possible keys is not feasible. However, different techniques can be used to break a ciphertext using such an encryption algorithm. One weakness of such an algorithm is letter frequency. In English texts, the most common letters are ‘e’, ‘t’, and ‘a’, as they appear at a frequency of 13%, 9.1%, and 8.2%, respectively. Moreover, in English texts, the most common first letters are ‘t’, ‘a’, and ‘o’, as they appear at 16%, 11.7% and 7.6%, respectively. Add to this the fact that most of the message words are dictionary words, and you will be able to break an encrypted text with the alphabetic substitution cipher in no time.</p>
+<p>We don’t really need to use the encryption key to decrypt the received ciphertext, “Uyv sxd gyi siqvw x sinduxjd pvzjdw po axffojdz xgxo wsxcc wuidvw.” As shown in the figure below, using a website such as <a href="https://www.quipqiup.com/">quipqiup</a>, it will take a moment to discover that the original text was “The man who moves a mountain begins by carrying away small stones.” This example clearly indicates that this algorithm is broken and should not be used for confidential communication.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/0b4ac26e6f49c1156b6dc5c283b413a7.png" alt="Screenshot of the quipquip website" style="width:75%"><br></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>You have received the following encrypted message:</p><p><em>“Xjnvw lc sluxjmw jsqm wjpmcqbg jg wqcxqmnvw; xjzjmmjd lc wjpm sluxjmw jsqm bqccqm zqy.” Zlwvzjxj Zpcvcol</em></p><p>You can guess that it is a quote. Who said it?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ******** *******" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="1">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-2">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse2">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 2                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Symmetric Encryption
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"><i class="far fa-download text-lblue" data-toggle="tooltip" data-placement="left" title="" data-original-title="Task includes a downloadable file"></i></span>
+                        </a>
+                    </div>
+                    <div id="collapse2" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"><form class="float-right" method="post" action="https://tryhackme.com/material/deploy">
+                            <input type="hidden" name="roomCode" value="cryptographyintro">
+                            <input type="hidden" name="id" value="63317c22f419130043e59386">
+                            <button type="submit" class="btn btn-primary mb-3 ml-3" value="Download">
+                            <i class="fas fa-cloud-download-alt mr-2"></i> Download Task Files</button>
+                        </form> <p>Let’s review some terminology:</p>
+<ul>
+<li><strong>Cryptographic Algorithm</strong> or <strong>Cipher</strong>: This algorithm defines the encryption and decryption processes.</li>
+<li><strong>Key</strong>: The cryptographic algorithm needs a key to convert the plaintext into ciphertext and vice versa.</li>
+<li><strong>plaintext</strong> is the original message that we want to encrypt</li>
+<li><strong>ciphertext</strong> is the message in its encrypted form</li>
+</ul>
+<p>A symmetric encryption algorithm uses the same key for encryption and decryption. Consequently, the communicating parties need to agree on a secret key before being able to exchange any messages.</p>
+<p>In the following figure, the sender provides the <em>encrypt</em> process with the plaintext and the key to get the ciphertext. The ciphertext is usually sent over some communication channel.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/dc0cc0d61133400277c47d039d8d69e1.png" alt="General block diagram of encryption using a secret key" style="width:75%"><br></p>
+
+<p>On the other end, the recipient provides the <em>decrypt</em> process with the same key used by the sender to recover the original plaintext from the received ciphertext. Without knowledge of the key, the recipient won’t be able to recover the plaintext.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/4003a3e6e0ecd139078eefe30a336ce2.png" alt="General block diagram of decryption using a secret key" style="width:75%"><br></p>
+
+<p><span>National Institute of Standard and Technology (<a class="xQaS2o6k glossary-term" onclick="initPopOver(&#39;NIST&#39;, &#39;xQaS2o6k&#39;)">NIST</a>) published the Data Encryption Standard (DES) in 1977. DES is a symmetric encryption algorithm that uses a key size of 56 bits. In 1997, a challenge to break a message encrypted using DES was solved. Consequently, it was demonstrated that it had become feasible to use a brute-force search to find the key and break a message encrypted using DES. In 1998, a DES key was broken in 56 hours. These cases indicated that DES could no longer be considered secure.</span></p>
+<p><span><a class="MT2uHiEd glossary-term" onclick="initPopOver(&#39;NIST&#39;, &#39;MT2uHiEd&#39;)">NIST</a> published the Advanced Encryption Standard (AES) in 2001. Like DES, it is a symmetric encryption algorithm; however, it uses a key size of 128, 192, or 256 bits, and it is still considered secure and in use today. AES repeats the following four transformations multiple times:</span></p>
+<ol>
+<li><code>SubBytes(state)</code>: This transformation looks up each byte in a given substitution table (S-box) and substitutes it with the respective value. The <code>state</code> is 16 bytes, i.e., 128 bits, saved in a 4 by 4 array.</li>
+<li><code>ShiftRows(state)</code>: The second row is shifted by one place, the third row is shifted by two places, and the fourth row is shifted by three places. This is shown in the figure below.</li>
+<li><code>MixColumns(state)</code>: Each column is multiplied by a fixed matrix (4 by 4 array).</li>
+<li><code>AddRoundKey(state)</code>: A round key is added to the state using the XOR operation.</li>
+</ol>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/049bad7deb4e6dd426335d7c3477f10a.png" alt="Illustration of the ShiftRows function when applied on a four by four array" style="width:75%"><br></p>
+
+<p><span style="font-size:1rem">The total number of transformation rounds depends on the key size.</span><br></p><p>Don’t worry if you find this cryptic because it is! Our purpose is not to learn the details of how AES works nor to implement it as a programming library; the purpose is to appreciate the difference in complexity between ancient encryption algorithms and modern ones. If you are curious to dive into details, you can check the AES specifications, including pseudocode and examples in its published standard, <a href="https://csrc.nist.gov/publications/detail/fips/197/final">FIPS PUB 197</a>.</p>
+<p>In addition to AES, many other symmetric encryption algorithms are considered secure. Here is a list of symmetric encryption algorithms supported by GPG (GnuPG) 2.37.7, for example:</p>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Encryption Algorithm</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AES, AES192, and AES256</td>
+<td>AES with a key size of 128, 192, and 256 bits</td>
+</tr>
+<tr>
+<td>IDEA</td>
+<td>International Data Encryption Algorithm (IDEA)</td>
+</tr>
+<tr>
+<td>3DES</td>
+<td>Triple DES (Data Encryption Standard) and is based on DES.&nbsp;We should note that 3DES will be deprecated in 2023 and disallowed in 2024.</td>
+</tr>
+<tr>
+<td>CAST5</td>
+<td>Also known as CAST-128. Some sources state that CASE stands for the names of its authors: Carlisle Adams and Stafford Tavares.</td>
+</tr>
+<tr>
+<td>BLOWFISH</td>
+<td>Designed by Bruce Schneier</td>
+</tr>
+<tr>
+<td>TWOFISH</td>
+<td>Designed by Bruce Schneier and derived from Blowfish</td>
+</tr>
+<tr>
+<td>CAMELLIA128, CAMELLIA192, and CAMELLIA256</td>
+<td>Designed by Mitsubishi Electric and NTT in Japan. Its name is derived from the flower camellia japonica.</td>
+</tr>
+</tbody>
+</table>
+<p>All the algorithms mentioned so far are block cipher symmetric encryption algorithms. A block cipher algorithm converts the input (plaintext) into blocks and encrypts each block. A block is usually 128 bits. In the figure below, we want to encrypt the plaintext “TANGO HOTEL MIKE”, a total of 16 characters. The first step is to represent it in binary. If we use ASCII, “T” is <code>0x54</code> in hexadecimal format, “A” is <code>0x41</code>, and so on. Every two hexadecimal digits constitute 8 bits and represent one byte. A block of 128 bits is practically 16 bytes and is represented in a 4 by 4 array. The 128-bit block is fed as one unit to the encryption method.</p>
+
+<p style="text-align:center"></p><p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/2d69973a4fbf8220e64c3e896841b21d.png" alt="Example of a block cipher encryption algorithm applied on a four by four array" style="width:75%"><br></p>
+
+<p>The other type of symmetric encryption algorithm is stream ciphers, which encrypt the plaintext byte by byte. Consider the case where we want to encrypt the message “TANGO HOTEL MIKE”; each character needs to be converted to its binary representation. If we use ASCII, “T” is <code>0x54</code> in hexadecimal, while “A” is <code>0x41</code>, and so on. The encryption method will process one byte at a time. This is represented in the figure below.</p>
+
+<p style="text-align:center"></p><p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/6c0edb0faf15df0c6675c6829fddae01.png" alt="Example of a stream cipher encryption algorithm applied on an array of bytes" style="width:75%"><br></p>
+
+<p>Symmetric encryption solves many security problems discussed in the <a href="https://tryhackme.com/room/securityprinciples">Security Principles</a> room. Let’s say that Alice and Bob met and chose an encryption algorithm and agreed on a specific key. We assume that the selected encryption algorithm is secure and that the secret key is kept safe. Let’s take a look at what we can achieve:</p>
+<ul>
+<li><strong>Confidentiality</strong>: If Eve intercepted the encrypted message, she wouldn’t be able to recover the plaintext. Consequently, all messages exchanged between Alice and Bob are confidential as long as they are sent encrypted.</li>
+<li><strong>Integrity</strong>: When Bob receives an encrypted message and decrypts it successfully using the key he agreed upon with Alice, Bob can be sure that no one could tamper with the message across the channel. When using secure modern encryption algorithms, any minor modification to the ciphertext would prevent successful decryption or would lead to gibberish as plaintext.</li>
+<li><strong>Authenticity</strong>: Being able to decrypt the ciphertext using the secret key also proves the authenticity of the message because only Alice and Bob know the secret key.</li>
+</ul>
+<p>We are just getting started, and we know how to maintain confidentiality, check the integrity and ensure the authenticity of the exchanged messages. More practical and efficient approaches will be presented in later tasks. The question, for now, is whether this is scalable.</p>
+<p>With Alice and Bob, we needed one key. If we have Alice, Bob, and Charlie, we need three keys: one for Alice and Bob, another for Alice and Charlie, and a third for Bob and Charlie. However, the number of keys grows quickly; communication between 100 users requires almost 5000 different secret keys. (If you are curious about the mathematics behind it, that’s 99 + 98 + 97 + … + 1 = 4950).</p>
+<p>Moreover, if one system gets compromised, they need to create new keys to be used with the other 99 users. Another problem would be finding a secure channel to exchange the keys with all the other users. Obviously, this quickly grows out of hand.</p>
+<p>In the next task, we will cover asymmetric encryption. One of the problems solved with asymmetric encryption is when 100 users only need to share a total of 100 keys to communicate securely. (As explained earlier, symmetric encryption would require around 5000 keys to secure the communications for 100 users.)</p>
+<p>There are many programs available for symmetric encryption. We will focus on two, which are widely used for asymmetric encryption as well:</p>
+<ul>
+<li>GNU Privacy Guard</li>
+<li>OpenSSL Project</li>
+</ul>
+<h3>GNU Privacy Guard</h3>
+<p>The <a href="https://gnupg.org/">GNU Privacy Guard</a>, also known as GnuPG or GPG, implements the OpenPGP standard.</p>
+<p>We can encrypt a file using GnuPG (GPG) using the following command:</p>
+<p><code>gpg --symmetric --cipher-algo CIPHER message.txt</code>, where CIPHER is the name of the encryption algorithm. You can check supported ciphers using the command <code>gpg --version</code>. The encrypted file will be saved as <code>message.txt.gpg</code>.</p>
+<p>The default output is in the binary OpenPGP format; however, if you prefer to create an ASCII armoured output, which can be opened in any text editor, you should add the option <code>--armor</code>. For example, <code>gpg --armor --symmetric --cipher-algo CIPHER message.txt</code>.</p>
+<p>You can decrypt using the following command:</p>
+<p><code>gpg --output original_message.txt --decrypt message.gpg</code></p>
+<h3>OpenSSL Project</h3>
+<p>The <a href="https://www.openssl.org/">OpenSSL Project</a> maintains the OpenSSL software.</p>
+<p>We can encrypt a file using OpenSSL using the following command:</p>
+<p><code>openssl aes-256-cbc -e -in message.txt -out encrypted_message</code></p>
+<p>We can decrypt the resulting file using the following command:</p>
+<p><code>openssl aes-256-cbc -d -in encrypted_message -out original_message.txt</code></p>
+<p>To make the encryption more secure and resilient against brute-force attacks, we can add <code>-pbkdf2</code> to use the Password-Based Key Derivation Function 2 (PBKDF2); moreover, we can specify the number of iterations on the password to derive the encryption key using <code>-iter NUMBER</code>. To iterate 10,000 times, the previous command would become:</p>
+<p><code>openssl aes-256-cbc -pbkdf2 -iter 10000 -e -in message.txt -out encrypted_message</code></p>
+<p>Consequently, the decryption command becomes:</p>
+<p><code>openssl aes-256-cbc -pbkdf2 -iter 10000 -d -in encrypted_message -out original_message.txt</code></p>
+<p>In the following questions, we will use <code>gpg</code>&nbsp;and <code>openssl</code> on the AttackBox to carry out symmetric encryption.</p><p>The necessary files for this task are located under <code>/root/Rooms/cryptographyintro/task02</code>.&nbsp;<b>The zip file attached to this task can be used to tackle the questions of tasks 2, 3, 4, 5, and 6</b>.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Decrypt the file&nbsp;<code style="font-size:14px">quote01</code>&nbsp;encrypted (using AES256) with the key&nbsp;<code style="font-size:14px">s!kR3T55</code>&nbsp;using&nbsp;<code style="font-size:14px">gpg</code>. What is the third word in the file?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Decrypt the file&nbsp;<code style="font-size:14px">quote02</code>&nbsp;encrypted&nbsp;(using AES256-CBC) with the key&nbsp;<code style="font-size:14px">s!kR3T55</code>&nbsp;using&nbsp;<code style="font-size:14px">openssl</code>. What is the third word in the file?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *******" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Decrypt the file&nbsp;<code style="font-size:14px">quote03</code>&nbsp;encrypted (using CAMELLIA256) with the key&nbsp;<code style="font-size:14px">s!kR3T55</code>&nbsp;using&nbsp;<code style="font-size:14px">gpg</code>. What is the third word in the file?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **********" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="2">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-3">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse3">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 3                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Asymmetric Encryption
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse3" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Symmetric encryption requires the users to find a secure channel to exchange keys. By secure channel, we are mainly concerned with confidentiality and integrity. In other words, we need a channel where no third party can eavesdrop and read the traffic; moreover, no one can change the sent messages and data.</p>
+<p>Asymmetric encryption makes it possible to exchange encrypted messages without a secure channel; we just need a reliable channel. By reliable channel, we mean that we are mainly concerned with the channel’s integrity and not confidentiality.</p>
+<p>When using an asymmetric encryption algorithm, we would generate a key pair: a public key and a private key. The public key is shared with the world, or more specifically, with the people who want to communicate with us securely. The private key must be saved securely, and we must never let anyone access it. Moreover, it is not feasible to derive the private key despite the knowledge of the public key.</p>
+<p>How does this key pair work?</p>
+<p>If a message is encrypted with one key, it can be decrypted with the other. In other words:</p>
+<ul>
+<li>If Alice encrypts a message using Bob’s public key, it can be decrypted only using Bob’s private key.</li>
+<li>Reversely, if Bob encrypts a message using his private key, it can only be decrypted using Bob’s public key.</li>
+</ul>
+<h3>Confidentiality</h3>
+<p>We can use asymmetric encryption to achieve confidentiality by encrypting the messages using the recipient’s public key. In the following two figures, we can see that:</p>
+<p>Alice wants to ensure confidentiality in her communication with Bob. She encrypts the message using Bob’s public key, and Bob decrypts them using his private key. Bob’s public key is expected to be published on a public database or on his website, for instance.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/684696712007bfb81595bc823deb6293.png" alt="When using asymmetric encryption, Alice encrypts the messages using Bob&#39;s public key before sending them to Bob. Bob decrypts the messages using his private key." style="width:75%"><br></p>
+
+<p>When Bob wants to reply to Alice, he encrypts his messages using Alice’s public key, and Alice can decrypt them using her private key.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/321e8f02228699aab1a333791fe57d4a.png" alt="When using asymmetric encryption, Bob encrypts the messages using Alice&#39;s public key before sending them to Alice. Alice decrypts the messages using her private key." style="width:75%"><br></p>
+
+<p>In other words, it becomes easy to communicate with Alice and Bob while ensuring the confidentiality of the messages. The only requirement is that all parties have their public keys available for interested senders.</p>
+<p>Note: In practice, symmetric encryption algorithms allow faster operations than asymmetric encryption; therefore, we will cover later how we can use the best of both worlds.</p>
+<h3>Integrity, Authenticity, and Nonrepudiation</h3>
+<p>Beyond confidentiality, asymmetric encryption can solve integrity, authenticity and nonrepudiation. Let’s say that Bob wants to make a statement and wants everyone to be able to confirm that this statement indeed came from him. Bob needs to encrypt the message using his private key; the recipients can decrypt it using Bob’s public key. If the message decrypts successfully with Bob’s public key, it means that the message was encrypted using Bob’s private key. (In practice, he would encrypt a hash of the original message. We will elaborate on this later.)</p>
+<p>Being decrypted successfully using Bob’s public key leads to a few interesting conclusions.</p>
+<ul>
+<li>First, the message was not altered across the way (communication channel); this proves the message <em>integrity</em>.</li>
+<li>Second, knowing that no one has access to Bob’s private key, we can be sure that this message did indeed come from Bob; this proves the message <em>authenticity</em>.</li>
+<li>Finally, because no one other than Bob has access to Bob’s private key, Bob cannot deny sending this message; this establishes <em>nonrepudiation</em>.</li>
+</ul>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/11329c3e017fe2016fc21bc789b29259.png" alt="To prove authenticity using asymmetric encryption, Bob encrypts the message using his private key and the recipients can decrypt it using Bob’s public key." style="width:75%"><br></p>
+
+<p>We have seen how asymmetric encryption can help establish confidentiality, integrity, authenticity, and nonrepudiation. In real-life scenarios, asymmetric encryption can be relatively slow to encrypt large files and vast amounts of data. In another task, we will see how we can use asymmetric encryption in conjunction with symmetric encryption to achieve these security objectives relatively faster.</p>
+<h3>RSA</h3>
+<p>RSA got its name from its inventors, Rivest, Shamir, and Adleman. It works as follows:</p>
+<ol>
+<li>Choose two random prime numbers, <span class="math inline"><em>p</em></span> and <span class="math inline"><em>q</em></span>. Calculate <span class="math inline"><em>N</em> = <em>p</em> × <em>q</em></span>.</li>
+<li>Choose two integers <span class="math inline"><em>e</em></span> and <span class="math inline"><em>d</em></span> such that <span class="math inline"><em>e</em> × <em>d</em> = 1</span> mod <span class="math inline"><em>ϕ</em>(<em>N</em>)</span>, where <span class="math inline"><em>ϕ</em>(<em>N</em>) = <em>N</em> − <em>p</em> − <em>q</em> + 1</span>. This step will let us generate the public key <span class="math inline">(<em>N</em>,<em>e</em>)</span> and the private key <span class="math inline">(<em>N</em>,<em>d</em>)</span>.</li>
+<li>The sender can encrypt a value <span class="math inline"><em>x</em></span> by calculating <span class="math inline"><em>y</em> = <em>x</em><sup><em>e</em></sup></span> mod <span class="math inline"><em>N</em></span>. (Modulus)</li>
+<li>The recipient can decrypt <span class="math inline"><em>y</em></span> by calculating <span class="math inline"><em>x</em> = <em>y</em><sup><em>d</em></sup></span> mod <span class="math inline"><em>N</em></span>. Note that <span class="math inline"><em>y</em><sup><em>d</em></sup> = <em>x</em><sup><em>e</em><em>d</em></sup> = <em>x</em><sup><em>k</em><em>ϕ</em>(<em>N</em>) + 1</sup> = (<em>x</em><sup><em>ϕ</em>(<em>N</em>)</sup>)<sup><em>k</em></sup> × <em>x</em> = <em>x</em></span>. This step explains why we put a restriction on the choice of <span class="math inline"><em>e</em></span> and <span class="math inline"><em>d</em></span>.</li>
+</ol>
+<p>Don’t worry if the above mathematical equations looked too complicated; you don’t need mathematics to be able to use RSA, as it is readily available via programs and programming libraries.</p>
+<p>RSA security relies on factorization being a hard problem. It is easy to multiply <span class="math inline"><em>p</em></span> by <span class="math inline"><em>q</em></span>; however, it is time-consuming to find <span class="math inline"><em>p</em></span> and <span class="math inline"><em>q</em></span> given <span class="math inline"><em>N</em></span>. Moreover, for this to be secure, <span class="math inline"><em>p</em></span> and <span class="math inline"><em>q</em></span> should be pretty large numbers, for example, each being 1024 bits (that’s a number with more than 300 digits). It is important to note that RSA relies on secure random number generation, as with other asymmetric encryption algorithms. If an adversary can guess <span class="math inline"><em>p</em></span> and <span class="math inline"><em>q</em></span>, the whole system would be considered insecure.</p>
+<p>Let’s consider the following practical example.</p>
+<ol>
+<li>Bob chooses two prime numbers: <span class="math inline"><em>p</em> = 157</span> and <span class="math inline"><em>q</em> = 199</span>. He calculates <span class="math inline"><em>N</em> = 31243</span>.</li>
+<li>With <span class="math inline"><em>ϕ</em>(<em>N</em>) = <em>N</em> − <em>p</em> − <em>q</em> + 1 = 31243 − 157 − 199 + 1 = 30888</span>, Bob selects <span class="math inline"><em>e</em> = 163</span> and <span class="math inline"><em>d</em> = 379</span> where <span class="math inline"><em>e</em> × <em>d</em> = 163 × 379 = 61777</span> and <span class="math inline">61777</span> mod <span class="math inline">30888 = 1</span>. The public key is <span class="math inline">(31243,163)</span> and the private key is <span class="math inline">(31243,379)</span>.</li>
+<li>Let’s say that the value to encrypt is <span class="math inline"><em>x</em> = 13</span>, then Alice would calculate and send <span class="math inline"><em>y</em> = <em>x</em><sup><em>e</em></sup></span> mod <span class="math inline"><em>N</em> = 13<sup>163</sup></span> mod <span class="math inline">31243 = 16342</span>.</li>
+<li>Bob will decrypt the received value by calculating <span class="math inline"><em>x</em> = <em>y</em><sup><em>d</em></sup></span> mod <span class="math inline"><em>N</em> = 16341<sup>379</sup></span> mod <span class="math inline">31243 = 13</span>.</li>
+</ol>
+<p>The previous example was to understand the mathematics behind it better. To see real values for <span class="math inline"><em>p</em></span> and <span class="math inline"><em>q</em></span>, let’s create a real keypair using a tool such as <code>openssl</code>.</p>
+<div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            Terminal
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">openssl genrsa -out private-key.pem <span class="token number">2048</span></span></span>
+
+<span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">openssl rsa -in private-key.pem -pubout -out public-key.pem</span></span>
+<span class="token output">writing RSA key
+
+</span><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash"><span class="token function">cat</span> public-key.pem</span></span>
+<span class="token output">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAymcAeYg1ohPQLHu7u9l1
+UutN8bCP7r6czRX2zrQrpElYrm5mHERi1xweWEhTJ/0Q13FJcHLGtLbdQc0rGpOd
+DnYJBuzrqXU2hC7E7dlqLsj63NPADqlOGYCGCWnm/HGM2WuVtDXqRitN4zeNKEWI
+QmEctfucopZx5AVJ1vTn+qMv/0D6QU7Mm65MTSYg1SCRA0D0N9NLMj4rYlLOIr5q
+5g3iunAE4tCROMcHf7fxWMuWdJTdtxTv7+4P5XGkWrWriO22JFHp9N22Fm96V9jH
+7aASRkIZvQFmx+1dl7btZDhsm2ezU07LBabv9efj0gIwz6P3mTJVm+wxaDH6jiXB
+dwIDAQAB
+-----END PUBLIC KEY-----
+
+</span><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">openssl rsa -in private-key.pem -text -noout</span></span>
+<span class="token output">Private-Key: (2048 bit, 2 primes)
+modulus:
+    00:ca:67:00:79:88:35:a2:13:d0:2c:7b:bb:bb:d9:
+    75:52:eb:4d:f1:b0:8f:ee:be:9c:cd:15:f6:ce:b4:
+    2b:a4:49:58:ae:6e:66:1c:44:62:d7:1c:1e:58:48:
+    53:27:fd:10:d7:71:49:70:72:c6:b4:b6:dd:41:cd:
+    2b:1a:93:9d:0e:76:09:06:ec:eb:a9:75:36:84:2e:
+    c4:ed:d9:6a:2e:c8:fa:dc:d3:c0:0e:a9:4e:19:80:
+    86:09:69:e6:fc:71:8c:d9:6b:95:b4:35:ea:46:2b:
+    4d:e3:37:8d:28:45:88:42:61:1c:b5:fb:9c:a2:96:
+    71:e4:05:49:d6:f4:e7:fa:a3:2f:ff:40:fa:41:4e:
+    cc:9b:ae:4c:4d:26:20:d5:20:91:03:40:f4:37:d3:
+    4b:32:3e:2b:62:52:ce:22:be:6a:e6:0d:e2:ba:70:
+    04:e2:d0:91:38:c7:07:7f:b7:f1:58:cb:96:74:94:
+    dd:b7:14:ef:ef:ee:0f:e5:71:a4:5a:b5:ab:88:ed:
+    b6:24:51:e9:f4:dd:b6:16:6f:7a:57:d8:c7:ed:a0:
+    12:46:42:19:bd:01:66:c7:ed:5d:97:b6:ed:64:38:
+    6c:9b:67:b3:53:4e:cb:05:a6:ef:f5:e7:e3:d2:02:
+    30:cf:a3:f7:99:32:55:9b:ec:31:68:31:fa:8e:25:
+    c1:77
+publicExponent: 65537 (0x10001)
+privateExponent:
+    10:fe:00:be:33:3f:3d:72:28:61:f3:a9:59:25:f2:
+    81:99:9b:9b:94:d5:20:98:04:15:fb:a8:12:c6:71:
+    7b:83:64:dc:90:0c:26:87:5f:3c:eb:f1:68:3b:fa:
+    2f:3b:41:b4:b4:a0:13:be:af:0b:f0:e6:36:66:01:
+    1e:64:12:25:6a:a7:6b:5b:6c:95:77:6f:b2:3d:32:
+    ef:3c:f7:7b:22:08:5d:8d:b1:6c:09:ae:b2:d9:65:
+    67:58:ea:b9:7a:d6:f6:51:df:e9:97:35:29:da:ec:
+    d9:0c:8a:df:3c:a7:29:db:79:4b:95:ea:1a:84:42:
+    df:7f:ca:29:2f:ba:62:02:37:05:c0:b0:c2:ff:42:
+    6b:fb:e1:36:40:10:ae:11:0f:d8:87:2f:fe:10:2e:
+    a4:60:de:ff:fe:c8:ab:0b:29:fa:6c:20:ec:87:33:
+    46:c0:cd:96:36:cb:9b:ca:81:17:e5:c3:eb:34:b2:
+    83:0f:52:cc:e9:68:bd:cb:d2:85:2f:fe:c4:47:76:
+    df:94:69:ce:7b:8a:50:71:36:96:e6:35:fb:fb:b4:
+    4a:ac:63:9b:9d:1b:bb:32:71:31:45:a2:25:33:cc:
+    f7:a5:fb:9f:66:b1:4e:30:ce:9d:71:e8:fa:7d:5f:
+    33:a0:c1:94:0a:b7:b7:f3:16:7e:4f:ad:89:3d:ba:
+    51
+prime1:
+    00:e0:3d:87:b3:d3:1f:d2:c6:66:23:83:a5:95:d5:
+    20:35:f8:d8:c0:94:cf:cc:d2:04:d4:e4:ef:cf:c2:
+    94:00:10:cd:d1:4a:df:09:4e:7e:95:f8:70:08:b1:
+    20:98:8a:e3:88:f7:cc:a8:32:62:32:68:f6:1f:c0:
+    fb:c1:71:41:8c:21:a3:ff:20:e6:96:d0:6e:4b:66:
+    61:08:d0:b7:26:48:27:62:a7:d3:ff:36:55:c8:e1:
+    ab:91:48:90:fb:b5:b1:92:be:90:06:a8:40:1b:2a:
+    2d:53:1e:87:fc:a7:8a:57:72:0b:e5:35:71:7b:dd:
+    8c:e5:b5:ab:64:7c:37:c5:0d
+prime2:
+    00:e7:11:ac:50:f5:dc:16:cf:20:46:77:5d:ca:16:
+    29:36:35:89:95:c0:f8:4b:42:ef:03:a0:f1:ce:2e:
+    1b:da:55:a9:ff:5a:28:4d:78:c5:8a:e2:55:9b:94:
+    b4:56:ec:ab:1b:dd:b8:07:be:dd:d5:0f:49:90:b3:
+    ed:a2:d7:78:38:24:d5:9e:7d:a2:e8:8c:e0:2a:33:
+    32:21:1f:0e:6b:aa:0b:b4:11:6a:bd:8f:d9:86:3f:
+    ad:42:c8:bc:42:23:21:39:8d:0c:60:f2:ca:2a:00:
+    0a:8e:de:fb:1a:3c:51:9d:f2:dc:0a:59:80:d6:a4:
+    47:5c:02:a3:d0:30:1d:47:93
+[...]</span></code>
+        </pre>
+    </div>
+</div>
+<p>We executed three commands:</p>
+<ul>
+<li><code>openssl genrsa -out private-key.pem 2048</code>: With <code>openssl</code>, we used <code>genrsa</code> to generate an RSA private key. Using <code>-out</code>, we specified that the resulting private key is saved as <code>private-key.pem</code>. We added <code>2048</code> to specify a key size of 2048 bits.</li>
+<li><code>openssl rsa -in private-key.pem -pubout -out public-key.pem</code>: Using <code>openssl</code>, we specified that we are using the RSA algorithm with the <code>rsa</code> option. We specified that we wanted to get the public key using <code>-pubout</code>. Finally, we set the private key as input using <code>-in private-key.pem</code> and saved the output using <code>-out public-key.pem</code>.</li>
+<li><code>openssl rsa -in private-key.pem -text -noout</code>: We are curious to see real RSA variables, so we used <code>-text -noout</code>. The values of <span class="math inline"><em>p</em></span>, <span class="math inline"><em>q</em></span>, <span class="math inline"><em>N</em></span>, <span class="math inline"><em>e</em></span>, and <span class="math inline"><em>d</em></span> are <code>prime1</code>, <code>prime2</code>, <code>modulus</code>, <code>publicExponent</code>, and <code>privateExponent</code>, respectively.</li>
+</ul>
+<p>If we already have the recipient’s public key, we can encrypt it with the command <code>openssl pkeyutl -encrypt -in plaintext.txt -out ciphertext -inkey public-key.pem -pubin</code></p>
+<p>The recipient can decrypt it using the command <code>openssl pkeyutl -decrypt -in ciphertext -inkey private-key.pem&nbsp;-out decrypted.txt</code></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>On the AttackBox, you can find the directory for this task located at&nbsp;<code style="font-size:14px">/root/Rooms/cryptographyintro/task03</code>;&nbsp;alternatively, you can use the task file from Task 2 to work on your own machine.</p><p>Bob has received the file&nbsp;<code style="font-size:14px">ciphertext_message</code>&nbsp;sent to him from Alice. You can find the key you need in the same folder. What is the first word of the original plaintext?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **********" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span style="font-size:1rem">Take a look at Bob’s private RSA key. What is the last byte of&nbsp;</span><span class="math inline" style="font-size:1rem"><em>p</em></span><span style="font-size:1rem">?</span></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Take a look at Bob’s private RSA key. What is the last byte of&nbsp;<span class="math inline"><em>q</em></span>?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="3">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-4">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse4">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 4                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Diffie-Hellman Key Exchange
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse4" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Alice and Bob can communicate over an insecure channel. By insecure, we mean that there are eavesdroppers who can read the messages exchanged on this channel. How can Alice and Bob agree on a secret key in such a setting? One way would be to use the Diffie-Hellman key exchange.</p>
+<p>Diffie-Hellman is an asymmetric encryption algorithm. It allows the exchange of a secret over a public channel. We will skip the modular arithmetic background and provide a simple numeric example. We will need two mathematical operations: power and modulus. <span class="math inline"><em>x</em><sup><em>p</em></sup></span>, i.e., <span class="math inline"><em>x</em></span> raised to the power <span class="math inline"><em>p</em></span>, is <span class="math inline"><em>x</em></span> multiplied by itself <span class="math inline"><em>p</em></span> times. Furthermore, <span class="math inline"><em>x</em></span> mod <span class="math inline"><em>m</em></span>, i.e., <span class="math inline"><em>x</em></span> modulus <span class="math inline"><em>m</em></span>, is the remainder of the division of <span class="math inline"><em>x</em></span> by <span class="math inline"><em>m</em></span>.</p>
+<ol>
+<li>Alice and Bob agree on <span class="math inline"><em>q</em></span> and <span class="math inline"><em>g</em></span>. For this to work, <span class="math inline"><em>q</em></span> should be a prime number, and <span class="math inline"><em>g</em></span> is a number smaller than <span class="math inline"><em>q</em></span> that satisfies certain conditions. (In modular arithmetic, <span class="math inline"><em>g</em></span> is a generator.) In this example, we take <span class="math inline"><em>q</em> = 29</span> and <span class="math inline"><em>g</em> = 3</span>.</li>
+<li>Alice chooses a random number <span class="math inline"><em>a</em></span> smaller than <span class="math inline"><em>q</em></span>. She calculates <span class="math inline"><em>A</em> = (<em>g</em><sup><em>a</em></sup>)</span> mod <span class="math inline"><em>q</em></span>. The number <span class="math inline"><em>a</em></span> must be kept a secret; however, <span class="math inline"><em>A</em></span> is sent to Bob. Let’s say that Alice picks the number <span class="math inline"><em>a</em> = 13</span> and calculates <span class="math inline"><em>A</em> = 3<sup>13</sup>%29 = 19</span> and sends it to Bob.</li>
+<li>Bob picks a random number <span class="math inline"><em>b</em></span> smaller than <span class="math inline"><em>q</em></span>. He calculates <span class="math inline"><em>B</em> = (<em>g</em><sup><em>b</em></sup>)</span> mod <span class="math inline"><em>q</em></span>. Bob must keep <span class="math inline"><em>b</em></span> a secret; however, he sends <span class="math inline"><em>B</em></span> to Alice. Let’s consider the case where Bob chooses the number <span class="math inline"><em>b</em> = 15</span> and calculates <span class="math inline"><em>B</em> = 3<sup>15</sup>%29 = 26</span>. He proceeds to send it to Alice.</li>
+<li>Alice receives <span class="math inline"><em>B</em></span> and calculates <span class="math inline"><em>k</em><em>e</em><em>y</em> = <em>B</em><sup><em>a</em></sup></span> mod <span class="math inline"><em>q</em></span>. Numeric example <span class="math inline"><em>k</em><em>e</em><em>y</em> = 26<sup>13</sup></span> mod <span class="math inline">29 = 10.</span></li>
+<li>Bob receives <span class="math inline"><em>A</em></span> and calculates <span class="math inline"><em>k</em><em>e</em><em>y</em> = <em>A</em><sup><em>b</em></sup></span> mod <span class="math inline"><em>q</em></span>. Numeric example <span class="math inline"><em>k</em><em>e</em><em>y</em> = 19<sup>15</sup></span> mod <span class="math inline">29 = 10.</span></li>
+</ol>
+<p>We can see that Alice and Bob reached the same key.</p>
+<p>Although an eavesdropper has learned the values of <span class="math inline"><em>q</em>, <em>g</em>, <em>A</em>,</span> and <span class="math inline"><em>B</em></span>, they won’t be able to calculate the secret <span class="math inline"><em>k</em><em>e</em><em>y</em></span> that Alice and Bob have exchanged. The above steps are summarized in the figure below.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/6993f1edbc899d252e949ac403294d52.png" alt="Graphical illustration showing a numeric example of the five steps of Diffie-Hellman" style="width:75%"><br></p>
+
+<p>Although the numbers we have chosen make it easy to find <span class="math inline"><em>a</em></span> and <span class="math inline"><em>b</em></span>, even without using a computer, real-world examples would select a <span class="math inline"><em>q</em></span> of 256 bits in length. In decimal numbers, that’s 115 with 75 zeroes to its right (I don’t know how to read that either, but I was told it is read as 115 quattuorvigintillion). Such a large <span class="math inline"><em>q</em></span> will make it infeasible to find <span class="math inline"><em>a</em></span> or <span class="math inline"><em>b</em></span> despite knowledge of <span class="math inline"><em>q</em>, <em>g</em>, <em>A</em>,</span> and <span class="math inline"><em>B</em></span>.</p>
+<p>Let’s take a look at actual Diffie-Hellman parameters. We can use <code>openssl</code> to generate them; we need to specify the option <code>dhparam</code> to indicate that we want to generate Diffie-Hellman parameters along with the specified size in bits, such as <code>2048</code> or <code>4096</code>.</p>
+<p>In the console output below, we can view the prime number <code>P</code> and the generator <code>G</code> using the command <code>openssl dhparam -in dhparams.pem -text -noout</code>. (This is similar to what we did with the RSA private key.)</p>
+
+<div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            Terminal
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">openssl dhparam -out dhparams.pem <span class="token number">2048</span></span></span>
+<span class="token output">Generating DH parameters, 2048 bit long safe prime
+[...]
+</span><span class="token command"><span class="token shell-symbol important">$</span> <span class="token bash language-bash">openssl dhparam -in dhparams.pem -text -noout</span></span>
+<span class="token output">    DH Parameters: (2048 bit)
+    P:   
+        00:82:3b:9d:b5:29:31:f8:12:fe:21:e1:90:30:37:
+        ac:d2:48:41:f7:d7:55:e5:d2:5d:dd:87:67:9e:bd:
+        b3:97:df:05:a9:d2:d9:56:4f:66:b5:d9:d8:65:06:
+        58:c3:8f:b3:0e:30:d2:9a:0b:c3:0a:56:8d:fc:0f:
+        f2:e2:9e:4f:16:16:93:4e:b9:a4:c3:9c:09:2d:48:
+        a2:ec:b6:97:92:63:a3:b4:75:36:3f:51:77:ca:ac:
+        44:6d:99:eb:4d:4a:97:d5:4b:52:c8:07:f8:16:30:
+        37:d3:b2:47:30:e6:4e:bc:6a:53:d1:9b:6a:4d:91:
+        7a:4b:4f:af:3b:f0:ce:b9:ed:91:4d:8b:52:5a:3f:
+        bb:6b:06:ae:32:95:7d:53:da:9b:ce:b0:ec:7d:81:
+        25:05:d8:ce:ca:76:e7:d1:5a:31:13:d2:9f:62:b4:
+        d5:ad:7d:cd:c9:ab:3d:28:e3:92:27:9f:f3:66:a0:
+        be:61:49:cc:47:21:d8:e0:2c:e8:c6:35:4b:2f:ba:
+        35:36:8f:bb:41:c6:89:b2:60:3c:62:bb:fe:bf:59:
+        d3:7f:05:69:55:dc:61:1b:b4:bb:68:fa:65:1e:2e:
+        46:2f:2d:21:62:d1:9f:a0:2b:aa:81:df:3a:f9:7d:
+        0b:9d:0e:47:68:01:4f:6e:81:cc:4c:2a:91:fc:8c:
+        f4:6f
+    G:    2 (0x2)</span></code>
+        </pre>
+    </div>
+</div>
+<p>Diffie-Hellman key exchange algorithm allows two parties to agree on a secret over an insecure channel. However, the discussed key exchange is prone to a Man-in-the-Middle (MitM) attack; an attacker might reply to Alice pretending to be Bob and reply to Bob pretending to be Alice. We discuss a solution to this problem in Task 6.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>On the AttackBox, you can find the directory for this task located at&nbsp;<code style="font-size:14px">/root/Rooms/cryptographyintro/task04</code>;&nbsp;alternatively, you can use the task file from Task 2 to work on your own machine.</p><p>A set of Diffie-Hellman parameters can be found in the file&nbsp;<code style="font-size:14px">dhparam.pem</code>. What is the size of the prime number in bits?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>What is the prime number’s last byte (least significant byte)?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: **" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="4">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-5">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse5">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 5                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Hashing
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse5" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>A cryptographic hash function is an algorithm that takes data of arbitrary size as its input and returns a fixed size value, called <em>message digest</em> or <em>checksum</em>, as its output. For example, <code>sha256sum</code> calculates the SHA256 (Secure Hash Algorithm 256) message digest. SHA256, as the name indicates, returns a checksum of size 256 bits (32 bytes). This checksum is usually written using hexadecimal digits. Knowing that a hexadecimal digit represents 4 bits, the 256 bits checksum can be represented as 64 hexadecimal digits.</p>
+<p>In the terminal output below, we calculate the SHA256 hash values for three files of varying sizes: 4 bytes, 275 MB, and 5.2 GB. Using <code>sha256sum</code> to calculate the message digest for each of the three files, we get three completely different values that appear random. It is worth stressing that the length of the resulting message digest or checksum is the same, no matter how small or big the file is. In particular, the four-byte file <code>abc.txt</code> and the 5.2 GB file resulted in message digests of equal length independent of the file size.</p>
+<div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            Terminal
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash"><span class="token function">ls</span> -lh</span></span>
+<span class="token output">total 5.5G
+-rw-r--r--. 1 strategos strategos    4  7月 21 12:46 abc.txt
+-rw-r--r--. 1 strategos strategos 275M  2月 12 19:08 debian-hurd.img.tar.xz
+-rw-r--r--. 1 strategos strategos 5.2G  4月 26 16:55 Win11_English_x64v1.iso
+</span><span class="token command"><span class="token shell-symbol important">$</span> <span class="token bash language-bash">sha256sum *</span></span>
+<span class="token output">c38bb113c89d8fec6475a9936411007c45563ecb7ce8acd5db7fb58c0872bda0  abc.txt
+0317ff0150e0d64b70284b28c97bb788310585ea7ac46cc8139d5a3c850dea55  debian-hurd.img.tar.xz
+4bc6c7e7c61af4b5d1b086c5d279947357cff45c2f82021bb58628c2503eb64e  Win11_English_x64v1.iso</span></code>
+        </pre>
+    </div>
+</div>
+<p>But why would we need such a function? There are many uses, in particular:</p>
+<ul>
+<li>Storing passwords: Instead of storing passwords in plaintext, a hash of the password is stored instead. Consequently, if a data breach occurs, the attacker will get a list of password hashes instead of the original passwords. (In practice, passwords are also “salted”, as discussed in a later task.)</li>
+<li>Detecting modifications: Any minor modification to the original file would lead to a drastic change in hash value, i.e.&nbsp;checksum.</li>
+</ul>
+<p>In the following terminal output, we have two files, <code>text1.txt</code> and <code>text2.txt</code>, which are almost identical except for (literally) one bit being different; the letters <code>T</code> and <code>t</code> are different in one bit in their ASCII representation. Even though we have flipped only a single bit, it is evident that the SHA256 checksums are entirely different. Consequently, if we use a secure hash function algorithm, we can easily confirm whether any modifications have taken place. This can help protect against both intentional tampering and file transfer errors.</p>
+<div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            Terminal
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">hexdump text1.txt -C</span></span>
+<span class="token output">00000000  54 72 79 48 61 63 6b 4d  65 0a                    |TryHackMe.|
+0000000a
+</span><span class="token command"><span class="token shell-symbol important">$</span> <span class="token bash language-bash">hexdump text2.txt -C</span></span>
+<span class="token output">00000000  74 72 79 48 61 63 6b 4d  65 0a                    |tryHackMe.|
+0000000a
+</span><span class="token command"><span class="token shell-symbol important">$</span> <span class="token bash language-bash">sha256sum text1.txt</span></span>
+<span class="token output">f4616fd825a10ded9af58fbaee09f3e31751d15591f9323ea68b03a0e8ac3783  text1.txt
+</span><span class="token command"><span class="token shell-symbol important">$</span> <span class="token bash language-bash">sha256sum text2.txt</span></span>
+<span class="token output">9ffa3533ee33998aeb1df76026f8031c8af6ccabd8393eca002d5b7471a0b536  text2.txt</span></code>
+        </pre>
+    </div>
+</div>
+<p>Some of the hashing algorithms in use and still considered secure are:</p>
+<ul>
+<li>SHA224, SHA256, SHA384, SHA512</li>
+<li>RIPEMD160</li>
+</ul>
+<p>Some older hash functions, such as MD5 (Message Digest 5) and SHA-1, are cryptographically broken. By broken, we mean that it is possible to generate a different file with the same checksum as a given file.&nbsp;This means that we can create a hash collision. In other words, an attacker can create a new message with a given checksum, and detecting file or message tampering won’t be possible.</p>
+<h3>HMAC</h3>
+<p><span>Hash-based message authentication code (H<a class="nZ1phD70 glossary-term" onclick="initPopOver(&#39;MAC&#39;, &#39;nZ1phD70&#39;)">MAC</a>) is a message authentication code (MAC) that uses a cryptographic key in addition to a hash function.</span></p>
+<p>According to <a href="https://www.rfc-editor.org/rfc/rfc2104">RFC2104</a>, HMAC needs:</p>
+<ul>
+<li>secret key</li>
+<li>inner pad (ipad) a constant string. (RFC2104 uses the byte <code>0x36</code> repeated B times. The value of B depends on the chosen hash function.)</li>
+<li>outer pad (opad) a constant string. (RFC2104 uses the byte <code>0x5C</code> repeated B times.)</li>
+</ul>
+<p>Calculating the HMAC follows the following steps as shown in the figure:</p>
+<ol>
+<li>Append zeroes to the key to make it of length B, i.e., to make its length match that of the ipad.</li>
+<li>Using bitwise exclusive-OR (XOR), represented by <span class="math inline">⊕</span>, calculate <span class="math inline"><em>k</em><em>e</em><em>y</em> ⊕ <em>i</em><em>p</em><em>a</em><em>d</em></span>.</li>
+<li>Append the message to the XOR output from step 2.</li>
+<li>Apply the hash function to the resulting stream of bytes (in step 3).</li>
+<li>Using XOR, calculate <span class="math inline"><em>k</em><em>e</em><em>y</em> ⊕ <em>o</em><em>p</em><em>a</em><em>d</em></span>.</li>
+<li>Append the hash function output from step 4 to the XOR output from step 5.</li>
+<li>Apply the hash function to the resulting stream of bytes (in step 6) to get the HMAC.</li></ol>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/d8b175af1d32a759f66b223efdac8972.png" alt="Graphical illustration showing how an HMAC is calculated" style="width:50%"><br></p>
+
+<p>The figure above represents the steps expressed in the following formula: <span class="math inline"><em>H</em>(<em>K</em>⊕<em>o</em><em>p</em><em>a</em><em>d</em>,<em>H</em>(<em>K</em>⊕<em>i</em><em>p</em><em>a</em><em>d</em>,<em>t</em><em>e</em><em>x</em><em>t</em>))</span>.</p>
+<p><span>To calculate the HMAC on a <a class="GnrH4WmI glossary-term" onclick="initPopOver(&#39;Linux&#39;, &#39;GnrH4WmI&#39;)">Linux</a> system, you can use any of the available tools such as </span><code>hmac256</code> (or <code>sha224hmac</code>, <code>sha256hmac</code>, <code>sha384hmac</code>, and <code>sha512hmac</code>, where the secret key is added after the option <code>--key</code>). Below we show an example of calculating the HMAC using <code>hmac256</code> and <code>sha256hmac</code> with two different keys.</p>
+<div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            Terminal
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">hmac256 s<span class="token operator">!</span>Kr37 message.txt</span></span>
+<span class="token output">3ec65b7e80c5bf2e623e52e0528f1c6a74f605b10616621ba1c22a89fb244e65  message.txt
+
+</span><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">hmac256 <span class="token number">1234</span> message.txt</span></span>
+<span class="token output">4b6a2783631180fca6128592e3d17fb5bff6b0e563ad8f1c6afc1050869e440f  message.txt
+
+</span><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">sha256hmac message.txt --key s<span class="token operator">!</span>Kr37</span></span>
+<span class="token output">3ec65b7e80c5bf2e623e52e0528f1c6a74f605b10616621ba1c22a89fb244e65  message.txt
+
+</span><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">sha256hmac message.txt --key <span class="token number">1234</span></span></span>
+<span class="token output">4b6a2783631180fca6128592e3d17fb5bff6b0e563ad8f1c6afc1050869e440f  message.txt</span></code>
+        </pre></div></div></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span style="font-size:1rem">On the AttackBox, you can find the directory for this task located at&nbsp;</span><code style="font-size:14px">/root/Rooms/cryptographyintro/task05</code><span style="font-size:1rem">;&nbsp;alternatively, you can use the task file from Task 2 to work on your own machine.</span></p><p>What is the SHA256 checksum of the file&nbsp;<code style="font-size:14px">order.json</code>?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****************************************************************" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Open the file&nbsp;<code style="font-size:14px">order.json</code>&nbsp;and change the amount from&nbsp;<code style="font-size:14px">1000</code>&nbsp;to&nbsp;<code style="font-size:14px">9000</code>. What is the new SHA256 checksum?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****************************************************************" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Using SHA256 and the key&nbsp;<code style="font-size:14px">3RfDFz82</code>, what is the HMAC of&nbsp;<code style="font-size:14px">order.txt</code>?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****************************************************************" value="">
+                            <input type="hidden" value="3">
+                            <input type="hidden" value="5">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-6">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse6">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 6                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> PKI and SSL/TLS
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse6" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span>Using a key exchange such as the Diffie-Hellman key exchange allows us to agree on a secret key under the eyes and ears of eavesdroppers. This key can be used with a symmetric encryption algorithm to ensure confidential communication. However, the key exchange we described earlier is not immune to Man-in-the-Middle (<a class="05hTrVnF glossary-term" onclick="initPopOver(&#39;MITM&#39;, &#39;05hTrVnF&#39;)">MITM</a>) attack. The reason is that Alice has no way of ensuring that she is communicating with Bob, and Bob has no way of ensuring that he is communicating with Alice when exchanging the secret key.</span></p>
+<p>Consider the figure below. It is an attack against the key exchange explained in the Diffie-Hellman Key Exchange task. The steps are as follows:</p>
+<ol>
+<li>Alice and Bob agree on <span class="math inline"><em>q</em></span> and <span class="math inline"><em>g</em></span>. Anyone listening on the communication channel can read these two values, including the attacker, Mallory.</li>
+<li>As she would normally do, Alice chooses a random variable <span class="math inline"><em>a</em></span>, calculates <span class="math inline"><em>A</em></span> ( <span class="math inline"><em>A</em> = (<em>g</em><sup><em>a</em></sup>)</span> mod <span class="math inline"><em>q</em></span>) and sends <span class="math inline"><em>A</em></span> to Bob. Mallory has been waiting for this step, and she has selected a random variable <span class="math inline"><em>m</em></span> and calculated the respective <span class="math inline"><em>M</em></span>. As soon as Mallory receives <span class="math inline"><em>A</em></span>, she sends <span class="math inline"><em>M</em></span> to Bob, pretending she is Alice.</li>
+<li>Bob receives <span class="math inline"><em>M</em></span> thinking that Alice sent it. Bob has already picked a random variable <span class="math inline"><em>b</em></span> and calculated the respective <span class="math inline"><em>B</em></span>; he sends <span class="math inline"><em>B</em></span> to Alice. Similarly, Mallory intercepts the message, reads <span class="math inline"><em>B</em></span> and sends <span class="math inline"><em>M</em></span> to Alice instead.</li>
+<li>Alice receives <span class="math inline"><em>M</em></span> and calculates <span class="math inline"><em>k</em><em>e</em><em>y</em> = <em>M</em><sup><em>a</em></sup></span> mod <span class="math inline"><em>q</em></span>.</li>
+<li>Bob receives <span class="math inline"><em>M</em></span> and calculates <span class="math inline"><em>k</em><em>e</em><em>y</em> = <em>M</em><sup><em>b</em></sup></span> mod <span class="math inline"><em>q</em></span>.</li>
+</ol>
+<p>Alice and Bob continue to communicate, thinking that they are communicating directly, unaware that they are communicating with Mallory, who can read and modify the messages before sending them to the intended recipient.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/640464d74c639afe684eed13c6707229.png" alt="Illustration showing the Man-in-the-Middle attack against Diffie-Hellman Key Exchange" style="width:75%"><br></p>
+
+<p><span>This susceptibility necessitates some mechanism that would allow us to confirm the other party’s identity. This brings us to Public Key Infrastructure (<a class="3XqwTf4U glossary-term" onclick="initPopOver(&#39;PKI&#39;, &#39;3XqwTf4U&#39;)">PKI</a>).</span></p>
+<p>Consider the case where you are browsing the website <a href="https://example.org/">example.org</a> over HTTPS. How can you be confident that you are indeed communicating with the <code>example.org</code> server(s)? In other words, how can you be sure that no man-in-the-middle intercepted the packets and altered them before they reached you? The answer lies in the website certificate.</p>
+<p>The figure below shows the page we get when browsing example.org. Most browsers represent the encrypted connection with some kind of a lock icon. This lock icon indicates that the connection is secured over HTTPS with a valid certificate.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/0c5bba05433f39f193e19b111a623f33.png" alt="Screenshot of a browser showing a lock icon for an encrypted connection" style="width:75%"><br></p>
+
+<p>At the time of writing, example.org uses a certificate signed by DigiCert Inc., as shown in the figure below. In other words, DigiCert confirms that this certificate is valid (till a certain date).</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/22c1e51aec7038f6247317f8c3299616.png" alt="Screenshot showing the validity of a website certificate" style="width:75%"><br></p>
+
+<p>For a certificate to get signed by a certificate authority, we need to:</p>
+<ol>
+<li>Generate Certificate Signing Request (CSR): You create a certificate and send your public key to be signed by a third party.</li>
+<li>Send your CSR to a Certificate Authority (CA): The purpose is for the CA to sign your certificate. The alternative and usually insecure solution would be to self-sign your certificate.</li>
+</ol>
+<p>For this to work, the recipient should recognize and trust the CA that signed the certificate. And as we would expect, our browser trusts DigiCert Inc as a signing authority; otherwise, it would have issued a security warning instead of proceeding to the requested website.</p>
+
+<p style="text-align:center"><img src="./TryHackMe _ Introduction to Cryptography_files/0892193b8b3defdc3cedbc1dcf1843a8.png" alt="Screenshot showing the certificate authorities trusted by a web browser" style="width:75%"><br></p>
+
+<p>You can use <code>openssl</code> to generate a certificate signing request using the command <code>openssl req -new -nodes -newkey rsa:4096 -keyout key.pem -out cert.csr</code>. We used the following options:</p>
+<ul>
+<li><code>req -new</code> create a new certificate signing request</li>
+<li><code>-nodes</code> save private key without a passphrase</li>
+<li><code>-newkey</code> generate a new private key</li>
+<li><code>rsa:4096</code> generate an RSA key of size 4096 bits</li>
+<li><code>-keyout</code> specify where to save the key</li>
+<li><code>-out</code> save the certificate signing request</li>
+</ul>
+<p>Then you will be asked to answer a series of questions, as shown in the console output below.</p>
+
+<div class="terminal-container">
+    <div class="terminal-content">
+        <div class="terminal-top">
+            Terminal
+        </div>
+        <pre class="terminal-code language-shell-session" tabindex="0">           <code class=" language-shell-session"><span class="token command"><span class="token info punctuation"><span class="token user">user@TryHackMe</span></span><span class="token shell-symbol important">$</span> <span class="token bash language-bash">openssl req -new -nodes -newkey rsa:4096 -keyout key.pem -out cert.csr</span></span>
+<span class="token output">[...]
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:UK
+State or Province Name (full name) []:London
+Locality Name (eg, city) [Default City]:London
+[...]</span></code>
+        </pre>
+    </div>
+</div>
+<p>Once the CSR file is ready, you can send it to a CA of your choice to get it signed and ready to use on your server.</p>
+<p>Once the client, i.e., the browser, receives a signed certificate it trusts, the SSL/TLS handshake takes place. The purpose would be to agree on the ciphers and the secret key.</p>
+<p><span>We have just described how <a class="aRbNXuBT glossary-term" onclick="initPopOver(&#39;PKI&#39;, &#39;aRbNXuBT&#39;)">PKI</a> applies to the web and SSL/TLS certificates. A trusted third party is necessary for the system to be scalable.</span></p>
+<p>For testing purposes, we have created a self-signed certificate. For example, the following command will generate a self-signed certificate.</p>
+<p><code>openssl req -x509 -newkey -nodes rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365</code></p>
+<p>The <code>-x509</code> indicates that we want to generate a self-signed certificate instead of a certificate request. The <code>-sha256</code> specifies the use of the SHA-256 digest. It will be valid for one year as we added <code>-days 365</code>.</p>
+<p>To answer the questions below, you need to inspect the certificate file <code>cert.pem</code> in the <code>task06</code> directory. You can use the following command to view your certificate:</p>
+<p><code>openssl x509 -in cert.pem -text</code></p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p><span style="font-size:1rem">On the AttackBox, you can find the directory for this task located at&nbsp;</span><code style="font-size:14px">/root/Rooms/cryptographyintro/task06</code><span style="font-size:1rem">;&nbsp;alternatively, you can use the task file from Task 2 to work on your own machine.</span></p><p>What is the size of the public key in bits?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div><div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>Till which year is this certificate valid?<br></p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: ****" value="">
+                            <input type="hidden" value="2">
+                            <input type="hidden" value="6">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-7">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse7">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 7                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Authenticating with Passwords
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse7" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p><span>Let’s see how cryptography can help increase password security. With <a class="hNI6AScI glossary-term" onclick="initPopOver(&#39;PKI&#39;, &#39;hNI6AScI&#39;)">PKI</a> and SSL/TLS, we can communicate with any server and provide our login credentials while ensuring that no one can read our passwords as they move across the network. This is an example of protecting data in transit. Let’s explore how we can safeguard passwords as they are saved in a database, i.e., data at rest.</span></p>
+<p>The least secure method would be to save the username and the password in a database. This way, any data breach would expose the users’ passwords. No effort is required beyond reading the database containing the passwords.</p>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>alice</code></td>
+<td><code>qwerty</code></td>
+</tr>
+<tr>
+<td><code>bob</code></td>
+<td><code>dragon</code></td>
+</tr>
+<tr>
+<td><code>charlie</code></td>
+<td><code>princess</code></td>
+</tr>
+</tbody>
+</table>
+<p>The improved approach would be to save the username and a hashed version of the password in a database. This way, a data breach will expose the hashed versions of the passwords. Since a hash function is irreversible, the attacker needs to keep trying different passwords to find the one that would result in the same hash. The table below shows the MD5 sum of the passwords. (We chose MD5 just to keep the password field small for the example; otherwise, we would have used SHA256 or something more secure.)</p>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Username</th>
+<th>Hash(Password)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>alice</code></td>
+<td><code>d8578edf8458ce06fbc5bb76a58c5ca4</code></td>
+</tr>
+<tr>
+<td><code>bob</code></td>
+<td><code>8621ffdbc5698829397d97767ac13db3</code></td>
+</tr>
+<tr>
+<td><code>charlie</code></td>
+<td><code>8afa847f50a716e64932d995c8e7435a</code></td>
+</tr>
+</tbody>
+</table>
+<p>The previous approach looks secure; however, the availability of rainbow tables has made this approach insecure. A <strong>rainbow table</strong> contains a list of passwords along with their hash value. Hence, the attacker only needs to look up the hash to recover the password. For example, it would be easy to look up <code>d8578edf8458ce06fbc5bb76a58c5ca4</code> to discover the original password of <code>alice</code>. Consequently, we need to find more secure approaches to save passwords securely; we can add salt. A <strong>salt</strong> is a random value we can append to the password before hashing it. An example is shown below.</p>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Username</th>
+<th>Hash(Password + Salt)</th>
+<th>Salt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>alice</code></td>
+<td><code>8a43db01d06107fcad32f0bcfa651f2f</code></td>
+<td><code>12742</code></td>
+</tr>
+<tr>
+<td><code>bob</code></td>
+<td><code>aab2b680e6a1cb43c79180b3d1a38beb</code></td>
+<td><code>22861</code></td>
+</tr>
+<tr>
+<td><code>charlie</code></td>
+<td><code>3a40d108a068cdc8e7951b82d312129b</code></td>
+<td><code>16056</code></td>
+</tr>
+</tbody>
+</table>
+<p>The table above used <code>hash(password + salt)</code>; another approach would be to use <code>hash(hash(password) + salt)</code>. Note that we used a relatively small salt along with the MD5 hash function. We should switch to a (more) secure hash function and a large salt for better security if this were an actual setup.</p>
+<p>Another improvement we can make before saving the password is to use a key derivation function such as PBKDF2 (Password-Based Key Derivation Function 2). PBKDF2 takes the password and the salt and submits it through a certain number of iterations, usually hundreds of thousands.</p>
+<p>We recommend you check the <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">Password Storage Cheat Sheet</a> if you like to learn about other techniques related to password storage.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                <p>You were auditing a system when you discovered that the MD5 hash of the admin password is&nbsp;<code style="font-size:14px">3fc0a7acf087f549ac2b266baf94b8b1</code>. What is the original password?</p>
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="Answer format: *********" value="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="7">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Submit
+                        </button>
+                        </div>
+                        <div class="room-task-input-hint">
+                            <button type="button" class="btn btn-outline-dorange btn-noline task-hint" onclick="getHint(this)">
+                        <i class="fal fa-lightbulb"></i> Hint
+                      </button>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-8">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse8">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 8                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Cryptography and Data - Example
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse8" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>In this task, we would like to explore what happens when we log into a website over HTTPS.</p>
+<ol>
+<li>Client requests server’s SSL/TLS certificate</li>
+<li>Server sends SSL/TLS certificate to the client</li>
+<li>Client confirms that the certificate is valid</li>
+</ol>
+<p>Cryptography’s role starts with checking the certificate. For a certificate to be considered valid, it means it is signed. Signing means that a hash of the certificate is encrypted with the private key of a trusted third party; the encrypted hash is appended to the certificate.</p>
+<p>If the third party is trusted, the client will use the third party’s public key to decrypt the encrypted hash and compare it with the certificate’s hash. However, if the third party is not recognized, the connection will not proceed automatically.</p>
+<p>Once the client confirms that the certificate is valid, an SSL/TLS handshake is started. This handshake allows the client and the server to agree on the secret key and the symmetric encryption algorithm, among other things. From this point onward, all the related session communication will be encrypted using symmetric encryption.</p>
+<p>The final step would be to provide login credentials. The client uses the encrypted SSL/TLS session to send them to the server. The server receives the username and password and needs to confirm that they match.</p>
+<p>Following security guidelines, we expect the server to save a hashed version of the password after appending a random salt to it. This way, if the database were breached, the passwords would be challenging to recover.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Make sure you read and understand the above scenario. The purpose is to see how symmetric and asymmetric encryption are used along with hashing in many secure communications.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="8">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div><div class="card" id="task-9">
+                    <div class="card-header task-header" data-toggle="collapse" href="#collapse9">
+                        <a class="card-link">
+                            <span class="task-dropdown-title red">Task 9                             <span class="task-dropdown-icon"><i class="far fa-circle text-lgray"></i></span></span> Conclusion
+                            <span class="float-right"><i class="fas fa-chevron-down"></i></span>
+                            <span class="task-resources"></span>
+                        </a>
+                    </div>
+                    <div id="collapse9" class="collapse " data-parent="#taskContent">
+                        <div class="card-body task-incomplete">
+                            <div class="room-task-desc">
+            <div class="room-task-desc-data"> <p>Cryptography is a vast topic. In this room, we tried to focus on the core concepts that would help you understand the commonly used terms in cryptography. This knowledge is vital to understanding the configuration options of systems that use encryption and hashing.</p></div>
+        </div>
+        
+        <div class="room-questions-split vertical-align-custom red">
+            <div>Answer the questions below</div>
+        </div>
+        
+                            <div class="room-task-questions">
+                            <div class="room-task-question-no vertical-align-custom">
+                                
+                            </div>
+                            <div class="room-task-question-details">
+                                Make sure you have taken notes of all the concepts and commands covered in this room.
+                            </div>
+                        </div>
+
+                    <div class="room-task-input">
+                        <div class="room-task-input-questions">
+                            <input type="text" class="form-control room-answer-field" placeholder="No answer needed" value="" disabled="">
+                            <input type="hidden" value="1">
+                            <input type="hidden" value="9">
+                        </div>
+                        <div class="room-task-input-answer">
+                            <button type="button" class="btn btn-outline-success task-answer" onclick="answerQuestion(this)">
+                            <i class="far fa-paper-plane"></i> Completed
+                        </button>
+                        </div>
+                        
+                    </div>
+                        </div>
+                    </div>
+                </div></div>
+</div>
+<div id="room-simple-details"><div class="card cd-2 text-center mt-3"><div class="card-body"><p class="size-18">Created by <img class="avatar-tiny" src="./TryHackMe _ Introduction to Cryptography_files/af7feb2c43a2c7d5f111b98ccbd15048.png"> 
+        <a class="green-link" href="https://tryhackme.com/p/tryhackme">tryhackme</a> and <img class="avatar-tiny" src="./TryHackMe _ Introduction to Cryptography_files/4376f82c9984b89656a5df8913e3842c.jpg"> 
+        <a class="green-link" href="https://tryhackme.com/p/strategos">strategos</a></p><p class="mb-0">This is a <b>free</b> room, which means anyone can deploy virtual machines in the room 
+        (without being subscribed)! 6351 users are in here and this room is 160 days old.</p></div></div></div>
+
+</div>
+</div>
+</div>
+<div id="room-content-attackbox">
+<div id="room-attackbox">
+<div id="attackbox-machine-instance">
+<div id="room-attackbox-loading"></div>
+<div id="room-attackbox-vm-view"></div>
+</div>
+<div id="attackbox-machine-options">
+<div class="d-flex">
+<a target="_blank" id="room-attackbox-url" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="View in full screen"></a>
+<div onclick="extendHourWebBasedVM(null)" class="hover-pointer" id="room-attackbox-extend" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Extend machines timer"><i class="fas fa-plus"></i></div>
+<div onclick="terminateWebBasedVM(null)" class="hover-pointer" id="room-attackbox-terminate" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Terminate Machine"><i class="far fa-power-off"></i></div>
+<div onclick="exitViewAttackBox()" class="hover-pointer" id="room-attackbox-exitview" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Exit split view"><i class="fas fa-minus"></i></div>
+<div onclick="infoAttackBox()" class="hover-pointer faded" id="room-attackbox-info" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Machine Information"><i class="fas fa-info"></i></div>
+<div class="d-flex" id="room-attackbox-tabs"></div>
+</div>
+<div id="room-attackbox-expire-text" data-toggle="tooltip" data-placement="top" title="" data-container="#room-content" data-original-title="Time left until your AttackBox expires"></div>
+</div>
+</div>
+<div class="modal fade" id="attackBoxInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-light-gray">
+<h5 class="modal-title m-auto">Web-Based Machine Information</h5>
+</div>
+<div class="modal-body">
+<p>Use the web-based machine to attack other target machines you start on TryHackMe.</p>
+<ul class="normalList text-gray mt-3 mb-4">
+<li>Public IP: <code id="browser-machine-pubip" class="dark size-14"></code></li>
+<li class="mt-1">Private IP: <code id="browser-machine-privip" class="dark size-14"></code> <span class="size-14">(Use this for your reverse shells)</span></li>
+<li class="mt-1">Username: <code id="browser-username" class="dark size-14"></code></li>
+<li class="mt-1">Password: <code id="browser-password" class="dark size-14"></code></li>
+<li class="mt-1">Protocol: <code id="browser-protocol" class="dark size-14"></code></li>
+</ul>
+<hr class="hr-min">
+<ul class="text-lgray mb-0">
+<li class="mt-2">To copy to and from the browser-based machine, highlight the text and press <b>CTRL+SHIFT+C</b> <details><summary>or use the clipboard</summary><img src="./TryHackMe _ Introduction to Cryptography_files/clipboard.gif"></details></li>
+<li class="mt-2">When accessing target machines you start on TryHackMe tasks, make sure you're using the correct IP (it <b>should not be</b> the IP of your AttackBox)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="award-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<button type="button" class="close size-30 text-lgray" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<div id="award-modal-badges"></div>
+<p class="mb-0 text-lgray size-18">Complete the room to earn this badge</p>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="hint-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title"><i class="fal fa-lightbulb-on"></i> Question Hint</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">...</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<link rel="stylesheet" href="./TryHackMe _ Introduction to Cryptography_files/modal.css">
+<div class="modal-design-green modal fade" id="roomCompleted" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content" id="roomCompletedModalContent">
+<div class="modal-body text-center">
+<button type="button" class="close" id="closeRoomComplete" aria-label="Close">
+<i class="fad fa-times-circle"></i>
+</button>
+<div class="icon-box">
+<i class="fad fa-badge-check"></i>
+</div>
+<h3 class="text-accent mt-5">Congratulations</h3>
+<p class="faded mt-1">You've completed the room! Share this with your friends: </p>
+<h2 id="roomCompleted-share"></h2>
+<div id="ticket-info"></div> 
+<p class="faded mt-1" id="roomFeedbackBtn">
+<small>
+<button class="bg-white border-0">Leave
+feedback</button>
+</small>
+</p>
+<form method="post" action="https://tryhackme.com/feedback" id="roomFeedbackForm" class="d-none mt-3">
+<input type="hidden" name="_csrf" value="JFlu2l5z--K7VTaIYoUKJajmTFCshhY0csvw">
+<input type="hidden" name="roomCode" value="cryptographyintro">
+<input type="hidden" name="type" value="rooms">
+<input type="hidden" name="redirect" value="json">
+<div class="form-group">
+<label class="mb-0" for="like">What do you like about the room?</label>
+<textarea type="text" name="like" id="like" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="dislike">What don't you like about the room?</label>
+<textarea type="text" name="dislike" id="dislike" class="form-control"></textarea>
+</div>
+<div class="form-group">
+<label class="mb-0" for="details">Please send your suggestions, ideas and comments!</label>
+<textarea id="details" type="text" name="details" class="form-control" style="padding: 5px;"></textarea>
+</div>
+<button type="submit" id="submitBtn" class="btn btn-success">Send Feedback</button>
+</form>
+<p class="mt-2 mb-0" id="formMessage"></p>
+</div>
+</div>
+</div>
+<script>
+    function dismissRoomCompleteModal() {
+      $('#roomCompleted').modal('hide');
+
+      const shouldSeeReferralModal = ""
+      if (shouldSeeReferralModal) {
+        $('#unlockCreditModal').modal('show');
+
+        referralModalEvent('view');
+      }
+    }
+
+    document.getElementById('closeRoomComplete').addEventListener('click', dismissRoomCompleteModal)
+  </script>
+</div>
+<script src="./TryHackMe _ Introduction to Cryptography_files/roomFeedback.js"></script>
+<div class="modal fade" id="roomStartAttackboxModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title m-auto">To access this machine, you need to either</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; right: 10px; top: 0; font-size: 30px;">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<div class="row vertical-align-custom mb-0">
+<div class="col-sm-5 pr-0">
+<p class="size-18 bold">Use a VPN</p>
+<p>Connect to our network via a VPN</p>
+<a target="_blank" href="https://tryhackme.com/access"><button type="button" class="btn btn-light">See Instructions</button></a>
+</div>
+<div class="col-sm-2 size-24">
+or
+</div>
+<div class="col-sm-5 pl-0">
+<p class="size-18 bold">Use the AttackBox</p>
+<p>Use a web-based attack machine <span class="size-12">(recommended)</span></p>
+<button type="button" onclick="$(&#39;#roomStartAttackboxModal&#39;).modal(&#39;toggle&#39;); startAttackBox({startingMsg: false, tutorial: true})" class="btn btn-hgreen">Start AttackBox</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="expireSoon" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-warning fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-warning">Expiring Soon</h3>
+<p class="faded mt-3 mb-0">Your machine is going to expire soon. Close this and add an hour to stop it from terminating!</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="terminatedMachine" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+<div class="modal-content">
+<div class="modal-body text-center">
+<h1><i class="text-danger fad fa-exclamation-triangle"></i></h1>
+<h3 class="text-danger">Expired Machine</h3>
+<p class="faded mt-3 mb-0">Your machine has expired and terminated.</p>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal-design-green modal fade" id="machineDeployModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue text-center p-3">
+<h4 class="mb-0 m-auto">How to access machines</h4>
+<button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body text-center">
+<p class="size-18 faded">Now you've started your machine, to access it you need to either</p>
+<div class="row mb-0">
+<div class="col-sm-6">
+<img src="./TryHackMe _ Introduction to Cryptography_files/connect_openvpn_short.png">
+<p class="mt-2 mb-0 faded">Download your VPN configuration file and import it into a OpenVPN client</p>
+</div>
+<div class="col-sm-6">
+<img src="./TryHackMe _ Introduction to Cryptography_files/connect_kali_short.png">
+<p class="mt-2 mb-0 faded">Control a web-based machine with everything you need, all from inside your browser</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="roomAlertModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title" id="roomAlertModalTitle"></h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body" id="roomAlertModalBody"></div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="resetUserProgressModal" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Reset Your Progress</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<div><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Warning</span> You will keep your points but all your answers in this room will be erased.</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-danger" onclick="resetProgress()">Yes, please!</button>
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="cloudEnvInfoModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header  modal-dark-blue">
+<h5 class="modal-title">Cloud Information</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav nav-tabs">
+<li class="nav-item pr-2">
+<a class="nav-link active" data-toggle="tab" href="https://tryhackme.com/room/cryptographyintro#env-tab">Environment</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" data-toggle="tab" href="https://tryhackme.com/room/cryptographyintro#creds-tab">Credentials</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="env-tab"></div>
+<div class="tab-pane" id="creds-tab"></div>
+</div>
+</div>
+<div class="modal-footer" id="cloudEnvModalFooter">
+</div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="setNameModal" role="dialog">
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header modal-dark-blue">
+<h5 class="modal-title">Generating Your Certificate</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+</div>
+<div class="modal-body container">
+<div class="row">
+<div class="col-6">
+<h5 class="bold">Hey there, what's your name?</h5>
+<p class="text-secondary">
+If you want your name to appear on your certificate, please fill the field below.
+</p>
+<div class="form-group">
+<label>Full Name </label>
+<input id="modal-cert-field-name" type="text" placeholder="John Wick" class="mb-4 form-control">
+<input id="modal-cert-field-email" type="hidden" value="giftonpaul@karunya.edu.in">
+</div>
+</div>
+<div class="col-6">
+<h5 class="bold">You're here incognito? It's ok!</h5>
+<p class="text-secondary">If you chose skip, your username will be used instead!</p>
+</div>
+</div>
+<div class="row">
+<div class="col-6">
+<button type="button" class="btn btn-success float-right" id="modal-cert-generate" onclick="gen_cert(true)" disabled="">
+Generate with my full name
+</button>
+</div>
+<div class="col-6">
+<button type="button" class="btn btn-primary float-right" id="modal-cert-skip" onclick="gen_cert(false)">
+Generate with my username
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script src="./TryHackMe _ Introduction to Cryptography_files/certificateName.js"></script>
+<div class="modal fade slideout-faq" id="roomSlideoutUnstuck" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-links">
+<div id="unstuck-video" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-play"></i></div>
+<div class="unstuck-icon-text">Video Solution</div>
+</div>
+<div id="unstuck-writeups" class="unstuck-group" style="display: none;">
+<div class="unstuck-icon"><i class="fas fa-pen-alt"></i></div>
+<div class="unstuck-icon-text">Writeups</div>
+</div>
+<a id="unstuck-forum" target="_blank" class="clear-link unstuck-group" href="https://tryhackme.com/forum/thread/63e2677059b963b478309428">
+<div class="unstuck-icon"><i class="fas fa-comments-alt"></i></div>
+<div class="unstuck-icon-text">Forum Post</div>
+</a>
+<a href="https://help.tryhackme.com/en/collections/3601905-getting-started-with-tryhackme" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-books"></i></div>
+<div class="unstuck-icon-text">Knowledge Base</div>
+</a>
+<a href="https://discord.gg/DpBZz8y" target="_blank" class="clear-link unstuck-group">
+<div class="unstuck-icon"><i class="fas fa-users"></i></div>
+<div class="unstuck-icon-text">Ask Community</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+ <style>
+
+    #navConnModal .modal-body{
+        position: relative;
+    }
+
+    #nav-openvpn,
+    #nav-attackbox {
+        display: none;
+    }
+
+    #nav-openvpn .nav-pills .nav-link.active,
+    #nav-openvpn .nav-pills .show>.nav-link {
+        background-color: #ec8e3d;
+        color: white;
+    }
+    #nav-openvpn .nav-link {
+        color: #909090;
+    }
+    #nav-openvpn a,
+    #nav-attackbox a {
+        color: #ec8e3d;
+    }
+
+    #nav-openvpn code.dark {
+        background-color: #7d400a;
+        color: #fff;
+    }
+
+    #slideout-bk {
+        display: none;
+        padding: 10px 15px;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    #slideout-bk:hover {
+        opacity: 1;
+    }
+
+    #slideout-conn-hideip {
+        display: none;
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        opacity: 0.7;
+        cursor: pointer;
+    }
+
+    #slideout-conn-hideip:hover {
+        opacity: 1;
+    }
+
+</style>
+<div class="modal fade slideout-faq" id="navConnModal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-dialog-slideout" role="document">
+<div class="modal-content">
+<div class="modal-body">
+<div id="slideout-bk" class="noselect" onclick="showSlideoutConnOptions()"><i class="far fa-arrow-left mr-2"></i> Show Connection Options</div>
+<div id="slideout-conn-options">
+<div id="slideout-conn-header" class="text-center">
+<img class="slideout-connect-img" src="./TryHackMe _ Introduction to Cryptography_files/tryhackme_connect.png">
+<div id="slideout-conn-status" class="size-22">You are <span class="text-danger">disconnected</span></div>
+</div>
+<div class="m-3 text-center">
+<p>To access target machines you need to either:</p>
+<div class="row mb-3 faq-quicklinks text-left vertical-align-custom">
+<div class="col-md-12 mb-3">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/cryptographyintro#" onclick="showAttackBoxSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-laptop"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">AttackBox</div>
+<p class="faded mb-0">Use a browser-based attack machine</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="col-md-12">
+<a class="clear-link preventDefault" href="https://tryhackme.com/room/cryptographyintro#" onclick="showVPNSteps()">
+<div class="card card-body">
+<div class="row vertical-align-custom">
+<div class="col col-2 text-center faq-quicklinks-icons">
+<i class="far fa-key"></i>
+</div>
+<div class="col">
+<div class="faq-quicklinks-title size-18">OpenVPN</div>
+<p class="faded mb-0">Connect to our network via a VPN</p>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="faqCards" class="p-3">
+<div id="nav-openvpn">
+<div class="mb-3">
+<a target="_blank" href="https://tryhackme.com/access"><i>View the dedicated OpenVPN access page for more information</i></a>
+</div>
+<div class="text-center">
+<h4>What Operating System are you using?</h4>
+<ul class="nav nav-pills mb-3 text-center" id="vpn-guide" style="display: flex; justify-content: center;">
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/cryptographyintro#pills-windows" role="tab" aria-controls="pills-windows" aria-selected="true"><i class="fab fa-windows mr-2"></i> Windows</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link active" data-toggle="pill" href="https://tryhackme.com/room/cryptographyintro#pills-linux" role="tab" aria-controls="pills-linux" aria-selected="false"><i class="fab fa-linux mr-2"></i> Linux</a>
+</li>
+<li class="nav-item m-3">
+<a class="nav-link" data-toggle="pill" href="https://tryhackme.com/room/cryptographyintro#pills-macos" role="tab" aria-controls="pills-macos" aria-selected="false"><i class="fab fa-apple mr-2"></i> MacOS</a>
+</li>
+</ul>
+<div class="tab-content text-left">
+<div class="tab-pane fade" id="pills-windows" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a target="_blank" href="https://openvpn.net/client-connect-vpn-for-windows/">Download</a> the OpenVPN GUI application.</li>
+<li class="mt-2">Install the OpenVPN GUI application. Then open the installer file and follow the setup wizard.</li>
+<li class="mt-2">Open and run the OpenVPN GUI application as Administrator.<br><img class="mt-2 mb-3" src="./TryHackMe _ Introduction to Cryptography_files/win_ran_admin.png"></li>
+<li class="mt-2">The application will start running in the system tray. It's at the bottom of your screen, near the clock. Right click on the application and click <b>Import File</b>. <br><img class="mt-2 mb-3" src="./TryHackMe _ Introduction to Cryptography_files/win_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Now right click on the application again, select your file and click Connect <br><img class="mt-2 mb-3" src="./TryHackMe _ Introduction to Cryptography_files/win_connect.png"></li>
+</ol>
+</div>
+<div class="tab-pane fade show active" id="pills-linux" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2">Run the following command in your terminal: <code class="dark">sudo apt install openvpn</code></li>
+<li class="mt-2">Locate the full path to your VPN configuration file (normally in your ~/Downloads folder).</li>
+<li class="mt-2">Use your OpenVPN file with the following command: <code class="dark">sudo openvpn /path/to/file.ovpn</code></li>
+</ol>
+</div>
+<div class="tab-pane fade" id="pills-macos" role="tabpanel">
+<ol>
+<li><a href="https://tryhackme.com/vpn/get-config">Download</a> your OpenVPN configuration pack.</li>
+<li class="mt-2"><a href="https://openvpn.net/downloads/openvpn-connect-v2-macos.dmg">Download</a> OpenVPN for MacOS.</li>
+<li class="mt-2">Install the OpenVPN GUI application, by opening the dmg file and following the setup wizard.<br><img width="250" class="mt-2 mb-3" src="./TryHackMe _ Introduction to Cryptography_files/mac_installer.png"></li>
+<li class="mt-2">Open and run the OpenVPN GUI application.</li>
+<li class="mt-2">The application will start running and appear in your top bar. Right click on the application and click <b>Import File -&gt; Local file</b>.<br><img class="mt-2 mb-3" src="./TryHackMe _ Introduction to Cryptography_files/mac_import.png"></li>
+<li class="mt-2">Select the configuration file you downloaded earlier.</li>
+<li class="mt-2">Right click on the application again, select your file and click connect.<br><img class="mt-2 mb-3" src="./TryHackMe _ Introduction to Cryptography_files/mac_connect.png"></li>
+</ol>
+</div>
+</div>
+<section class="text-left">
+<a class="remove-underline" data-toggle="collapse" href="https://tryhackme.com/room/cryptographyintro#havingProblems" role="button" aria-expanded="false" aria-controls="havingProblems">
+<h5 class="mb-0 text-openvpn">Having Problems?</h5>
+</a>
+<div class="collapse" id="havingProblems">
+<ul class="mt-2 mb-0">
+<li>If you can access <a target="_blank" href="http://10.10.10.10/">10.10.10.10</a>, you're connected.</li>
+<li>Downloading and getting a 404? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>Getting inline cert error? Go the <a href="https://tryhackme.com/access">access</a> page and switch VPN servers.</li>
+<li>If you are using a virtual machine, you will need to run the VPN inside that machine.</li>
+<li>Is the OpenVPN client running as root? <span class="size-14 faded">(On Windows, run OpenVPN GUI as administrator. On Linux, run with sudo)</span></li>
+<li>Have you restarted your VM?</li>
+<li>Is your OpenVPN up-to-date?</li>
+<li>Only 1 OpenVPN connection is allowed. <span class="size-14 faded">(Run <code class="dark">ps aux | grep openvpn</code> - are there 2 VPN sessions running?)</span></li>
+<li>Still having issues? Check our <a href="https://help.tryhackme.com/en/articles/6496029-openvpn-general-troubleshooting-detailed/">docs</a> out.</li>
+</ul>
+</div>
+</section>
+</div>
+</div>
+<div id="nav-attackbox">
+<div class="text-center">
+<h4>AttackBox</h4>
+<p class="faded">Use your own web-based linux machine to access machines on TryHackMe</p>
+</div>
+<p>To start your AttackBox in the room, click the <a class="preventDefault" onclick="showAttackBoxBtnFromSlideout()" href="https://tryhackme.com/room/cryptographyintro#">Start AttackBox</a> button. Your private machine will take 2 minutes to start.</p>
+<p>Free users get 1 free AttackBox hour. <a class="hacker-green" href="https://tryhackme.com/why-subscribe">Subscribed</a> users get more powerful machines with unlimited deploys.</p>
+</div>
+</div>
+<span id="slideout-conn-hideip" onclick="hideNavConnIP()" style="display: none;">Hide IP</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+    const navConnVPNEl = document.querySelector('#nav-openvpn')
+    const navConnAttackBoxEl = document.querySelector('#nav-attackbox')
+    const navConnOptions = document.querySelector('#slideout-conn-options')
+
+    const navConnBkBtn = document.querySelector('#slideout-bk')
+
+    function showVPNSteps() {
+        navConnOptions.style.display = 'none'
+        navConnVPNEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showAttackBoxSteps() {
+        navConnOptions.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'block'
+        navConnBkBtn.style.display = 'block'
+    }
+
+    function showSlideoutConnOptions() {
+        navConnVPNEl.style.display = 'none'
+        navConnAttackBoxEl.style.display = 'none'
+        navConnBkBtn.style.display = 'none'
+        navConnOptions.style.display = 'block'
+    }
+
+    function showAttackBoxBtnFromSlideout() {
+        $('#navConnModal').modal('toggle')
+        setTimeout(function() {
+            showAttackBoxBtnIntro()
+        }, 100)   
+    }
+
+  </script>
+</div><iframe id="_hjSafeContext_85076185" title="_hjSafeContext" tabindex="-1" aria-hidden="true" src="./TryHackMe _ Introduction to Cryptography_files/saved_resource.html" style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+<script src="./TryHackMe _ Introduction to Cryptography_files/notify.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/api-requests.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/events.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/underscore-min.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/apexcharts.min.js"></script> 
+<script src="./TryHackMe _ Introduction to Cryptography_files/chart.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/expire.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/sockets.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/faqSearch.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/certificate.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/utils.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/roomSpecific.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/confetti.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/videos.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/intro.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/prism.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/asciinema-player.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/magnific-popup.min.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/introjsLogic.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/logic.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/tasks.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/connection-status.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/glossary.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/room-mymachine.js"></script>
+<script src="./TryHackMe _ Introduction to Cryptography_files/heartbeat.js" defer=""></script>
+<script>
+
+    let height
+    $(window).scroll(function () { /* Function to make IP information sticky. */
+      if (height == undefined || height < 30) {
+        height = ($('#instance-info').offset().top)
+      }
+      let scroll = $(window).scrollTop()
+      if (((scroll >= (height + 150))) && height > 30) {
+        $("#instance-info").addClass('instance-sticky')
+      } else if ((scroll <= (height))) {
+        $("#instance-info").removeClass("instance-sticky")
+      }
+    })
+
+    const csrfToken = "JFlu2l5z--K7VTaIYoUKJajmTFCshhY0csvw"
+    $.ajaxSetup({ headers: { 'CSRF-Token': csrfToken } }) // all $.post headers include token (needs csrfProtection middleware)
+
+    const roomCode = "cryptographyintro"
+    const simpleRoom = true 
+    const events = {"tickets":false}
+
+    let userObj = { 
+      subscribed: 1,
+      splitScreen: false,
+      path: "pentesting",
+      tutorial: {
+        rooms: true,
+        attackbox: true,
+        staticsite: true
+      },
+      experiments:  JSON.parse(`{"onboardingAchievement":{},"scheduler":{"startDate":"2023-06-14T13:38:51.108Z"},"showEasyPath":true}`),
+    }
+
+    const roomSettings = {
+      remAttackBoxBtn : false
+    };
+
+    const heartbeatInterval = 30;
+
+    const cloudEnabled = false 
+    let cloudObj
+
+    initRoom()
+    checkVideoTab()
+    if(!simpleRoom) showChart(roomCode)
+
+    checkRoomAwards(roomCode)
+
+    getRoomVotes()
+
+    displayStreakFreezeAwardedFromMemory();
+    
+    window.addEventListener('load', function () {
+      introjsInit(roomCode)
+    })
+
+  </script>
+
+
+<svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg><div id="2FBF98BC-FC36-FBF7-F1F2-F5DF55D4F432"></div><iframe id="intercom-frame" style="position: absolute !important; opacity: 0 !important; width: 1px !important; height: 1px !important; top: 0 !important; left: 0 !important; border: none !important; display: block !important; z-index: -1 !important; pointer-events: none;" aria-hidden="true" tabindex="-1" title="Intercom" src="./TryHackMe _ Introduction to Cryptography_files/saved_resource(1).html"></iframe><div class="intercom-lightweight-app"><div class="intercom-lightweight-app-launcher intercom-launcher" role="button" tabindex="0" aria-label="Open Intercom Messenger" aria-live="polite"><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open"><img src="./TryHackMe _ Introduction to Cryptography_files/9e0f012f15b6fc981dde2f1f5198d728.png" alt="" class="intercom-lightweight-app-launcher-custom-icon-open"></div><div class="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-minimize"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M18.601 8.39897C18.269 8.06702 17.7309 8.06702 17.3989 8.39897L12 13.7979L6.60099 8.39897C6.26904 8.06702 5.73086 8.06702 5.39891 8.39897C5.06696 8.73091 5.06696 9.2691 5.39891 9.60105L11.3989 15.601C11.7309 15.933 12.269 15.933 12.601 15.601L18.601 9.60105C18.9329 9.2691 18.9329 8.73091 18.601 8.39897Z" fill="white"></path>
+</svg>
+</div></div><style id="intercom-lightweight-app-style" type="text/css">
+  @keyframes intercom-lightweight-app-launcher {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes intercom-lightweight-app-gradient {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes intercom-lightweight-app-messenger {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial, sans-serif;
+  }
+
+  .intercom-lightweight-app-gradient {
+    position: fixed;
+    z-index: 2147483002;
+    width: 500px;
+    height: 500px;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at bottom right,
+      rgba(29, 39, 54, 0.16) 0%,
+      rgba(29, 39, 54, 0) 72%);
+    animation: intercom-lightweight-app-gradient 200ms ease-out;
+  }
+
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1C2538;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    box-sizing: content-box;
+  }
+
+
+  .intercom-lightweight-app-launcher:hover {
+    transition: transform 250ms cubic-bezier(0.33, 0.00, 0.00, 1.00);
+    transform: scale(1.1)
+  }
+
+  .intercom-lightweight-app-launcher:active {
+    transform: scale(0.85);
+    transition: transform 134ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+
+  .intercom-lightweight-app-launcher:focus {
+    outline: none;
+
+    
+  }
+
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-open svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve {
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg {
+    height: 44px;
+  }
+
+  .intercom-lightweight-app-launcher-icon-self-serve svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+
+    
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize {
+    
+        opacity: 0;
+        transform: rotate(-60deg) scale(0);
+      
+  }
+
+  .intercom-lightweight-app-launcher-icon-minimize svg path {
+    fill: rgb(255, 255, 255);
+  }
+
+  .intercom-lightweight-app-messenger {
+    position: fixed;
+    z-index: 2147483003;
+    overflow: hidden;
+    background-color: white;
+    animation: intercom-lightweight-app-messenger 250ms cubic-bezier(0, 1, 1, 1);
+    transform-origin: bottom right;
+    
+        width: 400px;
+        height: calc(100% - 104px);
+        max-height: 704px;
+        min-height: 250px;
+        right: 20px;
+        bottom: 84px;
+        box-shadow: 0 5px 40px rgba(0,0,0,0.16);
+      
+
+    border-radius: 16px;
+  }
+
+  .intercom-lightweight-app-messenger-header {
+    height: 64px;
+    border-bottom: none;
+    background: #1c2538
+
+    
+  }
+
+  .intercom-lightweight-app-messenger-footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    font-size: 14px;
+    line-height: 21px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+    
+  }
+
+  @media print {
+    .intercom-lightweight-app {
+      display: none;
+    }
+  }
+</style></div></body></html>
